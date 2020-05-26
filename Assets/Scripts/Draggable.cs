@@ -7,20 +7,15 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 {
     // Used to save the parent to which the draggable will return.
     public Transform parentToReturnTo = null;
-    // Used to lock a draggable item.
-    private bool is_draggable = true;
 
     /// <summary>
     /// Save this as parent and start drag.
     /// </summary>
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (is_draggable)
-        {
-            parentToReturnTo = this.transform.parent;
-            this.transform.SetParent(this.transform.root);
-            this.GetComponent<CanvasGroup>().blocksRaycasts = false;
-        }
+        parentToReturnTo = this.transform.parent;
+        this.transform.SetParent(this.transform.root);
+        this.GetComponent<CanvasGroup>().blocksRaycasts = false;
     }
 
     /// <summary>
@@ -28,10 +23,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     /// </summary>
     public void OnDrag(PointerEventData eventData)
     {
-        if (is_draggable)
-        {
-            this.transform.position = eventData.position;
-        }
+        this.transform.position = eventData.position;
     }
 
     /// <summary>
@@ -39,11 +31,8 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     /// </summary>
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (is_draggable)
-        {
-            this.transform.SetParent(parentToReturnTo);
-            this.GetComponent<CanvasGroup>().blocksRaycasts = true;
-        }
+        this.transform.SetParent(parentToReturnTo);
+        this.GetComponent<CanvasGroup>().blocksRaycasts = true;
     }
 
     /// <summary>
@@ -51,9 +40,9 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     /// </summary>
     public void StopDraggable()
     {
-        this.is_draggable = false;
         this.transform.SetParent(parentToReturnTo);
         this.GetComponent<CanvasGroup>().blocksRaycasts = true;
+        Destroy(this.GetComponent<Draggable>());
     }
 
 }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.PackageManager;
-using UnityEditor.UI;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -165,6 +160,5 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
         discardPile.Discard(card);
         this.StopDragging(card, pileObject);
         // TODO Separate adding card to gameobject discard_pile and the logic of putting this card on the discard pile
-        // TODO test: fire an event to tell 1 card has been added to the discard pile
     }
 }
