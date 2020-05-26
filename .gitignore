@@ -347,3 +347,5 @@ healthchecksdb
 /Assets/Graphics
 /Assets/Resources
 /Assets/Scenes
+/app.config
+/packages.config

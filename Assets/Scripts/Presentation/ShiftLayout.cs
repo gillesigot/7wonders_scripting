@@ -11,7 +11,7 @@ public class ShiftLayout : MonoBehaviour
     /// Wrap items in panels and resize them to shift items to the left.
     /// </summary>
     /// <param name="item">The new item added in the layout.</param>
-    public void Shift(GameObject item)
+    public Transform Shift(GameObject item)
     {
         // Shift tagged parents.
         Transform parent = this.transform.parent;
@@ -36,8 +36,8 @@ public class ShiftLayout : MonoBehaviour
         panel_rt.sizeDelta = new Vector2(item_rt.sizeDelta.x, item_rt.sizeDelta.y);
 
         panel.transform.position = item.transform.position;
-        panel.transform.SetParent(item.transform.parent);
+        panel.transform.SetParent(this.transform);
         panel.tag = SHIFTED_TAG;
-        item.transform.SetParent(panel.transform);
+        return panel.transform;
     }
 }

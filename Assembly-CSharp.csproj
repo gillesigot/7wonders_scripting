@@ -63,12 +63,27 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Buildable.cs" />
-    <Compile Include="Assets\Scripts\DiscardPile.cs" />
-    <Compile Include="Assets\Scripts\Draggable.cs" />
-    <Compile Include="Assets\Scripts\DropZone.cs" />
-    <Compile Include="Assets\Scripts\Player.cs" />
-    <Compile Include="Assets\Scripts\ShiftLayout.cs" />
+    <Compile Include="Assets\Scripts\Business\CityManager.cs" />
+    <Compile Include="Assets\Scripts\Business\GameManager.cs" />
+    <Compile Include="Assets\Scripts\Business\WonderManager.cs" />
+    <Compile Include="Assets\Scripts\Controller\DropController.cs" />
+    <Compile Include="Assets\Scripts\Controller\GameController.cs" />
+    <Compile Include="Assets\Scripts\Controller\PlayerBoardController.cs" />
+    <Compile Include="Assets\Scripts\DAO\CardsDAO.cs" />
+    <Compile Include="Assets\Scripts\Model\BonusCard.cs" />
+    <Compile Include="Assets\Scripts\Model\Card.cs" />
+    <Compile Include="Assets\Scripts\Model\CivilCard.cs" />
+    <Compile Include="Assets\Scripts\Model\CommercialCard.cs" />
+    <Compile Include="Assets\Scripts\Model\GameConsts.cs" />
+    <Compile Include="Assets\Scripts\Model\Player.cs" />
+    <Compile Include="Assets\Scripts\Model\ResourceCard.cs" />
+    <Compile Include="Assets\Scripts\Model\ScienceCard.cs" />
+    <Compile Include="Assets\Scripts\Model\WarCard.cs" />
+    <Compile Include="Assets\Scripts\Presentation\Draggable.cs" />
+    <Compile Include="Assets\Scripts\Presentation\DropZone.cs" />
+    <Compile Include="Assets\Scripts\Presentation\GameStart.cs" />
+    <Compile Include="Assets\Scripts\Presentation\Playable.cs" />
+    <Compile Include="Assets\Scripts\Presentation\ShiftLayout.cs" />
     <Reference Include="UnityEngine">
       <HintPath>C:/Users/Gilles/Documents/unity_games/2019.3.14f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
@@ -251,6 +266,9 @@
     </Reference>
     <Reference Include="UnityEditor">
       <HintPath>C:/Users/Gilles/Documents/unity_games/2019.3.14f1/Editor/Data/Managed/UnityEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>C:/Users/Gilles/Documents/unity_games/7Wonders/Assets/Plugins/Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>C:/Users/Gilles/Documents/unity_games/2019.3.14f1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>

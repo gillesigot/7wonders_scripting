@@ -1,19 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     // Used to save the parent to which the draggable will return.
-    public Transform parentToReturnTo = null;
+    public Transform ParentToReturnTo { get; set; } = null;
 
     /// <summary>
     /// Save this as parent and start drag.
     /// </summary>
     public void OnBeginDrag(PointerEventData eventData)
     {
-        parentToReturnTo = this.transform.parent;
+        ParentToReturnTo = this.transform.parent;
         this.transform.SetParent(this.transform.root);
         this.GetComponent<CanvasGroup>().blocksRaycasts = false;
     }
@@ -31,7 +29,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     /// </summary>
     public void OnEndDrag(PointerEventData eventData)
     {
-        this.transform.SetParent(parentToReturnTo);
+        this.transform.SetParent(ParentToReturnTo);
         this.GetComponent<CanvasGroup>().blocksRaycasts = true;
     }
 
@@ -40,7 +38,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     /// </summary>
     public void StopDraggable()
     {
-        this.transform.SetParent(parentToReturnTo);
+        this.transform.SetParent(ParentToReturnTo);
         this.GetComponent<CanvasGroup>().blocksRaycasts = true;
         Destroy(this.GetComponent<Draggable>());
     }
