@@ -3,8 +3,17 @@
     // Define the type of reward that can be granted.
     public enum RewardType
     {
-        VICTORY_POINT,
-        GOLD,
+        VICTORY_POINT = 0,
+        GOLD = 1,
+    }
+
+    // Define the calculation mode used to evaluate bonus.
+    public enum BonusType
+    {
+        CARD_BONUS = 0,
+        WONDER_BONUS = 1,
+        DEFEAT_BONUS = 2,
+        SCIENCE_BONUS = 3
     }
 
     // Used to associate the reward type and the quantity of it.
@@ -22,82 +31,26 @@
     public bool CheckSelf { get; set; }
     // Used to tell which reward will be granted for all matching conditions.
     public RewardQuantity[] Reward { get; set; }
+    // Used to tell which calculation mode will determine the bonus.
+    public BonusType Bonus { get; set; }
+    // Used to tell which type of card will grant you a bonus.
+    public Card.CardType[] BonusCardType { get; set; }  // 3 cards for Shipowners guild
 
     public BonusCard(
-        string id,
-        string name,
-        CardType type,
-        BuildCondition buildCondition,
-        string[] chainTo,
-        int nPlayersPlayable,
+        Card card,
         RewardQuantity[] reward,
         bool checkLeft,
         bool checkRight,
-        bool checkSelf
-        ) : base(id, name, type, buildCondition, chainTo, nPlayersPlayable)
+        bool checkSelf,
+        BonusType bonus,
+        CardType[] bonusCardType
+        ) : base(card)
     {
         this.Reward = reward;
         this.CheckLeft = checkLeft;
         this.CheckRight = checkRight;
         this.CheckSelf = checkSelf;
-    }
-}
-
-public class ResourceBonusCard : BonusCard
-{
-    // Used to tell which type of card will grand you a bonus.
-    public Card.CardType[] BonusCardType { get; set; }  // 3 cards for Shipowners guild
-
-    public ResourceBonusCard(
-        string id,
-        string name,
-        CardType type,
-        BuildCondition buildCondition,
-        string[] chainTo,
-        int nPlayersPlayable,
-        RewardQuantity[] reward,
-        bool checkLeft,
-        bool checkRight,
-        bool checkSelf,
-        CardType[] bonusCardType
-        ) : base(id, name, type, buildCondition, chainTo, nPlayersPlayable, reward, checkLeft, checkRight, checkSelf)
-    {
+        this.Bonus = bonus;
         this.BonusCardType = bonusCardType;
     }
-}
-
-public class WonderBonusCard : BonusCard
-{
-    // Check wonder stages
-    public WonderBonusCard(
-        string id,
-        string name,
-        CardType type,
-        BuildCondition buildCondition,
-        string[] chainTo,
-        int nPlayersPlayable,
-        RewardQuantity[] reward,
-        bool checkLeft,
-        bool checkRight,
-        bool checkSelf
-        ) : base(id, name, type, buildCondition, chainTo, nPlayersPlayable, reward, checkLeft, checkRight, checkSelf)
-    {}
-}
-
-public class DefeatTokenBonusCard : BonusCard
-{
-    // Count defeat tokens
-    public DefeatTokenBonusCard(
-        string id,
-        string name,
-        CardType type,
-        BuildCondition buildCondition,
-        string[] chainTo,
-        int nPlayersPlayable,
-        RewardQuantity[] reward,
-        bool checkLeft,
-        bool checkRight,
-        bool checkSelf
-        ) : base(id, name, type, buildCondition, chainTo, nPlayersPlayable, reward, checkLeft, checkRight, checkSelf)
-    { }
 }

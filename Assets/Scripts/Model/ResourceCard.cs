@@ -8,16 +8,11 @@
     public bool IsBuyable { get; set; }
 
     public ResourceCard(
-        string id,
-        string name,
-        CardType type,
-        BuildCondition buildCondition,
-        string[] chainTo,
-        int nPlayersPlayable,
+        Card card,
         ResourceQuantity[] resources,
         bool isOptional,
         bool isBuyable
-        ) : base(id, name, type, buildCondition, chainTo, nPlayersPlayable)
+        ) : base(card)
     {
         this.Resources = resources;
         this.IsOptional = isOptional;

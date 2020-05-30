@@ -4,14 +4,9 @@
     public ScienceType ScienceCardType { get; set; }
 
     public ScienceCard(
-        string id,
-        string name,
-        CardType type,
-        BuildCondition buildCondition,
-        string[] chainTo,
-        int nPlayersPlayable,
+        Card card,
         ScienceType scienceType
-        ) : base(id, name, type, buildCondition, chainTo, nPlayersPlayable)
+        ) : base(card)
     {
         this.ScienceCardType = scienceType;
     }

@@ -4,14 +4,9 @@
     public int WarPoints { get; set; }
 
     public WarCard(
-        string id,
-        string name,
-        CardType type,
-        BuildCondition buildCondition,
-        string[] chainTo,
-        int nPlayersPlayable,
+        Card card,
         int warPoints
-        ) : base(id, name, type, buildCondition, chainTo, nPlayersPlayable)
+        ) : base(card)
     {
         this.WarPoints = warPoints;
     }

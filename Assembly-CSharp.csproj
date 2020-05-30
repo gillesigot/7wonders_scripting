@@ -66,6 +66,8 @@
     <Compile Include="Assets\Scripts\Business\CityManager.cs" />
     <Compile Include="Assets\Scripts\Business\GameManager.cs" />
     <Compile Include="Assets\Scripts\Business\WonderManager.cs" />
+    <Compile Include="Assets\Scripts\Constants\GameConsts.cs" />
+    <Compile Include="Assets\Scripts\Constants\StorageConsts.cs" />
     <Compile Include="Assets\Scripts\Controller\DropController.cs" />
     <Compile Include="Assets\Scripts\Controller\GameController.cs" />
     <Compile Include="Assets\Scripts\Controller\PlayerBoardController.cs" />
@@ -74,7 +76,6 @@
     <Compile Include="Assets\Scripts\Model\Card.cs" />
     <Compile Include="Assets\Scripts\Model\CivilCard.cs" />
     <Compile Include="Assets\Scripts\Model\CommercialCard.cs" />
-    <Compile Include="Assets\Scripts\Model\GameConsts.cs" />
     <Compile Include="Assets\Scripts\Model\Player.cs" />
     <Compile Include="Assets\Scripts\Model\ResourceCard.cs" />
     <Compile Include="Assets\Scripts\Model\ScienceCard.cs" />

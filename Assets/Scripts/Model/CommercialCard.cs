@@ -10,17 +10,12 @@
     public bool RightPlayer { get; set; }
 
     public CommercialCard(
-        string id,
-        string name,
-        CardType type,
-        BuildCondition buildCondition,
-        string[] chainTo,
-        int nPlayersPlayable,
+        Card card,
         ResourceQuantity[] resources,
         int price,
         bool leftPlayer,
         bool rightPlayer
-        ) : base(id, name, type, buildCondition, chainTo, nPlayersPlayable)
+        ) : base(card)
     {
         this.Resources = resources;
         this.Price = price;

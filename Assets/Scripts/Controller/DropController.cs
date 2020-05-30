@@ -17,7 +17,7 @@ public class DropController
     // The human player interacting with the drop zone.
     public Player Player { get; set; }
     // Define the name of the resource to use for displaying the card back.
-    private const string CARD_BACK = "card_back";
+    private const string CARD_BACK = "card_back_I";
 
     public DropController(Transform dropZone, Transform discardPile)
     {

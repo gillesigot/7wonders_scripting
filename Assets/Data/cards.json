@@ -1,8 +1,18 @@
 [
 	{
-		"name": "Aqueduc"
-	},
-	{
-		"name": "Market"
+		"id": "civ02",
+		"name": "Aqueduc",
+		"cardtype": 2,
+		"age": 2,
+		"cardbuildcondition":{
+			"resources": [{
+			"type": 2,
+			"quantity": 3
+			}],
+			"chainfrom": ["civ01"]
+		},
+		"chainto": [],
+		"nplayersplayable": 3,
+		"victorypoints": 5
 	}
 ]

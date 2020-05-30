@@ -3,15 +3,7 @@
     // Used to represent the victory points the card will add to a city.
     public int VictoryPoints { get; set; }
 
-    public CivilCard(
-        string id,
-        string name,
-        CardType type,
-        BuildCondition buildCondition,
-        string[] chainTo,
-        int nPlayersPlayable,
-        int victoryPoints
-        ) : base(id, name, type, buildCondition, chainTo, nPlayersPlayable)
+    public CivilCard(Card card, int victoryPoints) : base(card)
     {
         this.VictoryPoints = victoryPoints;
     }
