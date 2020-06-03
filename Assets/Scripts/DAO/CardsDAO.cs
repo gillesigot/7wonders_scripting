@@ -132,9 +132,10 @@ public static class CardsDAO
                     break;
                 case Card.CardType.COMMERCIAL:
                     if (cardDAO.Price < 0)
+                        if (cardDAO.Resources is null)
+                            cards.Add(GetBonusCard(cardDAO)); // Commercial cards acting as bonus cards
+                        else
                         cards.Add(GetResourceCard(cardDAO)); // Commercial cards acting as resources
-                    else if (cardDAO.Resources is null)
-                        cards.Add(GetBonusCard(cardDAO)); // Commercial cards acting as bonus cards
                     else
                         cards.Add(GetCommercialCard(cardDAO));
                     break;
@@ -314,6 +315,8 @@ public static class CardsDAO
     /// <returns>The card type list as Card applicable card type list.</returns>
     private static Card.CardType[] GetBonusCardType(List<int> btsDAO)
     {
+        // TODO Error in 'Guilde des artisans' -> only grey resources to count (same for 'Guilde des travailleurs')
+        // TODO Same error with 'Vignoble', 'Bazar', 'Port' and 'Chambre de commerce'
         List<Card.CardType> types = new List<Card.CardType>();
         foreach (int bt in btsDAO)
         {

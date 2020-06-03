@@ -13,7 +13,8 @@
         CARD_BONUS = 0,
         WONDER_BONUS = 1,
         DEFEAT_BONUS = 2,
-        SCIENCE_BONUS = 3
+        SCIENCE_BONUS = 3,
+        FREE_BONUS = 4
     }
 
     // Used to associate the reward type and the quantity of it.

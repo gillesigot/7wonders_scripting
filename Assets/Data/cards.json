@@ -1,18 +1,3324 @@
 [
-	{
-		"id": "civ02",
-		"name": "Aqueduc",
-		"cardtype": 2,
-		"age": 2,
-		"cardbuildcondition":{
+    {
+        "id": "civ01",
+        "name": "Theatre",
+        "cardtype": 2,
+        "age": 1,
+        "cardbuildcondition":{
+			"resources": [],
+			"chainfrom": []
+		},
+        "chainto": ["Statue"],
+        "nplayersplayable": 3,
+        "victorypoints": 2
+    },
+    {
+        "id": "civ02",
+        "name": "Autel",
+        "cardtype": 2,
+        "age": 1,
+        "cardbuildcondition":{
+			"resources": [],
+			"chainfrom": []
+		},
+        "chainto": ["Temple"],
+        "nplayersplayable": 3,
+        "victorypoints": 2
+    },
+    {
+        "id": "civ03",
+        "name": "Bains",
+        "cardtype": 2,
+        "age": 1,
+        "cardbuildcondition":{
 			"resources": [{
 			"type": 2,
-			"quantity": 3
+			"quantity": 1
 			}],
-			"chainfrom": ["civ01"]
+			"chainfrom": []
 		},
-		"chainto": [],
-		"nplayersplayable": 3,
-		"victorypoints": 5
-	}
+        "chainto": ["Aqueduc"],
+        "nplayersplayable": 3,
+        "victorypoints": 3
+    },
+    {
+        "id": "civ04",
+        "name": "Temple",
+        "cardtype": 2,
+        "age": 2,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 3,
+			    "quantity": 1
+			},
+            {
+			    "type": 0,
+			    "quantity": 1
+			},
+            {
+			    "type": 4,
+			    "quantity": 1
+			}],
+			"chainfrom": ["Autel"]
+		},
+        "chainto": ["Pantheon"],
+        "nplayersplayable": 3,
+        "victorypoints": 3
+    },
+    {
+        "id": "civ05",
+        "name": "Tribunal",
+        "cardtype": 2,
+        "age": 2,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 5,
+			    "quantity": 1
+			},
+            {
+			    "type": 0,
+			    "quantity": 2
+			}],
+			"chainfrom": ["Scriptorium"]
+		},
+        "nplayersplayable": 3,
+        "victorypoints": 4
+    },
+    {
+        "id": "civ06",
+        "name": "Statue",
+        "cardtype": 2,
+        "age": 2,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 0,
+			    "quantity": 2
+			},
+            {
+			    "type": 3,
+			    "quantity": 1
+			}],
+			"chainfrom": ["Theatre"]
+		},
+        "chainto": ["Jardins"],
+        "nplayersplayable": 3,
+        "victorypoints": 4
+    },
+    {
+        "id": "civ07",
+        "name": "Aqueduc",
+        "cardtype": 2,
+        "age": 2,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 2,
+			    "quantity": 3
+			}],
+			"chainfrom": ["Bains"]
+		},
+        "nplayersplayable": 3,
+        "victorypoints": 5
+    },
+    {
+        "id": "civ08",
+        "name": "Palace",
+        "cardtype": 2,
+        "age": 3,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 0,
+			    "quantity": 1
+			},
+            {
+			    "type": 1,
+			    "quantity": 1
+			},
+            {
+			    "type": 2,
+			    "quantity": 1
+			},
+            {
+			    "type": 3,
+			    "quantity": 1
+			},
+            {
+			    "type": 4,
+			    "quantity": 1
+			},
+            {
+			    "type": 5,
+			    "quantity": 1
+			},
+            {
+			    "type": 6,
+			    "quantity": 1
+			}],
+			"chainfrom": []
+		},
+        "nplayersplayable": 3,
+        "victorypoints": 8
+    },
+    {
+        "id": "civ09",
+        "name": "Pantheon",
+        "cardtype": 2,
+        "age": 3,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 0,
+			    "quantity": 2
+			},
+            {
+			    "type": 1,
+			    "quantity": 1
+			},
+            {
+			    "type": 4,
+			    "quantity": 1
+			},
+            {
+			    "type": 5,
+			    "quantity": 1
+			},
+            {
+			    "type": 6,
+			    "quantity": 1
+			}],
+			"chainfrom": ["Temple"]
+		},
+        "nplayersplayable": 3,
+        "victorypoints": 7
+    },
+    {
+        "id": "civ10",
+        "name": "Jardins",
+        "cardtype": 2,
+        "age": 3,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 0,
+			    "quantity": 2
+			},
+            {
+			    "type": 3,
+			    "quantity": 1
+			}],
+			"chainfrom": ["Statue"]
+		},
+        "nplayersplayable": 3,
+        "victorypoints": 5
+    },
+    {
+        "id": "civ11",
+        "name": "Hotel de ville",
+        "cardtype": 2,
+        "age": 3,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 2,
+			    "quantity": 2
+			},
+            {
+			    "type": 1,
+			    "quantity": 1
+			},
+            {
+			    "type": 4,
+			    "quantity": 1
+			}],
+			"chainfrom": []
+		},
+        "nplayersplayable": 3,
+        "victorypoints": 6
+    },
+    {
+        "id": "civ12",
+        "name": "Senat",
+        "cardtype": 2,
+        "age": 3,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 3,
+			    "quantity": 2
+			},
+            {
+			    "type": 2,
+			    "quantity": 1
+			},
+            {
+			    "type": 1,
+			    "quantity": 1
+			}],
+			"chainfrom": ["Bibliotheque"]
+		},
+        "nplayersplayable": 3,
+        "victorypoints": 6
+    },
+    {
+        "id": "civ13",
+        "name": "Preteur sur gages",
+        "cardtype": 2,
+        "age": 1,
+        "cardbuildcondition":{
+			"resources": [],
+			"chainfrom": []
+		},
+        "nplayersplayable": 7,
+        "victorypoints": 3
+    },
+    {
+        "id": "civ14",
+        "name": "Bains",
+        "cardtype": 2,
+        "age": 1,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 2,
+			    "quantity": 1
+			}],
+			"chainfrom": []
+		},
+        "chainto": ["Aqueduc"],
+        "nplayersplayable": 7,
+        "victorypoints": 3
+    },
+    {
+        "id": "civ15",
+        "name": "Theatre",
+        "cardtype": 2,
+        "age": 1,
+        "cardbuildcondition":{
+			"resources": [],
+			"chainfrom": []
+		},
+        "chainto": ["Statue"],
+        "nplayersplayable": 6,
+        "victorypoints": 2
+    },
+    {
+        "id": "civ16",
+        "name": "Autel",
+        "cardtype": 2,
+        "age": 1,
+        "cardbuildcondition":{
+			"resources": [],
+			"chainfrom": []
+		},
+        "chainto": ["Temple"],
+        "nplayersplayable": 5,
+        "victorypoints": 2
+    },
+    {
+        "id": "civ17",
+        "name": "Preteur sur gages",
+        "cardtype": 2,
+        "age": 1,
+        "cardbuildcondition":{
+			"resources": [],
+			"chainfrom": []
+		},
+        "nplayersplayable": 4,
+        "victorypoints": 3
+    },
+    {
+        "id": "civ18",
+        "name": "Temple",
+        "cardtype": 2,
+        "age": 2,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 3,
+			    "quantity": 1
+			},
+            {
+			    "type": 0,
+			    "quantity": 1
+			},
+            {
+			    "type": 4,
+			    "quantity": 1
+			}],
+			"chainfrom": ["Autel"]
+		},
+        "chainto": ["Pantheon"],
+        "nplayersplayable": 6,
+        "victorypoints": 3
+    },
+    {
+        "id": "civ19",
+        "name": "Aqueduc",
+        "cardtype": 2,
+        "age": 2,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 2,
+			    "quantity": 3
+			}],
+			"chainfrom": ["Bains"]
+		},
+        "nplayersplayable": 7,
+        "victorypoints": 5
+    },
+    {
+        "id": "civ20",
+        "name": "Tribunal",
+        "cardtype": 2,
+        "age": 2,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 0,
+			    "quantity": 2
+			},
+            {
+			    "type": 5,
+			    "quantity": 1
+			}],
+			"chainfrom": ["Scriptorium"]
+		},
+        "nplayersplayable": 5,
+        "victorypoints": 4
+    },
+    {
+        "id": "civ21",
+        "name": "Palace",
+        "cardtype": 2,
+        "age": 3,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 0,
+			    "quantity": 1
+			},
+            {
+			    "type": 1,
+			    "quantity": 1
+			},
+            {
+			    "type": 2,
+			    "quantity": 1
+			},
+            {
+			    "type": 3,
+			    "quantity": 1
+			},
+            {
+			    "type": 4,
+			    "quantity": 1
+			},
+            {
+			    "type": 5,
+			    "quantity": 1
+			},
+            {
+			    "type": 6,
+			    "quantity": 1
+			}],
+			"chainfrom": []
+		},
+        "nplayersplayable": 7,
+        "victorypoints": 8
+    },
+    {
+        "id": "civ22",
+        "name": "Hotel de ville",
+        "cardtype": 2,
+        "age": 3,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 2,
+			    "quantity": 2
+			},
+            {
+			    "type": 1,
+			    "quantity": 1
+			},
+            {
+			    "type": 4,
+			    "quantity": 1
+			}],
+			"chainfrom": []
+		},
+        "nplayersplayable": 5,
+        "victorypoints": 6
+    },
+    {
+        "id": "civ23",
+        "name": "Hotel de ville",
+        "cardtype": 2,
+        "age": 3,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 2,
+			    "quantity": 2
+			},
+            {
+			    "type": 1,
+			    "quantity": 1
+			},
+            {
+			    "type": 4,
+			    "quantity": 1
+			}],
+			"chainfrom": []
+		},
+        "nplayersplayable": 6,
+        "victorypoints": 6
+    },
+    {
+        "id": "civ24",
+        "name": "Pantheon",
+        "cardtype": 2,
+        "age": 3,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 0,
+			    "quantity": 2
+			},
+            {
+			    "type": 1,
+			    "quantity": 1
+			},
+            {
+			    "type": 4,
+			    "quantity": 1
+			},
+            {
+			    "type": 5,
+			    "quantity": 1
+			},
+            {
+			    "type": 6,
+			    "quantity": 1
+			}],
+			"chainfrom": ["Temple"]
+		},
+        "nplayersplayable": 6,
+        "victorypoints": 7
+    },
+    {
+        "id": "civ25",
+        "name": "Senat",
+        "cardtype": 2,
+        "age": 3,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 3,
+			    "quantity": 2
+			},
+            {
+			    "type": 2,
+			    "quantity": 1
+			},
+            {
+			    "type": 1,
+			    "quantity": 1
+			}],
+			"chainfrom": ["Bibliotheque"]
+		},
+        "nplayersplayable": 5,
+        "victorypoints": 6
+    },
+    {
+        "id": "civ26",
+        "name": "Jardins",
+        "cardtype": 2,
+        "age": 3,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 0,
+			    "quantity": 2
+			},
+            {
+			    "type": 3,
+			    "quantity": 1
+			}],
+			"chainfrom": ["Statue"]
+		},
+        "nplayersplayable": 4,
+        "victorypoints": 5
+    },
+    {
+        "id": "civ27",
+        "name": "Statue",
+        "cardtype": 2,
+        "age": 3,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 0,
+			    "quantity": 2
+			},
+            {
+			    "type": 3,
+			    "quantity": 1
+			}],
+			"chainfrom": ["Theatre"]
+		},
+        "chainto": ["Jardins"],
+        "nplayersplayable": 7,
+        "victorypoints": 4
+    },
+    {
+        "id": "war01",
+        "name": "Tour de garde",
+        "cardtype": 1,
+        "age": 1,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 0,
+			    "quantity": 1
+			}],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 3,
+        "warpoints": 1
+    },
+    {
+        "id": "war02",
+        "name": "Palissade",
+        "cardtype": 1,
+        "age": 1,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 3,
+			    "quantity": 1
+			}],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 3,
+        "warpoints": 1
+    },
+    {
+        "id": "war03",
+        "name": "Caserne",
+        "cardtype": 1,
+        "age": 1,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 1,
+			    "quantity": 1
+			}],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 3,
+        "warpoints": 1
+    },
+    {
+        "id": "war04",
+        "name": "Muraille",
+        "cardtype": 1,
+        "age": 2,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 2,
+			    "quantity": 3
+			}],
+			"chainfrom": []
+		},
+        "chainto": ["Fortifications"],
+        "nplayersplayable": 3,
+        "warpoints": 2
+    },
+    {
+        "id": "war05",
+        "name": "Ecurie",
+        "cardtype": 1,
+        "age": 2,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 0,
+			    "quantity": 1
+			},
+            {
+			    "type": 1,
+			    "quantity": 1
+			},
+            {
+			    "type": 3,
+			    "quantity": 1
+			}],
+			"chainfrom": ["Officine"]
+		},
+        "chainto": [],
+        "nplayersplayable": 3,
+        "warpoints": 2
+    },
+    {
+        "id": "war06",
+        "name": "Champs de tir",
+        "cardtype": 1,
+        "age": 2,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 3,
+			    "quantity": 2
+			},
+            {
+			    "type": 1,
+			    "quantity": 1
+			}],
+			"chainfrom": ["Atelier"]
+		},
+        "chainto": [],
+        "nplayersplayable": 3,
+        "warpoints": 2
+    },
+    {
+        "id": "war07",
+        "name": "Fortifications",
+        "cardtype": 1,
+        "age": 3,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 2,
+			    "quantity": 1
+			},
+            {
+			    "type": 1,
+			    "quantity": 3
+			}],
+			"chainfrom": ["Muraille"]
+		},
+        "chainto": [],
+        "nplayersplayable": 3,
+        "warpoints": 3
+    },
+    {
+        "id": "war08",
+        "name": "Arsenal",
+        "cardtype": 1,
+        "age": 3,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 5,
+			    "quantity": 1
+			},
+            {
+			    "type": 1,
+			    "quantity": 1
+			},
+            {
+			    "type": 3,
+			    "quantity": 2
+			}],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 3,
+        "warpoints": 3
+    },
+    {
+        "id": "war09",
+        "name": "Atelier de siege",
+        "cardtype": 1,
+        "age": 3,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 0,
+			    "quantity": 3
+			},
+            {
+			    "type": 3,
+			    "quantity": 1
+			}],
+			"chainfrom": ["Laboratoire"]
+		},
+        "chainto": [],
+        "nplayersplayable": 3,
+        "warpoints": 3
+    },
+    {
+        "id": "war10",
+        "name": "Palissade",
+        "cardtype": 1,
+        "age": 1,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 3,
+			    "quantity": 1
+			}],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 7,
+        "warpoints": 1
+    },
+    {
+        "id": "war11",
+        "name": "Caserne",
+        "cardtype": 1,
+        "age": 1,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 1,
+			    "quantity": 1
+			}],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 5,
+        "warpoints": 1
+    },
+    {
+        "id": "war12",
+        "name": "Tour de garde",
+        "cardtype": 1,
+        "age": 1,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 0,
+			    "quantity": 1
+			}],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 4,
+        "warpoints": 1
+    },
+    {
+        "id": "war13",
+        "name": "Place d'armes",
+        "cardtype": 1,
+        "age": 2,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 1,
+			    "quantity": 2
+			},
+            {
+			    "type": 3,
+			    "quantity": 1
+			}],
+			"chainfrom": []
+		},
+        "chainto": ["Cirque"],
+        "nplayersplayable": 7,
+        "warpoints": 2
+    },
+    {
+        "id": "war14",
+        "name": "Place d'armes",
+        "cardtype": 1,
+        "age": 2,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 1,
+			    "quantity": 2
+			},
+            {
+			    "type": 3,
+			    "quantity": 1
+			}],
+			"chainfrom": []
+		},
+        "chainto": ["Cirque"],
+        "nplayersplayable": 6,
+        "warpoints": 2
+    },
+    {
+        "id": "war15",
+        "name": "Champs de tir",
+        "cardtype": 1,
+        "age": 2,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 1,
+			    "quantity": 1
+			},
+            {
+			    "type": 3,
+			    "quantity": 2
+			}],
+			"chainfrom": ["Atelier"]
+		},
+        "chainto": [],
+        "nplayersplayable": 6,
+        "warpoints": 2
+    },
+    {
+        "id": "war16",
+        "name": "Place d'armes",
+        "cardtype": 1,
+        "age": 2,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 1,
+			    "quantity": 2
+			},
+            {
+			    "type": 3,
+			    "quantity": 1
+			}],
+			"chainfrom": []
+		},
+        "chainto": ["Cirque"],
+        "nplayersplayable": 4,
+        "warpoints": 2
+    },
+    {
+        "id": "war17",
+        "name": "Ecurie",
+        "cardtype": 1,
+        "age": 2,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 1,
+			    "quantity": 1
+			},
+            {
+			    "type": 0,
+			    "quantity": 1
+			},
+            {
+			    "type": 3,
+			    "quantity": 1
+			}],
+			"chainfrom": ["Officine"]
+		},
+        "chainto": [],
+        "nplayersplayable": 5,
+        "warpoints": 2
+    },
+    {
+        "id": "war18",
+        "name": "Muraille",
+        "cardtype": 1,
+        "age": 2,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 2,
+			    "quantity": 3
+			}],
+			"chainfrom": []
+		},
+        "chainto": ["Fortifications"],
+        "nplayersplayable": 7,
+        "warpoints": 2
+    },
+    {
+        "id": "war19",
+        "name": "Cirque",
+        "cardtype": 1,
+        "age": 3,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 2,
+			    "quantity": 3
+			},
+            {
+			    "type": 1,
+			    "quantity": 1
+			}],
+			"chainfrom": ["Place d'armes"]
+		},
+        "chainto": [],
+        "nplayersplayable": 5,
+        "warpoints": 3
+    },
+    {
+        "id": "war20",
+        "name": "Fortifications",
+        "cardtype": 1,
+        "age": 3,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 1,
+			    "quantity": 3
+			},
+            {
+			    "type": 2,
+			    "quantity": 1
+			}],
+			"chainfrom": ["Muraille"]
+		},
+        "chainto": [],
+        "nplayersplayable": 7,
+        "warpoints": 3
+    },
+    {
+        "id": "war21",
+        "name": "Cirque",
+        "cardtype": 1,
+        "age": 3,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 2,
+			    "quantity": 3
+			},
+            {
+			    "type": 1,
+			    "quantity": 1
+			}],
+			"chainfrom": ["Place d'armes"]
+		},
+        "chainto": [],
+        "nplayersplayable": 6,
+        "warpoints": 3
+    },
+    {
+        "id": "war22",
+        "name": "Atelier de siege",
+        "cardtype": 1,
+        "age": 3,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 0,
+			    "quantity": 3
+			},
+            {
+			    "type": 3,
+			    "quantity": 1
+			}],
+			"chainfrom": ["Laboratoire"]
+		},
+        "chainto": [],
+        "nplayersplayable": 5,
+        "warpoints": 3
+    },
+    {
+        "id": "war23",
+        "name": "Arsenal",
+        "cardtype": 1,
+        "age": 3,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 5,
+			    "quantity": 1
+			},
+            {
+			    "type": 1,
+			    "quantity": 1
+			},
+            {
+			    "type": 3,
+			    "quantity": 2
+			}],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 4,
+        "warpoints": 3
+    },
+    {
+        "id": "war24",
+        "name": "Arsenal",
+        "cardtype": 1,
+        "age": 3,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 5,
+			    "quantity": 1
+			},
+            {
+			    "type": 1,
+			    "quantity": 1
+			},
+            {
+			    "type": 3,
+			    "quantity": 2
+			}],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 7,
+        "warpoints": 3
+    },
+    {
+        "id": "war25",
+        "name": "Cirque",
+        "cardtype": 1,
+        "age": 3,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 2,
+			    "quantity": 3
+			},
+            {
+			    "type": 1,
+			    "quantity": 1
+			}],
+			"chainfrom": ["Place d'armes"]
+		},
+        "chainto": [],
+        "nplayersplayable": 4,
+        "warpoints": 3
+    },
+    {
+        "id": "gui01",
+        "name": "Guilde des strateges",
+        "cardtype": 5,
+        "age": 3,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 1,
+			    "quantity": 2
+			},
+            {
+			    "type": 2,
+			    "quantity": 1
+			},
+            {
+			    "type": 5,
+			    "quantity": 1
+			}],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 0,
+        "checkleft": true,
+        "checkright": true,
+        "checkself": false,
+        "bonustype": 2,
+        "reward":[{
+            "reward": 0,
+            "quantity": 1
+        }],
+        "bonuscardtype": []
+    },
+    {
+        "id": "gui02",
+        "name": "Guilde des batisseurs",
+        "cardtype": 5,
+        "age": 3,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 2,
+			    "quantity": 2
+			},
+            {
+			    "type": 0,
+			    "quantity": 2
+			},
+            {
+			    "type": 4,
+			    "quantity": 1
+			}],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 0,
+        "checkleft": true,
+        "checkright": true,
+        "checkself": true,
+        "bonustype": 1,
+        "reward":[{
+            "reward": 0,
+            "quantity": 1
+        }],
+        "bonuscardtype": []
+    },
+    {
+        "id": "gui03",
+        "name": "Guilde des armateurs",
+        "cardtype": 5,
+        "age": 3,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 3,
+			    "quantity": 3
+			},
+            {
+			    "type": 4,
+			    "quantity": 1
+			},
+            {
+			    "type": 6,
+			    "quantity": 1
+			}],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 0,
+        "checkleft": true,
+        "checkright": true,
+        "checkself": false,
+        "bonustype": 0,
+        "reward":[{
+            "reward": 0,
+            "quantity": 1
+        }],
+        "bonuscardtype": [0, 5]
+    },
+    {
+        "id": "gui04",
+        "name": "Guilde des commercants",
+        "cardtype": 5,
+        "age": 3,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 4,
+			    "quantity": 1
+			},
+            {
+			    "type": 5,
+			    "quantity": 1
+			},
+            {
+			    "type": 6,
+			    "quantity": 1
+			}],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 0,
+        "checkleft": true,
+        "checkright": true,
+        "checkself": false,
+        "bonustype": 0,
+        "reward":[{
+            "reward": 0,
+            "quantity": 1
+        }],
+        "bonuscardtype": [3]
+    },
+    {
+        "id": "gui05",
+        "name": "Guilde des philosophes",
+        "cardtype": 5,
+        "age": 3,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 0,
+			    "quantity": 3
+			},
+            {
+			    "type": 5,
+			    "quantity": 1
+			},
+            {
+			    "type": 6,
+			    "quantity": 1
+			}],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 0,
+        "checkleft": true,
+        "checkright": true,
+        "checkself": false,
+        "bonustype": 0,
+        "reward":[{
+            "reward": 0,
+            "quantity": 1
+        }],
+        "bonuscardtype": [4]
+    },
+    {
+        "id": "gui06",
+        "name": "Guilde des artisans",
+        "cardtype": 5,
+        "age": 3,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 1,
+			    "quantity": 2
+			},
+            {
+			    "type": 2,
+			    "quantity": 2
+			}],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 0,
+        "checkleft": true,
+        "checkright": true,
+        "checkself": false,
+        "bonustype": 0,
+        "reward":[{
+            "reward": 0,
+            "quantity": 2
+        }],
+        "bonuscardtype": [0]
+    },
+    {
+        "id": "gui07",
+        "name": "Guilde des travailleurs",
+        "cardtype": 5,
+        "age": 3,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 1,
+			    "quantity": 2
+			},
+            {
+			    "type": 0,
+			    "quantity": 1
+			},
+            {
+			    "type": 2,
+			    "quantity": 1
+			},
+            {
+			    "type": 3,
+			    "quantity": 1
+			}],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 0,
+        "checkleft": true,
+        "checkright": true,
+        "checkself": false,
+        "bonustype": 0,
+        "reward":[{
+            "reward": 0,
+            "quantity": 1
+        }],
+        "bonuscardtype": [0]
+    },
+    {
+        "id": "gui08",
+        "name": "Guilde des scientifiques",
+        "cardtype": 5,
+        "age": 3,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 1,
+			    "quantity": 2
+			},
+            {
+			    "type": 6,
+			    "quantity": 1
+			},
+            {
+			    "type": 3,
+			    "quantity": 2
+			}],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 0,
+        "checkleft": false,
+        "checkright": false,
+        "checkself": false,
+        "bonustype": 3,
+        "reward":[],
+        "bonuscardtype": []
+    },
+    {
+        "id": "gui09",
+        "name": "Guilde des magistrats",
+        "cardtype": 5,
+        "age": 3,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 5,
+			    "quantity": 1
+			},
+            {
+			    "type": 2,
+			    "quantity": 1
+			},
+            {
+			    "type": 3,
+			    "quantity": 3
+			}],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 0,
+        "checkleft": true,
+        "checkright": true,
+        "checkself": false,
+        "bonustype": 0,
+        "reward":[{
+            "reward": 0,
+            "quantity": 1
+        }],
+        "bonuscardtype": [2]
+    },
+    {
+        "id": "gui10",
+        "name": "Guilde des espions",
+        "cardtype": 5,
+        "age": 3,
+        "cardbuildcondition":{
+			"resources": [{
+			    "type": 0,
+			    "quantity": 3
+			},
+            {
+			    "type": 4,
+			    "quantity": 1
+			}],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 0,
+        "checkleft": true,
+        "checkright": true,
+        "checkself": false,
+        "bonustype": 0,
+        "reward":[{
+            "reward": 0,
+            "quantity": 1
+        }],
+        "bonuscardtype": [1]
+    },
+    {
+        "id": "res01",
+        "name": "Filon",
+        "cardtype": 0,
+        "age": 1,
+        "cardbuildcondition":{
+			"resources": [],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 3,
+        "resources": [{
+            "type": 1,
+            "quantity": 1
+        }],
+        "isoptional": false,
+        "isbuyable": true
+    },
+    {
+        "id": "res02",
+        "name": "Bassin argileux",
+        "cardtype": 0,
+        "age": 1,
+        "cardbuildcondition":{
+			"resources": [],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 3,
+        "resources": [{
+            "type": 0,
+            "quantity": 1
+        }],
+        "isoptional": false,
+        "isbuyable": true
+    },
+    {
+        "id": "res03",
+        "name": "Presse",
+        "cardtype": 0,
+        "age": 1,
+        "cardbuildcondition":{
+			"resources": [],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 3,
+        "resources": [{
+            "type": 6,
+            "quantity": 1
+        }],
+        "isoptional": false,
+        "isbuyable": true
+    },
+    {
+        "id": "res04",
+        "name": "Chantier",
+        "cardtype": 0,
+        "age": 1,
+        "cardbuildcondition":{
+			"resources": [],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 3,
+        "resources": [{
+            "type": 3,
+            "quantity": 1
+        }],
+        "isoptional": false,
+        "isbuyable": true
+    },
+    {
+        "id": "res05",
+        "name": "Cavite",
+        "cardtype": 0,
+        "age": 1,
+        "cardbuildcondition":{
+			"resources": [],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 3,
+        "resources": [{
+            "type": 2,
+            "quantity": 1
+        }],
+        "isoptional": false,
+        "isbuyable": true
+    },
+    {
+        "id": "res06",
+        "name": "Metier a tisser",
+        "cardtype": 0,
+        "age": 1,
+        "cardbuildcondition":{
+			"resources": [],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 3,
+        "resources": [{
+            "type": 5,
+            "quantity": 1
+        }],
+        "isoptional": false,
+        "isbuyable": true
+    },
+    {
+        "id": "res07",
+        "name": "Exploitation forestiere",
+        "cardtype": 0,
+        "age": 1,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 7,
+                "quantity": 1
+            }],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 3,
+        "resources": [{
+            "type": 3,
+            "quantity": 1
+        },
+        {
+            "type": 2,
+            "quantity": 1
+        }],
+        "isoptional": true,
+        "isbuyable": true
+    },
+    {
+        "id": "res08",
+        "name": "Verrerie",
+        "cardtype": 0,
+        "age": 1,
+        "cardbuildcondition":{
+			"resources": [],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 3,
+        "resources": [{
+            "type": 4,
+            "quantity": 1
+        }],
+        "isoptional": false,
+        "isbuyable": true
+    },
+    {
+        "id": "res09",
+        "name": "Fosse argileuse",
+        "cardtype": 0,
+        "age": 1,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 7,
+                "quantity": 1
+            }],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 3,
+        "resources": [{
+            "type": 0,
+            "quantity": 1
+        },
+        {
+            "type": 1,
+            "quantity": 1
+        }],
+        "isoptional": true,
+        "isbuyable": true
+    },
+    {
+        "id": "res10",
+        "name": "Carriere",
+        "cardtype": 0,
+        "age": 2,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 7,
+                "quantity": 1
+            }],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 3,
+        "resources": [{
+            "type": 2,
+            "quantity": 2
+        }],
+        "isoptional": false,
+        "isbuyable": true
+    },
+    {
+        "id": "res11",
+        "name": "Briqueterie",
+        "cardtype": 0,
+        "age": 2,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 7,
+                "quantity": 1
+            }],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 3,
+        "resources": [{
+            "type": 0,
+            "quantity": 2
+        }],
+        "isoptional": false,
+        "isbuyable": true
+    },
+    {
+        "id": "res12",
+        "name": "Scierie",
+        "cardtype": 0,
+        "age": 2,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 7,
+                "quantity": 1
+            }],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 3,
+        "resources": [{
+            "type": 3,
+            "quantity": 2
+        }],
+        "isoptional": false,
+        "isbuyable": true
+    },
+    {
+        "id": "res13",
+        "name": "Fonderie",
+        "cardtype": 0,
+        "age": 2,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 7,
+                "quantity": 1
+            }],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 3,
+        "resources": [{
+            "type": 1,
+            "quantity": 2
+        }],
+        "isoptional": false,
+        "isbuyable": true
+    },
+    {
+        "id": "res14",
+        "name": "Presse",
+        "cardtype": 0,
+        "age": 2,
+        "cardbuildcondition":{
+			"resources": [],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 3,
+        "resources": [{
+            "type": 6,
+            "quantity": 1
+        }],
+        "isoptional": false,
+        "isbuyable": true
+    },
+    {
+        "id": "res15",
+        "name": "Verrerie",
+        "cardtype": 0,
+        "age": 2,
+        "cardbuildcondition":{
+			"resources": [],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 3,
+        "resources": [{
+            "type": 4,
+            "quantity": 1
+        }],
+        "isoptional": false,
+        "isbuyable": true
+    },
+    {
+        "id": "res16",
+        "name": "Metier a tisser",
+        "cardtype": 0,
+        "age": 2,
+        "cardbuildcondition":{
+			"resources": [],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 3,
+        "resources": [{
+            "type": 5,
+            "quantity": 1
+        }],
+        "isoptional": false,
+        "isbuyable": true
+    },
+    {
+        "id": "res17",
+        "name": "Cavite",
+        "cardtype": 0,
+        "age": 1,
+        "cardbuildcondition":{
+			"resources": [],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 5,
+        "resources": [{
+            "type": 2,
+            "quantity": 1
+        }],
+        "isoptional": false,
+        "isbuyable": true
+    },
+    {
+        "id": "res18",
+        "name": "Chantier",
+        "cardtype": 0,
+        "age": 1,
+        "cardbuildcondition":{
+			"resources": [],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 4,
+        "resources": [{
+            "type": 3,
+            "quantity": 1
+        }],
+        "isoptional": false,
+        "isbuyable": true
+    },
+    {
+        "id": "res19",
+        "name": "Excavation",
+        "cardtype": 0,
+        "age": 1,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 7,
+                "quantity": 1
+            }],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 4,
+        "resources": [{
+            "type": 0,
+            "quantity": 1
+        },
+        {
+            "type": 2,
+            "quantity": 1
+        }],
+        "isoptional": true,
+        "isbuyable": true
+    },
+    {
+        "id": "res20",
+        "name": "Filon",
+        "cardtype": 0,
+        "age": 1,
+        "cardbuildcondition":{
+			"resources": [],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 4,
+        "resources": [{
+            "type": 1,
+            "quantity": 1
+        }],
+        "isoptional": false,
+        "isbuyable": true
+    },
+    {
+        "id": "res21",
+        "name": "Presse",
+        "cardtype": 0,
+        "age": 1,
+        "cardbuildcondition":{
+			"resources": [],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 6,
+        "resources": [{
+            "type": 6,
+            "quantity": 1
+        }],
+        "isoptional": false,
+        "isbuyable": true
+    },
+    {
+        "id": "res22",
+        "name": "Verrerie",
+        "cardtype": 0,
+        "age": 1,
+        "cardbuildcondition":{
+			"resources": [],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 6,
+        "resources": [{
+            "type": 4,
+            "quantity": 1
+        }],
+        "isoptional": false,
+        "isbuyable": true
+    },
+    {
+        "id": "res23",
+        "name": "Mine",
+        "cardtype": 0,
+        "age": 1,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 7,
+                "quantity": 1
+            }],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 6,
+        "resources": [{
+            "type": 1,
+            "quantity": 1
+        },
+        {
+            "type": 2,
+            "quantity": 1
+        }],
+        "isoptional": true,
+        "isbuyable": true
+    },
+    {
+        "id": "res24",
+        "name": "Metier a tisser",
+        "cardtype": 0,
+        "age": 1,
+        "cardbuildcondition":{
+			"resources": [],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 6,
+        "resources": [{
+            "type": 5,
+            "quantity": 1
+        }],
+        "isoptional": false,
+        "isbuyable": true
+    },
+    {
+        "id": "res25",
+        "name": "Friche",
+        "cardtype": 0,
+        "age": 1,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 7,
+                "quantity": 1
+            }],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 6,
+        "resources": [{
+            "type": 3,
+            "quantity": 1
+        },
+        {
+            "type": 0,
+            "quantity": 1
+        }],
+        "isoptional": true,
+        "isbuyable": true
+    },
+    {
+        "id": "res26",
+        "name": "Gisement",
+        "cardtype": 0,
+        "age": 1,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 7,
+                "quantity": 1
+            }],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 5,
+        "resources": [{
+            "type": 3,
+            "quantity": 1
+        },
+        {
+            "type": 1,
+            "quantity": 1
+        }],
+        "isoptional": true,
+        "isbuyable": true
+    },
+    {
+        "id": "res27",
+        "name": "Bassin argileux",
+        "cardtype": 0,
+        "age": 1,
+        "cardbuildcondition":{
+			"resources": [],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 5,
+        "resources": [{
+            "type": 0,
+            "quantity": 1
+        }],
+        "isoptional": false,
+        "isbuyable": true
+    },
+    {
+        "id": "res28",
+        "name": "Metier a tisser",
+        "cardtype": 0,
+        "age": 2,
+        "cardbuildcondition":{
+			"resources": [],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 5,
+        "resources": [{
+            "type": 5,
+            "quantity": 1
+        }],
+        "isoptional": false,
+        "isbuyable": true
+    },
+    {
+        "id": "res29",
+        "name": "Verrerie",
+        "cardtype": 0,
+        "age": 2,
+        "cardbuildcondition":{
+			"resources": [],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 5,
+        "resources": [{
+            "type": 4,
+            "quantity": 1
+        }],
+        "isoptional": false,
+        "isbuyable": true
+    },
+    {
+        "id": "res30",
+        "name": "Presse",
+        "cardtype": 0,
+        "age": 2,
+        "cardbuildcondition":{
+			"resources": [],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 5,
+        "resources": [{
+            "type": 6,
+            "quantity": 1
+        }],
+        "isoptional": false,
+        "isbuyable": true
+    },
+    {
+        "id": "res31",
+        "name": "Briqueterie",
+        "cardtype": 0,
+        "age": 2,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 7,
+                "quantity": 1
+            }],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 4,
+        "resources": [{
+            "type": 0,
+            "quantity": 2
+        }],
+        "isoptional": false,
+        "isbuyable": true
+    },
+    {
+        "id": "res32",
+        "name": "Carriere",
+        "cardtype": 0,
+        "age": 2,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 7,
+                "quantity": 1
+            }],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 4,
+        "resources": [{
+            "type": 2,
+            "quantity": 2
+        }],
+        "isoptional": false,
+        "isbuyable": true
+    },
+    {
+        "id": "res33",
+        "name": "Scierie",
+        "cardtype": 0,
+        "age": 2,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 7,
+                "quantity": 1
+            }],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 4,
+        "resources": [{
+            "type": 3,
+            "quantity": 2
+        }],
+        "isoptional": false,
+        "isbuyable": true
+    },
+    {
+        "id": "res34",
+        "name": "Fonderie",
+        "cardtype": 0,
+        "age": 2,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 7,
+                "quantity": 1
+            }],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 4,
+        "resources": [{
+            "type": 1,
+            "quantity": 2
+        }],
+        "isoptional": false,
+        "isbuyable": true
+    },
+    {
+        "id": "sci01",
+        "name": "Scriptorium",
+        "cardtype": 4,
+        "age": 1,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 6,
+                "quantity": 1
+            }],
+			"chainfrom": []
+		},
+        "chainto": ["Tribunal, Bibliotheque"],
+        "nplayersplayable": 3,
+        "sciencecardtype": 0
+    },
+    {
+        "id": "sci02",
+        "name": "Officine",
+        "cardtype": 4,
+        "age": 1,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 5,
+                "quantity": 1
+            }],
+			"chainfrom": []
+		},
+        "chainto": ["Ecuries, Dispensaire"],
+        "nplayersplayable": 3,
+        "sciencecardtype": 2
+    },
+    {
+        "id": "sci03",
+        "name": "Atelier",
+        "cardtype": 4,
+        "age": 1,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 4,
+                "quantity": 1
+            }],
+			"chainfrom": []
+		},
+        "chainto": ["Laboratoire, Champs de tir"],
+        "nplayersplayable": 3,
+        "sciencecardtype": 1
+    },
+    {
+        "id": "sci04",
+        "name": "Ecole",
+        "cardtype": 4,
+        "age": 2,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 6,
+                "quantity": 1
+            },
+            {
+                "type": 3,
+                "quantity": 1
+            }],
+			"chainfrom": []
+		},
+        "chainto": ["Academie, Etude"],
+        "nplayersplayable": 3,
+        "sciencecardtype": 0
+    },
+    {
+        "id": "sci05",
+        "name": "Laboratoire",
+        "cardtype": 4,
+        "age": 2,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 0,
+                "quantity": 2
+            },
+            {
+                "type": 6,
+                "quantity": 1
+            }],
+			"chainfrom": ["Atelier"]
+		},
+        "chainto": ["Observatoire, Atelier de siege"],
+        "nplayersplayable": 3,
+        "sciencecardtype": 1
+    },
+    {
+        "id": "sci06",
+        "name": "Bibliotheque",
+        "cardtype": 4,
+        "age": 2,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 2,
+                "quantity": 2
+            },
+            {
+                "type": 5,
+                "quantity": 1
+            }],
+			"chainfrom": ["Scriptorium"]
+		},
+        "chainto": ["Senat, Universite"],
+        "nplayersplayable": 3,
+        "sciencecardtype": 0
+    },
+    {
+        "id": "sci07",
+        "name": "Dispensaire",
+        "cardtype": 4,
+        "age": 2,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 1,
+                "quantity": 2
+            },
+            {
+                "type": 4,
+                "quantity": 1
+            }],
+			"chainfrom": ["Officine"]
+		},
+        "chainto": ["Loge, Arene"],
+        "nplayersplayable": 3,
+        "sciencecardtype": 2
+    },
+    {
+        "id": "sci08",
+        "name": "Observatoire",
+        "cardtype": 4,
+        "age": 3,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 1,
+                "quantity": 2
+            },
+            {
+                "type": 4,
+                "quantity": 1
+            },
+            {
+                "type": 5,
+                "quantity": 1
+            }],
+			"chainfrom": ["Laboratoire"]
+		},
+        "chainto": [],
+        "nplayersplayable": 3,
+        "sciencecardtype": 1
+    },
+    {
+        "id": "sci09",
+        "name": "Loge",
+        "cardtype": 4,
+        "age": 3,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 0,
+                "quantity": 2
+            },
+            {
+                "type": 5,
+                "quantity": 1
+            },
+            {
+                "type": 6,
+                "quantity": 1
+            }],
+			"chainfrom": ["Dispensaire"]
+		},
+        "chainto": [],
+        "nplayersplayable": 3,
+        "sciencecardtype": 2
+    },
+    {
+        "id": "sci10",
+        "name": "Universite",
+        "cardtype": 4,
+        "age": 3,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 3,
+                "quantity": 2
+            },
+            {
+                "type": 4,
+                "quantity": 1
+            },
+            {
+                "type": 6,
+                "quantity": 1
+            }],
+			"chainfrom": ["Bibliotheque"]
+		},
+        "chainto": [],
+        "nplayersplayable": 3,
+        "sciencecardtype": 0
+    },
+    {
+        "id": "sci11",
+        "name": "Etude",
+        "cardtype": 4,
+        "age": 3,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 3,
+                "quantity": 1
+            },
+            {
+                "type": 6,
+                "quantity": 1
+            },
+            {
+                "type": 5,
+                "quantity": 1
+            }],
+			"chainfrom": ["Ecole"]
+		},
+        "chainto": [],
+        "nplayersplayable": 3,
+        "sciencecardtype": 1
+    },
+    {
+        "id": "sci12",
+        "name": "Academie",
+        "cardtype": 4,
+        "age": 3,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 2,
+                "quantity": 3
+            },
+            {
+                "type": 4,
+                "quantity": 1
+            }],
+			"chainfrom": ["Ecole"]
+		},
+        "chainto": [],
+        "nplayersplayable": 3,
+        "sciencecardtype": 2
+    },
+    {
+        "id": "sci13",
+        "name": "Atelier",
+        "cardtype": 4,
+        "age": 1,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 4,
+                "quantity": 1
+            }],
+			"chainfrom": []
+		},
+        "chainto": ["Laboratoire, Champs de tir"],
+        "nplayersplayable": 7,
+        "sciencecardtype": 1
+    },
+    {
+        "id": "sci14",
+        "name": "Scriptorium",
+        "cardtype": 4,
+        "age": 1,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 6,
+                "quantity": 1
+            }],
+			"chainfrom": []
+		},
+        "chainto": ["Tribunal, Bibliotheque"],
+        "nplayersplayable": 4,
+        "sciencecardtype": 0
+    },
+    {
+        "id": "sci15",
+        "name": "Officine",
+        "cardtype": 4,
+        "age": 1,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 5,
+                "quantity": 1
+            }],
+			"chainfrom": []
+		},
+        "chainto": ["Ecuries, Dispensaire"],
+        "nplayersplayable": 5,
+        "sciencecardtype": 2
+    },
+    {
+        "id": "sci16",
+        "name": "Bibliotheque",
+        "cardtype": 4,
+        "age": 2,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 2,
+                "quantity": 2
+            },
+            {
+                "type": 5,
+                "quantity": 1
+            }],
+			"chainfrom": ["Scriptorium"]
+		},
+        "chainto": ["Senat, Universite"],
+        "nplayersplayable": 6,
+        "sciencecardtype": 0
+    },
+    {
+        "id": "sci17",
+        "name": "Ecole",
+        "cardtype": 4,
+        "age": 2,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 3,
+                "quantity": 1
+            },
+            {
+                "type": 6,
+                "quantity": 1
+            }],
+			"chainfrom": []
+		},
+        "chainto": ["Academie, Etude"],
+        "nplayersplayable": 7,
+        "sciencecardtype": 0
+    },
+    {
+        "id": "sci18",
+        "name": "Laboratoire",
+        "cardtype": 4,
+        "age": 2,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 0,
+                "quantity": 2
+            },
+            {
+                "type": 6,
+                "quantity": 1
+            }],
+			"chainfrom": ["Atelier"]
+		},
+        "chainto": ["Observatoire, Atelier de siege"],
+        "nplayersplayable": 5,
+        "sciencecardtype": 1
+    },
+    {
+        "id": "sci19",
+        "name": "Dispensaire",
+        "cardtype": 4,
+        "age": 2,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 1,
+                "quantity": 2
+            },
+            {
+                "type": 4,
+                "quantity": 1
+            }],
+			"chainfrom": ["Officine"]
+		},
+        "chainto": ["Loge, Arene"],
+        "nplayersplayable": 4,
+        "sciencecardtype": 2
+    },
+    {
+        "id": "sci20",
+        "name": "Observatoire",
+        "cardtype": 4,
+        "age": 3,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 1,
+                "quantity": 2
+            },
+            {
+                "type": 4,
+                "quantity": 1
+            },
+            {
+                "type": 5,
+                "quantity": 1
+            }],
+			"chainfrom": ["Laboratoire"]
+		},
+        "chainto": [],
+        "nplayersplayable": 7,
+        "sciencecardtype": 1
+    },
+    {
+        "id": "sci21",
+        "name": "Loge",
+        "cardtype": 4,
+        "age": 3,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 0,
+                "quantity": 2
+            },
+            {
+                "type": 6,
+                "quantity": 1
+            },
+            {
+                "type": 5,
+                "quantity": 1
+            }],
+			"chainfrom": ["Dispensaire"]
+		},
+        "chainto": [],
+        "nplayersplayable": 6,
+        "sciencecardtype": 2
+    },
+    {
+        "id": "sci22",
+        "name": "Etude",
+        "cardtype": 4,
+        "age": 3,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 3,
+                "quantity": 1
+            },
+            {
+                "type": 6,
+                "quantity": 1
+            },
+            {
+                "type": 5,
+                "quantity": 1
+            }],
+			"chainfrom": ["Ecole"]
+		},
+        "chainto": [],
+        "nplayersplayable": 5,
+        "sciencecardtype": 1
+    },
+    {
+        "id": "sci23",
+        "name": "Academie",
+        "cardtype": 4,
+        "age": 3,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 2,
+                "quantity": 3
+            },
+            {
+                "type": 4,
+                "quantity": 1
+            }],
+			"chainfrom": ["Ecole"]
+		},
+        "chainto": [],
+        "nplayersplayable": 7,
+        "sciencecardtype": 2
+    },
+    {
+        "id": "sci24",
+        "name": "Universite",
+        "cardtype": 4,
+        "age": 3,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 3,
+                "quantity": 2
+            },
+            {
+                "type": 4,
+                "quantity": 1
+            },
+            {
+                "type": 6,
+                "quantity": 1
+            }],
+			"chainfrom": ["Bibliotheque"]
+		},
+        "chainto": [],
+        "nplayersplayable": 4,
+        "sciencecardtype": 0
+    },
+    {
+        "id": "com01",
+        "name": "Marche",
+        "cardtype": 3,
+        "age": 1,
+        "cardbuildcondition":{
+			"resources": [],
+			"chainfrom": []
+		},
+        "chainto": ["Caravanserail"],
+        "nplayersplayable": 3,
+        "resources": [{
+            "type": 4,
+            "quantity": 1
+        },
+        {
+            "type": 5,
+            "quantity": 1
+        },
+        {
+            "type": 6,
+            "quantity": 1
+        }],
+        "price": 1,
+        "leftplayer": true,
+        "rightplayer": true
+    },
+    {
+        "id": "com02",
+        "name": "Comptoir est",
+        "cardtype": 3,
+        "age": 1,
+        "cardbuildcondition":{
+			"resources": [],
+			"chainfrom": []
+		},
+        "chainto": ["Forum"],
+        "nplayersplayable": 3,
+        "resources": [{
+            "type": 0,
+            "quantity": 1
+        },
+        {
+            "type": 1,
+            "quantity": 1
+        },
+        {
+            "type": 2,
+            "quantity": 1
+        },
+        {
+            "type": 3,
+            "quantity": 1
+        }],
+        "price": 1,
+        "leftplayer": false,
+        "rightplayer": true
+    },
+    {
+        "id": "com03",
+        "name": "Comptoir ouest",
+        "cardtype": 3,
+        "age": 1,
+        "cardbuildcondition":{
+			"resources": [],
+			"chainfrom": []
+		},
+        "chainto": ["Forum"],
+        "nplayersplayable": 3,
+        "resources": [{
+            "type": 0,
+            "quantity": 1
+        },
+        {
+            "type": 1,
+            "quantity": 1
+        },
+        {
+            "type": 2,
+            "quantity": 1
+        },
+        {
+            "type": 3,
+            "quantity": 1
+        }],
+        "price": 1,
+        "leftplayer": true,
+        "rightplayer": false
+    },
+    {
+        "id": "com04",
+        "name": "Caravanserail",
+        "cardtype": 3,
+        "age": 2,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 3,
+                "quantity": 2
+            }],
+			"chainfrom": ["Marche"]
+		},
+        "chainto": ["Phare"],
+        "nplayersplayable": 3,
+        "resources": [{
+            "type": 0,
+            "quantity": 1
+        },
+        {
+            "type": 1,
+            "quantity": 1
+        },
+        {
+            "type": 2,
+            "quantity": 1
+        },
+        {
+            "type": 3,
+            "quantity": 1
+        }]
+    },
+    {
+        "id": "com05",
+        "name": "Forum",
+        "cardtype": 3,
+        "age": 2,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 0,
+                "quantity": 2
+            }],
+			"chainfrom": ["Comptoir est", "Comptoir ouest"]
+		},
+        "chainto": ["Port"],
+        "nplayersplayable": 3,
+        "resources": [{
+            "type": 4,
+            "quantity": 1
+        },
+        {
+            "type": 5,
+            "quantity": 1
+        },
+        {
+            "type": 6,
+            "quantity": 1
+        }]
+    },
+    {
+        "id": "com06",
+        "name": "Vignoble",
+        "cardtype": 3,
+        "age": 2,
+        "cardbuildcondition":{
+			"resources": [],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 3,
+        "checkleft": true,
+        "checkright": true,
+        "checkself": true,
+        "bonustype": 0,
+        "reward":[{
+            "reward": 1,
+            "quantity": 1
+        }],
+        "bonuscardtype": [0]
+    },
+    {
+        "id": "com07",
+        "name": "Phare",
+        "cardtype": 3,
+        "age": 3,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 2,
+                "quantity": 1
+            },
+            {
+                "type": 4,
+                "quantity": 1
+            }],
+			"chainfrom": ["Caravanserail"]
+		},
+        "chainto": [],
+        "nplayersplayable": 3,
+        "checkleft": false,
+        "checkright": false,
+        "checkself": true,
+        "bonustype": 0,
+        "reward":[{
+            "reward": 0,
+            "quantity": 1
+        },
+        {
+            "reward": 1,
+            "quantity": 1
+        }],
+        "bonuscardtype": [3]
+    },
+    {
+        "id": "com08",
+        "name": "Port",
+        "cardtype": 3,
+        "age": 3,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 3,
+                "quantity": 1
+            },
+            {
+                "type": 1,
+                "quantity": 1
+            },
+            {
+                "type": 5,
+                "quantity": 1
+            }],
+			"chainfrom": ["Forum"]
+		},
+        "chainto": [],
+        "nplayersplayable": 3,
+        "checkleft": false,
+        "checkright": false,
+        "checkself": true,
+        "bonustype": 0,
+        "reward":[{
+            "reward": 0,
+            "quantity": 1
+        },
+        {
+            "reward": 1,
+            "quantity": 1
+        }],
+        "bonuscardtype": [0]
+    },
+    {
+        "id": "com09",
+        "name": "Arene",
+        "cardtype": 3,
+        "age": 3,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 2,
+                "quantity": 2
+            },
+            {
+                "type": 1,
+                "quantity": 1
+            }],
+			"chainfrom": ["Dispensaire"]
+		},
+        "chainto": [],
+        "nplayersplayable": 3,
+        "checkleft": false,
+        "checkright": false,
+        "checkself": true,
+        "bonustype": 1,
+        "reward":[{
+            "reward": 0,
+            "quantity": 1
+        },
+        {
+            "reward": 1,
+            "quantity": 1
+        }],
+        "bonuscardtype": []
+    },
+    {
+        "id": "com10",
+        "name": "Comptoir est",
+        "cardtype": 3,
+        "age": 1,
+        "cardbuildcondition":{
+			"resources": [],
+			"chainfrom": []
+		},
+        "chainto": ["Forum"],
+        "nplayersplayable": 7,
+        "resources": [{
+            "type": 0,
+            "quantity": 1
+        },
+        {
+            "type": 1,
+            "quantity": 1
+        },
+        {
+            "type": 2,
+            "quantity": 1
+        },
+        {
+            "type": 3,
+            "quantity": 1
+        }],
+        "price": 1,
+        "leftplayer": false,
+        "rightplayer": true
+    },
+    {
+        "id": "com11",
+        "name": "Taverne",
+        "cardtype": 3,
+        "age": 1,
+        "cardbuildcondition":{
+			"resources": [],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 7,
+        "checkleft": false,
+        "checkright": false,
+        "checkself": false,
+        "bonustype": 4,
+        "reward":[{
+            "reward": 1,
+            "quantity": 5
+        }],
+        "bonuscardtype": []
+    },
+    {
+        "id": "com12",
+        "name": "Comptoir ouest",
+        "cardtype": 3,
+        "age": 1,
+        "cardbuildcondition":{
+			"resources": [],
+			"chainfrom": []
+		},
+        "chainto": ["Forum"],
+        "nplayersplayable": 7,
+        "resources": [{
+            "type": 0,
+            "quantity": 1
+        },
+        {
+            "type": 1,
+            "quantity": 1
+        },
+        {
+            "type": 2,
+            "quantity": 1
+        },
+        {
+            "type": 3,
+            "quantity": 1
+        }],
+        "price": 1,
+        "leftplayer": true,
+        "rightplayer": false
+    },
+    {
+        "id": "com13",
+        "name": "Marche",
+        "cardtype": 3,
+        "age": 1,
+        "cardbuildcondition":{
+			"resources": [],
+			"chainfrom": []
+		},
+        "chainto": ["Caravanserail"],
+        "nplayersplayable": 6,
+        "resources": [{
+            "type": 4,
+            "quantity": 1
+        },
+        {
+            "type": 5,
+            "quantity": 1
+        },
+        {
+            "type": 6,
+            "quantity": 1
+        }],
+        "price": 1,
+        "leftplayer": true,
+        "rightplayer": true
+    },
+    {
+        "id": "com14",
+        "name": "Taverne",
+        "cardtype": 3,
+        "age": 1,
+        "cardbuildcondition":{
+			"resources": [],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 5,
+        "checkleft": false,
+        "checkright": false,
+        "checkself": false,
+        "bonustype": 4,
+        "reward":[{
+            "reward": 1,
+            "quantity": 5
+        }],
+        "bonuscardtype": []
+    },
+    {
+        "id": "com15",
+        "name": "Taverne",
+        "cardtype": 3,
+        "age": 1,
+        "cardbuildcondition":{
+			"resources": [],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 4,
+        "checkleft": false,
+        "checkright": false,
+        "checkself": false,
+        "bonustype": 4,
+        "reward":[{
+            "reward": 1,
+            "quantity": 5
+        }],
+        "bonuscardtype": []
+    },
+    {
+        "id": "com16",
+        "name": "Bazar",
+        "cardtype": 3,
+        "age": 2,
+        "cardbuildcondition":{
+			"resources": [],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 7,
+        "checkleft": true,
+        "checkright": true,
+        "checkself": true,
+        "bonustype": 0,
+        "reward":[{
+            "reward": 1,
+            "quantity": 2
+        }],
+        "bonuscardtype": [0]
+    },
+    {
+        "id": "com17",
+        "name": "Vignoble",
+        "cardtype": 3,
+        "age": 2,
+        "cardbuildcondition":{
+			"resources": [],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 6,
+        "checkleft": true,
+        "checkright": true,
+        "checkself": true,
+        "bonustype": 0,
+        "reward":[{
+            "reward": 1,
+            "quantity": 1
+        }],
+        "bonuscardtype": [0]
+    },
+    {
+        "id": "com18",
+        "name": "Forum",
+        "cardtype": 3,
+        "age": 2,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 0,
+                "quantity": 2
+            }],
+			"chainfrom": ["Comptoir est", "Comptoir ouest"]
+		},
+        "chainto": ["Port"],
+        "nplayersplayable": 6,
+        "resources": [{
+            "type": 4,
+            "quantity": 1
+        },
+        {
+            "type": 5,
+            "quantity": 1
+        },
+        {
+            "type": 6,
+            "quantity": 1
+        }]
+    },
+    {
+        "id": "com19",
+        "name": "Forum",
+        "cardtype": 3,
+        "age": 2,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 0,
+                "quantity": 2
+            }],
+			"chainfrom": ["Comptoir est", "Comptoir ouest"]
+		},
+        "chainto": ["Port"],
+        "nplayersplayable": 7,
+        "resources": [{
+            "type": 4,
+            "quantity": 1
+        },
+        {
+            "type": 5,
+            "quantity": 1
+        },
+        {
+            "type": 6,
+            "quantity": 1
+        }]
+    },
+    {
+        "id": "com20",
+        "name": "Caravanserail",
+        "cardtype": 3,
+        "age": 2,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 3,
+                "quantity": 2
+            }],
+			"chainfrom": ["Marche"]
+		},
+        "chainto": ["Phare"],
+        "nplayersplayable": 5,
+        "resources": [{
+            "type": 0,
+            "quantity": 1
+        },
+        {
+            "type": 1,
+            "quantity": 1
+        },
+        {
+            "type": 2,
+            "quantity": 1
+        },
+        {
+            "type": 3,
+            "quantity": 1
+        }]
+    },
+    {
+        "id": "com21",
+        "name": "Bazar",
+        "cardtype": 3,
+        "age": 2,
+        "cardbuildcondition":{
+			"resources": [],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 4,
+        "checkleft": true,
+        "checkright": true,
+        "checkself": true,
+        "bonustype": 0,
+        "reward":[{
+            "reward": 1,
+            "quantity": 2
+        }],
+        "bonuscardtype": [0]
+    },
+    {
+        "id": "com22",
+        "name": "Caravanserail",
+        "cardtype": 3,
+        "age": 2,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 3,
+                "quantity": 2
+            }],
+			"chainfrom": ["Marche"]
+		},
+        "chainto": ["Phare"],
+        "nplayersplayable": 6,
+        "resources": [{
+            "type": 0,
+            "quantity": 1
+        },
+        {
+            "type": 1,
+            "quantity": 1
+        },
+        {
+            "type": 2,
+            "quantity": 1
+        },
+        {
+            "type": 3,
+            "quantity": 1
+        }]
+    },
+    {
+        "id": "com23",
+        "name": "Arene",
+        "cardtype": 3,
+        "age": 3,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 2,
+                "quantity": 2
+            },
+            {
+                "type": 1,
+                "quantity": 1
+            }],
+			"chainfrom": ["Dispensaire"]
+		},
+        "chainto": [],
+        "nplayersplayable": 7,
+        "checkleft": false,
+        "checkright": false,
+        "checkself": true,
+        "bonustype": 1,
+        "reward":[{
+            "reward": 0,
+            "quantity": 1
+        },
+        {
+            "reward": 1,
+            "quantity": 1
+        }],
+        "bonuscardtype": []
+    },
+    {
+        "id": "com24",
+        "name": "Chambre de commerce",
+        "cardtype": 3,
+        "age": 3,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 0,
+                "quantity": 2
+            },
+            {
+                "type": 6,
+                "quantity": 1
+            }],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 6,
+        "checkleft": false,
+        "checkright": false,
+        "checkself": true,
+        "bonustype": 0,
+        "reward":[{
+            "reward": 0,
+            "quantity": 2
+        },
+        {
+            "reward": 1,
+            "quantity": 2
+        }],
+        "bonuscardtype": [0]
+    },
+    {
+        "id": "com25",
+        "name": "Phare",
+        "cardtype": 3,
+        "age": 3,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 2,
+                "quantity": 1
+            },
+            {
+                "type": 4,
+                "quantity": 1
+            }],
+			"chainfrom": ["Caravanserail"]
+		},
+        "chainto": [],
+        "nplayersplayable": 6,
+        "resources": [{
+            "type": 0,
+            "quantity": 1
+        },
+        {
+            "type": 1,
+            "quantity": 1
+        },
+        {
+            "type": 2,
+            "quantity": 1
+        },
+        {
+            "type": 3,
+            "quantity": 1
+        }]
+    },
+    {
+        "id": "com26",
+        "name": "Chambre de commerce",
+        "cardtype": 3,
+        "age": 3,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 0,
+                "quantity": 2
+            },
+            {
+                "type": 6,
+                "quantity": 1
+            }],
+			"chainfrom": []
+		},
+        "chainto": [],
+        "nplayersplayable": 4,
+        "checkleft": false,
+        "checkright": false,
+        "checkself": true,
+        "bonustype": 0,
+        "reward":[{
+            "reward": 0,
+            "quantity": 2
+        },
+        {
+            "reward": 1,
+            "quantity": 2
+        }],
+        "bonuscardtype": [0]
+    },
+    {
+        "id": "com27",
+        "name": "Arene",
+        "cardtype": 3,
+        "age": 3,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 2,
+                "quantity": 2
+            },
+            {
+                "type": 1,
+                "quantity": 1
+            }],
+			"chainfrom": ["Dispensaire"]
+		},
+        "chainto": [],
+        "nplayersplayable": 5,
+        "checkleft": false,
+        "checkright": false,
+        "checkself": true,
+        "bonustype": 1,
+        "reward":[{
+            "reward": 0,
+            "quantity": 1
+        },
+        {
+            "reward": 1,
+            "quantity": 1
+        }],
+        "bonuscardtype": []
+    },
+    {
+        "id": "com28",
+        "name": "Port",
+        "cardtype": 3,
+        "age": 3,
+        "cardbuildcondition":{
+			"resources": [{
+                "type": 3,
+                "quantity": 1
+            },
+            {
+                "type": 1,
+                "quantity": 1
+            },
+            {
+                "type": 5,
+                "quantity": 1
+            }],
+			"chainfrom": ["Forum"]
+		},
+        "chainto": [],
+        "nplayersplayable": 4,
+        "checkleft": false,
+        "checkright": false,
+        "checkself": true,
+        "bonustype": 0,
+        "reward":[{
+            "reward": 0,
+            "quantity": 1
+        },
+        {
+            "reward": 1,
+            "quantity": 1
+        }],
+        "bonuscardtype": [0]
+    }
 ]

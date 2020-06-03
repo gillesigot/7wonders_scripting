@@ -27,9 +27,9 @@
     // Used to define all diferent science symbols.
     public enum ScienceType
     {
-        TABLET,
-        GEAR,
-        COMPASS,
+        TABLET = 0,
+        GEAR = 1,
+        COMPASS = 2,
     }
 
     // Used to associate a resource type and the related quantity.
