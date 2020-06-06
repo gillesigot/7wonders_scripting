@@ -14,5 +14,6 @@ public class GameStart : MonoBehaviour
     {
         this.GameController = new GameController(this.NumberOfPlayers);
         this.PlayerBoardController = new PlayerBoardController();
+        this.GameController.StartAge(1);
     }
 }

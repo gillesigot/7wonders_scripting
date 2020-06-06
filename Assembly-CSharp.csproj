@@ -80,6 +80,7 @@
     <Compile Include="Assets\Scripts\Model\ResourceCard.cs" />
     <Compile Include="Assets\Scripts\Model\ScienceCard.cs" />
     <Compile Include="Assets\Scripts\Model\WarCard.cs" />
+    <Compile Include="Assets\Scripts\Presentation\CardFactory.cs" />
     <Compile Include="Assets\Scripts\Presentation\Draggable.cs" />
     <Compile Include="Assets\Scripts\Presentation\DropZone.cs" />
     <Compile Include="Assets\Scripts\Presentation\GameStart.cs" />

@@ -24,7 +24,7 @@ public class DropController
     {
         this.DropZone = dropZone;
         this.DiscardPile = discardPile;
-        this.Player = GameManager.Instance().getHumanPlayer();
+        this.Player = GameManager.Instance().GetHumanPlayer();
     }
 
     /// <summary>

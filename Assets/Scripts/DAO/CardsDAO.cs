@@ -107,8 +107,10 @@ public static class CardsDAO
     /// <summary>
     /// Retrieve all stored cards and returns them in as card list.
     /// </summary>
+    /// <param name="nbPlayers">Get corresponding cards according to the number of players.</param>
+    /// <param name="age">Get the cards for a given age of the game.</param>
     /// <returns>All stored cards as list of Card objects.</returns>
-    public static List<Card> GetValues()
+    public static List<Card> GetCards(int nbPlayers = 0, int age = 0)
     {
         List<Card> cards = new List<Card>();
         if (!File.Exists(StorageConsts.CARD_FILE_LOCATION))
@@ -119,6 +121,12 @@ public static class CardsDAO
 
         foreach (CardDAO cardDAO in cardsDAO)
         {
+            if (nbPlayers != 0 && cardDAO.NPlayersPlayable > nbPlayers)
+                continue;
+
+            if (age != 0 && cardDAO.Age != age)
+                continue;
+
             switch ((Card.CardType)cardDAO.CardType)
             {
                 case Card.CardType.RESOURCE:

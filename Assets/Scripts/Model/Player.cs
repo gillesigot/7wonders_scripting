@@ -1,4 +1,6 @@
-﻿public class Player
+﻿using System.Collections.Generic;
+
+public class Player
 {
     // Used to define the starting amount of coins of all players.
     private const int STARTING_COINS_AMOUNT = 3;
@@ -14,6 +16,8 @@
     public CityManager City { get; set; }
     // Represent the wonder of a player.
     public WonderManager Wonder { get; set; }
+    // Represent the cards in player's hand.
+    public List<Card> Hand { get; set; }
 
     public Player(
         bool isHuman = false,
@@ -24,5 +28,6 @@
         this.IsHuman = isHuman;
         this.Coins = coins;
         this.VictoryWarPoints = victoryWarPoints;
+        this.Hand = new List<Card>();
     }
 }

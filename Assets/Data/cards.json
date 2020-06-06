@@ -540,7 +540,7 @@
         "id": "civ27",
         "name": "Statue",
         "cardtype": 2,
-        "age": 3,
+        "age": 2,
         "cardbuildcondition":{
 			"resources": [{
 			    "type": 0,
