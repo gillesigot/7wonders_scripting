@@ -11,7 +11,7 @@ public class GameManager
     // Used to gather the list of the player of the current game.
     public List<Player> Players { get; set; }
     // Used to determine which age of the game is currently played.
-    public int Age { get; set; }
+    public static int Age { get; set; }
 
     // Raised when invalid game settings are defined.
     public class WrongGameSettingsException : Exception
@@ -33,7 +33,7 @@ public class GameManager
             if (i == 0) player.IsHuman = true;
             Players.Add(player);
         }
-        this.Age = 1;
+        Age = 1;
     }
     /// <summary>
     /// Get unique instance of Game manager (create it of not created yet).

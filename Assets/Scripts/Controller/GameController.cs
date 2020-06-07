@@ -15,8 +15,9 @@
     /// <param name="age">The age to be started.</param>
     public void StartAge(int age)
     {
-        this.GameManager.Age = age;
+        GameManager.Age = age;
         this.GameManager.DistributeCards();
         PlayerBoardController.RefreshHand();
+        PlayerBoardController.RefreshDiscardPiles(age);
     }
 }

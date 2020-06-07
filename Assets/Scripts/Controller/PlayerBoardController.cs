@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
 public class PlayerBoardController
 {
     // Used to represent the human player interacting with the board.
@@ -11,6 +10,10 @@ public class PlayerBoardController
     public static Text WarPoints { get; set; }
     // Used to store the player's cards representation.
     public static CardFactory CardFactory { get; set; }
+    // Used to store left discard pile representation.
+    public static Image LeftDiscardPile { get; set; }
+    // Used to store right discard pile representation.
+    public static Image RightDiscardPile { get; set; }
 
     public PlayerBoardController()
     {
@@ -18,6 +21,8 @@ public class PlayerBoardController
         Coins = GameObject.Find("coin_text").GetComponent<Text>();
         WarPoints = GameObject.Find("war_text").GetComponent<Text>();
         CardFactory = GameObject.Find("hand").GetComponent<CardFactory>();
+        LeftDiscardPile = GameObject.Find("discard_left").GetComponent<Image>();
+        RightDiscardPile = GameObject.Find("discard_right").GetComponent<Image>();
     }
 
     /// <summary>
@@ -43,5 +48,15 @@ public class PlayerBoardController
     {
         foreach (Card card in Player.Hand)
             CardFactory.CreateCard(card);
+    }
+
+    /// <summary>
+    /// Display the discard piles according to the current age.
+    /// </summary>
+    /// <param name="age">The current age of the game.</param>
+    public static void RefreshDiscardPiles(int age)
+    {
+        LeftDiscardPile.sprite = Resources.Load<Sprite>("discard_pile_" + age);
+        RightDiscardPile.sprite = Resources.Load<Sprite>("discard_pile_" + age);
     }
 }

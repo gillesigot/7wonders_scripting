@@ -16,8 +16,10 @@ public class DropController
     public Transform DiscardPile { get; set; }
     // The human player interacting with the drop zone.
     public Player Player { get; set; }
-    // Define the name of the resource to use for displaying the card back.
-    private const string CARD_BACK = "card_back_I";
+    // Define the name of the resource to use for displaying the card back depending on the current age.
+    private const string CARD_BACK_1 = "card_back_I";
+    private const string CARD_BACK_2 = "card_back_II";
+    private const string CARD_BACK_3 = "card_back_III";
 
     public DropController(Transform dropZone, Transform discardPile)
     {
@@ -77,7 +79,17 @@ public class DropController
     {
         Transform childLayout = this.DropZone.parent.GetChild(0);
         Image cardAppearance = card.GetComponent<Image>();
-        Sprite cardBack = Resources.Load<Sprite>(CARD_BACK);
+        string cardBackPath = CARD_BACK_1;
+        switch (GameManager.Age)
+        {
+            case 1: cardBackPath = CARD_BACK_1;
+                break;
+            case 2: cardBackPath = CARD_BACK_2;
+                break;
+            case 3: cardBackPath = CARD_BACK_3;
+                break;
+        }
+        Sprite cardBack = Resources.Load<Sprite>(cardBackPath);
         cardAppearance.sprite = cardBack;
         return childLayout;
     }
