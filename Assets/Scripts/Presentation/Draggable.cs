@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
 {
     // Used to save the parent to which the draggable will return.
-    public Transform ParentToReturnTo { get; set; } = null;
+    public Transform ParentToReturnTo { get; set; }
+    // Used to store the active zoom panel.
+    private GameObject ZoomPanel { get; set; }
 
     /// <summary>
     /// Save this as parent and start drag.
@@ -43,4 +46,46 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         Destroy(this.GetComponent<Draggable>());
     }
 
+    /// <summary>
+    /// Zoom in on component when hover
+    /// </summary>
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (eventData.pointerDrag == null)
+            this.ZoomOnComponent(true);
+    }
+
+    /// <summary>
+    /// Zoom out when point is no longer in the component.
+    /// </summary>
+    public void OnPointerExit(PointerEventData eventData)
+    {
+            this.ZoomOnComponent(false);
+    }
+
+    /// <summary>
+    /// Magnify component on top of UI.
+    /// </summary>
+    /// <param name="zoomIn">True to zoom in/ False to zoom out.</param>
+    private void ZoomOnComponent(bool zoomIn)
+    {
+        if (zoomIn)
+        {
+            GameObject zoomPanel = Resources.Load<GameObject>("Zoom");
+            ZoomPanel = Instantiate(zoomPanel, this.transform.root);
+
+            RectTransform panel_rt = ZoomPanel.GetComponent<RectTransform>();
+            Vector2 size = this.GetComponent<RectTransform>().sizeDelta;
+            panel_rt.sizeDelta = new Vector2(size.x, size.y);
+            ZoomPanel.transform.position = new Vector3(
+                this.transform.position.x,
+                this.transform.position.y + size.y / 6
+            );
+
+            Image panelImage = ZoomPanel.GetComponent<Image>();
+            panelImage.sprite = this.GetComponent<Image>().sprite;
+        }
+        else
+            Destroy(ZoomPanel);
+    }
 }
