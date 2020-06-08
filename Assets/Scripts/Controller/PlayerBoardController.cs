@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+
 public class PlayerBoardController
 {
     // Used to represent the human player interacting with the board.
@@ -9,6 +10,8 @@ public class PlayerBoardController
     // Used to store the UI component that display the war points.
     public static Text WarPoints { get; set; }
     // Used to store the player's cards representation.
+    public static Transform Hand { get; set; }
+    // Used to create the player's cards representation.
     public static CardFactory CardFactory { get; set; }
     // Used to store left discard pile representation.
     public static Image LeftDiscardPile { get; set; }
@@ -20,6 +23,7 @@ public class PlayerBoardController
         Player = GameManager.Instance().GetHumanPlayer();
         Coins = GameObject.Find("coin_text").GetComponent<Text>();
         WarPoints = GameObject.Find("war_text").GetComponent<Text>();
+        Hand = GameObject.Find("hand").GetComponent<Transform>();
         CardFactory = GameObject.Find("hand").GetComponent<CardFactory>();
         LeftDiscardPile = GameObject.Find("discard_left").GetComponent<Image>();
         RightDiscardPile = GameObject.Find("discard_right").GetComponent<Image>();
@@ -46,8 +50,17 @@ public class PlayerBoardController
     /// </summary>
     public static void RefreshHand()
     {
+        CardFactory.CleanHand();
         foreach (Card card in Player.Hand)
             CardFactory.CreateCard(card);
+    }
+
+    /// <summary>
+    /// Refresh the cards display in player's hand.
+    /// </summary>
+    public static void DiscardLastCard()
+    {
+        CardFactory.DiscardLastCard();
     }
 
     /// <summary>

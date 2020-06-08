@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 // TODO TEMP Class for mocking initial menu
 public class GameStart : MonoBehaviour
@@ -10,10 +11,17 @@ public class GameStart : MonoBehaviour
     /// <summary>
     /// Initialize class attributes.
     /// </summary>
-    void Awake()
+    private void Awake()
     {
         this.GameController = new GameController(this.NumberOfPlayers);
         this.PlayerBoardController = new PlayerBoardController();
+    }
+
+    /// <summary>
+    /// Start the current game
+    /// </summary>
+    private void Start()
+    {
         this.GameController.StartAge(1);
     }
 }

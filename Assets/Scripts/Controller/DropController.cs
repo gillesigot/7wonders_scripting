@@ -49,6 +49,12 @@ public class DropController
                 newCardParent = this.Discard(card);
                 break;
         }
+        Playable cardInfo = card.GetComponent<Playable>();
+        GameManager.Instance().EndTurn(cardInfo.id);
+        PlayerBoardController.RefreshHand();
+        if (this.Player.Hand.Count == 1)
+            PlayerBoardController.DiscardLastCard();
+
         return newCardParent;
     }
 

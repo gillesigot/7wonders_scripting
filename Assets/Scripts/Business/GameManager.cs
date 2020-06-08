@@ -78,5 +78,50 @@ public class GameManager
             }
         }
     }
-    // TODO ends of turn: -> give player's hand to player on the left/right
+
+    /// <summary>
+    /// Perform all end turn game actions.
+    /// </summary>
+    public void EndTurn(string playedCardID)
+    {
+        foreach (Card card in GetHumanPlayer().Hand.ToList())
+            if (card.ID == playedCardID)
+                GetHumanPlayer().Hand.Remove(card);
+
+        // TODO TEMP Mocking IA playing
+        foreach (Player p in Players)
+            if (!p.IsHuman)
+            {
+                p.Hand.RemoveAt(0);
+                if (p.Hand.Count == 1)
+                    p.Hand = new List<Card>();
+            }
+
+        this.RotateHands();
+    }
+
+    /// <summary>
+    /// Give the player's hand to the player on his side (according to current age).
+    /// </summary>
+    public void RotateHands()
+    {
+        List<Card>[] hands = new List<Card>[NbPlayers];
+        for (int i = 0; i < hands.Length; i++)
+            hands[i] = Players.ElementAt(i).Hand;
+
+        List<Card>[] shiftedHands = new List<Card>[NbPlayers];
+        if (Age == 2)
+        {
+            Array.Copy(hands, 1, shiftedHands, 0, hands.Length - 1);
+            shiftedHands[hands.Length - 1] = hands[0];
+        }
+        else
+        {
+            Array.Copy(hands, 0, shiftedHands, 1, hands.Length - 1);
+            shiftedHands[0] = hands[hands.Length - 1];
+        }
+
+        for (int i = 0; i < hands.Length; i++)
+            Players.ElementAt(i).Hand = shiftedHands[i];
+    }
 }
