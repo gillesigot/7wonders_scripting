@@ -65,9 +65,11 @@ public class GameManager
     public void DistributeCards()
     {
         List<Card> availableCards = CardsDAO.GetCards(NbPlayers, Age);
-        // TODO randomize guilds (before giving cards, shuffle them and remove extra ones)
-        Random rand = new Random();
 
+        if (Age == 3)
+            availableCards = this.RemoveExtraGuildCards(availableCards);
+
+        Random rand = new Random();
         foreach (Player player in this.Players)
         {
             for (int i = 0; i < GameConsts.STARTING_CARDS_NUMBER; i++)
@@ -77,6 +79,25 @@ public class GameManager
                 availableCards.Remove(nextCard);
             }
         }
+    }
+
+    /// <summary>
+    /// Remove randomly extra guilds to fit number of players.
+    /// </summary>
+    /// <param name="cards">All cards from Age 3.</param>
+    /// <returns>All cards except the extra guilds.</returns>
+    private List<Card> RemoveExtraGuildCards(List<Card> cards)
+    {
+        List<Card> guilds = new List<Card>();
+        foreach (Card card in cards.ToList())
+            if (card.Type == Card.CardType.GUILD)
+                guilds.Add(card);
+
+        int numberOfAllowedGuilds = NbPlayers + 2;
+        Random rand = new Random();
+        for (int i = 0; i < guilds.Count - numberOfAllowedGuilds; i++)
+            cards.Remove(guilds.ElementAt(rand.Next(guilds.Count)));
+        return cards;
     }
 
     /// <summary>
