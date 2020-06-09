@@ -9,6 +9,8 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
     public Function ZoneType;
     // Used to represent the location of the discard pile.
     private Transform PileObject { get; set; }
+    // Used to represent the human player's hand.
+    private Transform PlayerHand { get; set; }
     // Used to attach the related controller to this drop zone.
     private DropController DropController { get; set; }
 
@@ -18,6 +20,7 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
     void Start() 
     {
         this.PileObject = GameObject.Find("discard_pile").transform;
+        this.PlayerHand = GameObject.Find("hand").transform;
         this.DropController = new DropController(this.transform, PileObject);
     }
 
@@ -47,13 +50,20 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
     }
 
     /// <summary>
-    /// Darken/reduce drop zone and execute default action.
+    /// Darken/reduce drop zone and execute default action. 
+    /// If action performed, stop drag else return to player's hand.
     /// </summary>
     public void OnDrop(PointerEventData eventData)
     {
         GameObject card = eventData.pointerDrag;
         Transform parent = this.DropController.HasDropped(this.ZoneType, card);
-        this.StopDragging(card, parent);
+        if (parent == null)
+        {
+            Draggable drag = card.GetComponent<Draggable>();
+            drag.ParentToReturnTo = this.PlayerHand;
+        }
+        else
+            this.StopDragging(card, parent);
 
         if (this.ZoneType == Function.REGULAR_BUILD)
             this.LightDropZone(0f);

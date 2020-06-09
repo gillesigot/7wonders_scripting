@@ -4,6 +4,7 @@
 public class GameStart : MonoBehaviour
 {
     public int NumberOfPlayers;
+    public int StartingAge;
     private GameController GameController { get; set; }
     private PlayerBoardController PlayerBoardController { get; set; }
 
@@ -21,6 +22,6 @@ public class GameStart : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        this.GameController.StartAge(1);
+        this.GameController.StartAge(this.StartingAge);
     }
 }

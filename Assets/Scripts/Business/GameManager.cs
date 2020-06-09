@@ -103,12 +103,8 @@ public class GameManager
     /// <summary>
     /// Perform all end turn game actions.
     /// </summary>
-    public void EndTurn(string playedCardID)
+    public void EndTurn()
     {
-        foreach (Card card in GetHumanPlayer().Hand.ToList())
-            if (card.ID == playedCardID)
-                GetHumanPlayer().Hand.Remove(card);
-
         // TODO TEMP Mocking IA playing
         foreach (Player p in Players)
             if (!p.IsHuman)

@@ -49,11 +49,8 @@ public class DropController
                 newCardParent = this.Discard(card);
                 break;
         }
-        Playable cardInfo = card.GetComponent<Playable>();
-        GameManager.Instance().EndTurn(cardInfo.id);
-        PlayerBoardController.RefreshHand();
-        if (this.Player.Hand.Count == 1)
-            PlayerBoardController.DiscardLastCard();
+        if (newCardParent != null)
+            this.EndTurn();
 
         return newCardParent;
     }
@@ -66,14 +63,23 @@ public class DropController
     private Transform RegularBuild(GameObject card)
     {
         Playable playable = card.GetComponent<Playable>();
-        Transform newParent = GameObject.Find("build_zones").transform.GetChild((int)playable.buildType);
-
-        if (playable.buildType == Card.CardType.RESOURCE)
+        if (Player.City.Build(playable.id))
         {
-            ShiftLayout layout = newParent.GetComponent<ShiftLayout>();
-            newParent = layout.Shift(card);
+            PlayerBoardController.RefreshCoinAmount();
+            Transform newParent = GameObject.Find("build_zones").transform.GetChild((int)playable.buildType);
+
+            if (playable.buildType == Card.CardType.RESOURCE)
+            {
+                ShiftLayout layout = newParent.GetComponent<ShiftLayout>();
+                newParent = layout.Shift(card);
+            }
+            return newParent;
         }
-        return newParent;
+        else
+        {
+            Debug.Log("Build impossible: missing resources.");
+            return null;
+        }
     }
 
     /// <summary>
@@ -114,5 +120,16 @@ public class DropController
         PlayerBoardController.RefreshCoinAmount();
 
         return DiscardPile;
+    }
+
+    /// <summary>
+    /// Rotate hands & discard last card if applicable.
+    /// </summary>
+    private void EndTurn()
+    {
+        GameManager.Instance().EndTurn();
+        PlayerBoardController.RefreshHand();
+        if (this.Player.Hand.Count == 1)
+            PlayerBoardController.DiscardLastCard();
     }
 }
