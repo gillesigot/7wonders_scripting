@@ -110,7 +110,6 @@ public class DropController
         card.transform.position = this.DiscardPile.position;
         card.SetActive(false);
 
-        // TODO TEMP card id will be added to know which business card is in the pile
         Player.City.Discard();
         PlayerBoardController.RefreshCoinAmount();
 

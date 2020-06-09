@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 // TODO TEMP Class for mocking initial menu
 public class GameStart : MonoBehaviour

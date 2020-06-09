@@ -1230,7 +1230,8 @@
             "reward": 0,
             "quantity": 2
         }],
-        "bonuscardtype": [0]
+        "bonuscardtype": [0],
+        "resourcekind": 1
     },
     {
         "id": "gui07",
@@ -1266,7 +1267,8 @@
             "reward": 0,
             "quantity": 1
         }],
-        "bonuscardtype": [0]
+        "bonuscardtype": [0],
+        "resourcekind": 0
     },
     {
         "id": "gui08",
@@ -2689,7 +2691,8 @@
             "reward": 1,
             "quantity": 1
         }],
-        "bonuscardtype": [0]
+        "bonuscardtype": [0],
+        "resourcekind": 0
     },
     {
         "id": "com07",
@@ -2757,7 +2760,8 @@
             "reward": 1,
             "quantity": 1
         }],
-        "bonuscardtype": [0]
+        "bonuscardtype": [0],
+        "resourcekind": 0
     },
     {
         "id": "com09",
@@ -2962,7 +2966,8 @@
             "reward": 1,
             "quantity": 2
         }],
-        "bonuscardtype": [0]
+        "bonuscardtype": [0],
+        "resourcekind": 1
     },
     {
         "id": "com17",
@@ -2983,7 +2988,8 @@
             "reward": 1,
             "quantity": 1
         }],
-        "bonuscardtype": [0]
+        "bonuscardtype": [0],
+        "resourcekind": 0
     },
     {
         "id": "com18",
@@ -3089,7 +3095,8 @@
             "reward": 1,
             "quantity": 2
         }],
-        "bonuscardtype": [0]
+        "bonuscardtype": [0],
+        "resourcekind": 1
     },
     {
         "id": "com22",
@@ -3184,7 +3191,8 @@
             "reward": 1,
             "quantity": 2
         }],
-        "bonuscardtype": [0]
+        "bonuscardtype": [0],
+        "resourcekind": 1
     },
     {
         "id": "com25",
@@ -3251,7 +3259,8 @@
             "reward": 1,
             "quantity": 2
         }],
-        "bonuscardtype": [0]
+        "bonuscardtype": [0],
+        "resourcekind": 1
     },
     {
         "id": "com27",
@@ -3319,6 +3328,7 @@
             "reward": 1,
             "quantity": 1
         }],
-        "bonuscardtype": [0]
+        "bonuscardtype": [0],
+        "resourcekind": 0
     }
 ]

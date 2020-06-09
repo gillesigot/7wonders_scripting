@@ -17,6 +17,13 @@
         FREE_BONUS = 4
     }
 
+    // Define the meta type of resource (for resources based bonus).
+    public enum ResourceMetaType
+    {
+        RAW = 0,
+        MANUFACTURED = 1
+    }
+
     // Used to associate the reward type and the quantity of it.
     public struct RewardQuantity 
     {
@@ -35,7 +42,9 @@
     // Used to tell which calculation mode will determine the bonus.
     public BonusType Bonus { get; set; }
     // Used to tell which type of card will grant you a bonus.
-    public Card.CardType[] BonusCardType { get; set; }  // 3 cards for Shipowners guild
+    public Card.CardType[] BonusCardType { get; set; }
+    // Used to tell, in case of bonus on resources cards, which resources are counted.
+    public ResourceMetaType ResourceKind { get; set; }
 
     public BonusCard(
         Card card,
@@ -44,7 +53,8 @@
         bool checkRight,
         bool checkSelf,
         BonusType bonus,
-        CardType[] bonusCardType
+        CardType[] bonusCardType,
+        ResourceMetaType resourceKind
         ) : base(card)
     {
         this.Reward = reward;
@@ -53,5 +63,6 @@
         this.CheckSelf = checkSelf;
         this.Bonus = bonus;
         this.BonusCardType = bonusCardType;
+        this.ResourceKind = resourceKind;
     }
 }

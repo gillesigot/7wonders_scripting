@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -97,6 +98,9 @@ public class CardDAO
     [DefaultValue(null)]
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public int[] BonusCardType { get; set; }
+    [DefaultValue(DEFAULT_INT_VALUE)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
+    public int ResourceKind { get; set; }
 }
 
 /// <summary>
@@ -257,7 +261,8 @@ public static class CardsDAO
             cardDAO.CheckRight,
             cardDAO.CheckSelf,
             (BonusCard.BonusType)cardDAO.Bonus,
-            GetBonusCardType(cardDAO.BonusCardType.ToList())
+            GetBonusCardType(cardDAO.BonusCardType.ToList()),
+            (BonusCard.ResourceMetaType)cardDAO.ResourceKind
             );
     }
 
@@ -323,8 +328,6 @@ public static class CardsDAO
     /// <returns>The card type list as Card applicable card type list.</returns>
     private static Card.CardType[] GetBonusCardType(List<int> btsDAO)
     {
-        // TODO Error in 'Guilde des artisans' -> only grey resources to count (same for 'Guilde des travailleurs')
-        // TODO Same error with 'Vignoble', 'Bazar', 'Port' and 'Chambre de commerce'
         List<Card.CardType> types = new List<Card.CardType>();
         foreach (int bt in btsDAO)
         {
