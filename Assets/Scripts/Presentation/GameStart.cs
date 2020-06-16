@@ -5,7 +5,7 @@ public class GameStart : MonoBehaviour
 {
     public int NumberOfPlayers;
     public int StartingAge;
-    private GameController GameController { get; set; }
+    public GameController GameController { get; set; }
     private PlayerBoardController PlayerBoardController { get; set; }
 
     /// <summary>

@@ -72,8 +72,10 @@ public class CityManager
     /// <summary>
     /// Notify the city that a card has been dicarded. It's considered as sold in aid of the city.
     /// </summary>
-    public void Discard() 
+    public void Discard(string building_id) 
     {
+        Card building = this.Owner.Hand.Select(o => o).Where(o => o.ID == building_id).First();
+        this.Owner.Hand.Remove(building);
         this.Owner.Coins += GameConsts.DISCARDED_CARD_VALUE;
     }
 
@@ -84,15 +86,7 @@ public class CityManager
     /// <returns>True if built.</returns>
     public bool Build(string building_id)
     {
-        Card building = null;
-        foreach (Card card in this.Owner.Hand.ToList())
-        {
-            if (card.ID == building_id)
-            {
-                building = card;
-                break;
-            }
-        }
+        Card building = this.Owner.Hand.Select(o => o).Where(o => o.ID == building_id).First();
 
         if (IsBuildable(building))
         {
@@ -173,6 +167,13 @@ public class CityManager
     /// <returns>True if buildable.</returns>
     private bool IsBuildable(Card building)
     {
+        // Same building cannot be built twice
+        string[] buildingNames = this.GetBuildingNames();
+        if (buildingNames.Contains(building.Name))
+            return false;
+
+        // TODO ability to buy resources from neighbours
+
         // Free to build or only GOLD
         if (building.CardBuildCondition.Resources.Length == 0)
             return true;
@@ -187,10 +188,8 @@ public class CityManager
         }
 
         // Check chainings
-        string[] buildingIds = this.GetBuildingIds();
-
-        foreach (string buildingID in building.CardBuildCondition.ChainFrom)
-            if (buildingIds.Contains(buildingID))
+        foreach (string buildingName in building.CardBuildCondition.ChainFrom)
+            if (buildingNames.Contains(buildingName))
                 return true;
 
         // Check city resources
@@ -225,24 +224,24 @@ public class CityManager
     }
 
     /// <summary>
-    /// Get all city buildings ids.
+    /// Get all city buildings names.
     /// </summary>
-    /// <returns>Array of all buildings ids.</returns>
-    private string[] GetBuildingIds()
+    /// <returns>Array of all buildings names.</returns>
+    private string[] GetBuildingNames()
     {
-        string[] resourceIds = this.Resources.Select(o => o.ID).ToArray();
-        string[] warIds = this.WarBuildings.Select(o => o.ID).ToArray();
-        string[] civilIds = this.CivilBuildings.Select(o => o.ID).ToArray();
-        string[] commercialIds = this.CommercialBuildings.Select(o => o.ID).ToArray();
-        string[] scienceIds = this.ScienceBuildings.Select(o => o.ID).ToArray();
-        string[] bonusIds = this.Bonus.Select(o => o.ID).ToArray();
+        string[] resourceNames = this.Resources.Select(o => o.Name).ToArray();
+        string[] warNames = this.WarBuildings.Select(o => o.Name).ToArray();
+        string[] civilNames = this.CivilBuildings.Select(o => o.Name).ToArray();
+        string[] commercialNames = this.CommercialBuildings.Select(o => o.Name).ToArray();
+        string[] scienceNames = this.ScienceBuildings.Select(o => o.Name).ToArray();
+        string[] bonusNames = this.Bonus.Select(o => o.Name).ToArray();
 
-        return resourceIds
-            .Concat(warIds)
-            .Concat(civilIds)
-            .Concat(commercialIds)
-            .Concat(scienceIds)
-            .Concat(bonusIds)
+        return resourceNames
+            .Concat(warNames)
+            .Concat(civilNames)
+            .Concat(commercialNames)
+            .Concat(scienceNames)
+            .Concat(bonusNames)
             .ToArray();
     }
 }

@@ -107,13 +107,12 @@ public class GameManager
     {
         // TODO TEMP Mocking IA playing
         foreach (Player p in Players)
+        {
             if (!p.IsHuman)
-            {
                 p.Hand.RemoveAt(0);
-                if (p.Hand.Count == 1)
-                    p.Hand = new List<Card>();
-            }
-
+            if (p.Hand.Count == 1)
+                p.Hand = new List<Card>();
+        }
         this.RotateHands();
     }
 

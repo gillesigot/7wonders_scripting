@@ -15,9 +15,17 @@
     /// <param name="age">The age to be started.</param>
     public void StartAge(int age)
     {
-        GameManager.Age = age;
-        this.GameManager.DistributeCards();
-        PlayerBoardController.RefreshHand();
-        PlayerBoardController.RefreshDiscardPiles(age);
+        // TODO check if an age is ending -> count war points
+
+        // TODO TEMP Display scores board
+        if (age > 3)
+            UnityEngine.Debug.Log("Game has ended.");
+        else
+        {
+            GameManager.Age = age;
+            this.GameManager.DistributeCards();
+            PlayerBoardController.RefreshHand();
+            PlayerBoardController.RefreshDiscardPiles(age);
+        }
     }
 }

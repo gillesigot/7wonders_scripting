@@ -21,7 +21,8 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
     {
         this.PileObject = GameObject.Find("discard_pile").transform;
         this.PlayerHand = GameObject.Find("hand").transform;
-        this.DropController = new DropController(this.transform, PileObject);
+        GameStart gs = GameObject.Find("GameStart").GetComponent<GameStart>();
+        this.DropController = new DropController(this.transform, PileObject, gs.GameController);
     }
 
     /// <summary>

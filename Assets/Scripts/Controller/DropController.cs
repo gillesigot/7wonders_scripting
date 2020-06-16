@@ -16,16 +16,18 @@ public class DropController
     public Transform DiscardPile { get; set; }
     // The human player interacting with the drop zone.
     public Player Player { get; set; }
+    public GameController GameController { get; set; }
     // Define the name of the resource to use for displaying the card back depending on the current age.
     private const string CARD_BACK_1 = "card_back_I";
     private const string CARD_BACK_2 = "card_back_II";
     private const string CARD_BACK_3 = "card_back_III";
 
-    public DropController(Transform dropZone, Transform discardPile)
+    public DropController(Transform dropZone, Transform discardPile, GameController gc)
     {
         this.DropZone = dropZone;
         this.DiscardPile = discardPile;
         this.Player = GameManager.Instance().GetHumanPlayer();
+        this.GameController = gc;
     }
 
     /// <summary>
@@ -77,7 +79,7 @@ public class DropController
         }
         else
         {
-            Debug.Log("Build impossible: missing resources.");
+            Debug.Log("Build impossible: build conditions are not met.");
             return null;
         }
     }
@@ -116,7 +118,8 @@ public class DropController
         card.transform.position = this.DiscardPile.position;
         card.SetActive(false);
 
-        Player.City.Discard();
+        Playable playable = card.GetComponent<Playable>();
+        Player.City.Discard(playable.id);
         PlayerBoardController.RefreshCoinAmount();
 
         return DiscardPile;
@@ -127,9 +130,16 @@ public class DropController
     /// </summary>
     private void EndTurn()
     {
-        GameManager.Instance().EndTurn();
-        PlayerBoardController.RefreshHand();
         if (this.Player.Hand.Count == 1)
             PlayerBoardController.DiscardLastCard();
+
+        GameManager.Instance().EndTurn();
+        PlayerBoardController.RefreshHand();
+
+        if (this.Player.Hand.Count == 0)
+        {
+            GameManager.Age++;
+            this.GameController.StartAge(GameManager.Age);
+        }
     }
 }

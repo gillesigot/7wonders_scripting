@@ -91,7 +91,7 @@
         "age": 2,
         "cardbuildcondition":{
 			"resources": [{
-			    "type": 0,
+			    "type": 1,
 			    "quantity": 2
 			},
             {
