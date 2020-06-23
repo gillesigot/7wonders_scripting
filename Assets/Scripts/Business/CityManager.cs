@@ -45,6 +45,8 @@ public class CityManager
     public Player Owner { get; set; }
     // Represents the city resources.
     public List<ResourceCard> Resources { get; set; }
+    // Represents temporary resources get by trading.
+    public Dictionary<ResourceType, int> TradeResources { get; set; }
     // Represents the city war buildings.
     public List<WarCard> WarBuildings { get; set; }
     // Represents the city civil buildings.
@@ -62,6 +64,7 @@ public class CityManager
     {
         this.Owner = player;
         this.Resources = new List<ResourceCard>();
+        this.TradeResources = new Dictionary<ResourceType, int>();
         this.WarBuildings = new List<WarCard>();
         this.CivilBuildings = new List<CivilCard>();
         this.CommercialBuildings = new List<CommercialCard>();
@@ -77,6 +80,19 @@ public class CityManager
         Card building = this.Owner.Hand.Select(o => o).Where(o => o.ID == building_id).First();
         this.Owner.Hand.Remove(building);
         this.Owner.Coins += GameConsts.DISCARDED_CARD_VALUE;
+    }
+
+    /// <summary>
+    /// Build a wonder step and apply effect, if building conditions are met.
+    /// </summary>
+    /// <param name="building_id">The building discarded in order to build a wonder step.</param>
+    /// <returns></returns>
+    public bool BuildWonder(string building_id)
+    {
+        Card building = this.Owner.Hand.Select(o => o).Where(o => o.ID == building_id).First();
+        this.Owner.Hand.Remove(building);
+        // Hack: TEMP manage wonder build condition + build effect on wonder board
+        return true;
     }
 
     /// <summary>
@@ -145,7 +161,7 @@ public class CityManager
             if (!optional)
                 newResources = new List<ResourceTreeNode>();
 
-            // TODO Should be initialized by resource on the wonder board
+            // Hack: TEMP Should be initialized by resource on the wonder board
             if (this.ResourceTreeLeaves.Count == 0)
                 newResources.Add(new ResourceTreeNode(rq));
 
@@ -172,8 +188,6 @@ public class CityManager
         if (buildingNames.Contains(building.Name))
             return false;
 
-        // TODO ability to buy resources from neighbours
-
         // Free to build or only GOLD
         if (building.CardBuildCondition.Resources.Length == 0)
             return true;
@@ -193,34 +207,50 @@ public class CityManager
                 return true;
 
         // Check city resources
-        foreach (ResourceTreeNode rtn in this.ResourceTreeLeaves)
+        if (this.ResourceTreeLeaves.Count > 0)
         {
-            bool canBuild = true;
-            foreach (ResourceQuantity rq in building.CardBuildCondition.Resources)
-            {
-                if (rq.Type == ResourceType.GOLD)
-                {
-                    if (this.Owner.Coins < rq.Quantity)
-                        canBuild = false;
-                    else
-                        this.Owner.Coins -= rq.Quantity;
-                }
-                else
-                {
-                    if (rtn.Resources.Keys.Contains(rq.Type))
-                    {
-                        if (rtn.Resources[rq.Type] < rq.Quantity)
-                            canBuild = false;
-                    }
-                    else
-                        canBuild = false;
-                }
-            }
-            if (canBuild)
-                return true;
+            foreach (ResourceTreeNode rtn in this.ResourceTreeLeaves)
+                if (HasMatchingResources(rtn.Resources, building))
+                    return true;
         }
+        else if (HasMatchingResources(new Dictionary<ResourceType, int>(), building))
+            return true;
 
         return false;
+    }
+
+    /// <summary>
+    /// If city has enough resources (bought or not) to build building, returns True.
+    /// </summary>
+    /// <param name="resources">The resources to evaluate.</param>
+    /// <param name="building">The building to build.</param>
+    /// <returns>True if enough resources (bought or not).</returns>
+    private bool HasMatchingResources(Dictionary<ResourceType, int> resources, Card building)
+    {
+        bool matching = true;
+        foreach (ResourceQuantity rq in building.CardBuildCondition.Resources)
+        {
+            if (rq.Type == ResourceType.GOLD)
+            {
+                if (this.Owner.Coins < rq.Quantity)
+                    matching = false;
+                else
+                    this.Owner.Coins -= rq.Quantity;
+            }
+            else
+            {
+                if (resources.ContainsKey(rq.Type) || this.TradeResources.ContainsKey(rq.Type))
+                {
+                    int cityQuantity = resources.ContainsKey(rq.Type) ? resources[rq.Type] : 0;
+                    int tradeQuantity = this.TradeResources.ContainsKey(rq.Type) ? this.TradeResources[rq.Type] : 0;
+                    if ((cityQuantity + tradeQuantity) < rq.Quantity)
+                        matching = false;
+                }
+                else
+                    matching = false;
+            }
+        }
+        return matching;
     }
 
     /// <summary>
@@ -243,5 +273,27 @@ public class CityManager
             .Concat(scienceNames)
             .Concat(bonusNames)
             .ToArray();
+    }
+
+    /// <summary>
+    /// Buy (sell) resources from neighbour.
+    /// </summary>
+    /// <param name="resources">The resources being traded.</param>
+    public void BuyResources(Dictionary<ResourceType, int> resources)
+    {
+        int totalResources = 0;
+        foreach (KeyValuePair<ResourceType, int> resource in resources)
+            if (this.TradeResources.ContainsKey(resource.Key))
+            {
+                totalResources += (resource.Value - this.TradeResources[resource.Key]);
+                this.TradeResources[resource.Key] = resource.Value;
+            }
+            else
+            {
+                this.TradeResources.Add(resource.Key, resource.Value);
+                totalResources += resource.Value;
+            }
+        // Hack: TEMP check for price reduction AND give that money to related player
+        this.Owner.Coins -= (totalResources * 2);
     }
 }

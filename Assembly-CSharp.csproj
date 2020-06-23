@@ -86,6 +86,8 @@
     <Compile Include="Assets\Scripts\Presentation\GameStart.cs" />
     <Compile Include="Assets\Scripts\Presentation\Playable.cs" />
     <Compile Include="Assets\Scripts\Presentation\ShiftLayout.cs" />
+    <Compile Include="Assets\Scripts\Presentation\TradeBoard.cs" />
+    <Compile Include="Assets\Scripts\Presentation\TradeButton.cs" />
     <Reference Include="UnityEngine">
       <HintPath>C:/Users/Gilles/Documents/unity_games/2019.3.14f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>

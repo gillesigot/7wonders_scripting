@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-// TODO TEMP Class for mocking initial menu
+// Hack: TEMP Class for mocking initial menu
 public class GameStart : MonoBehaviour
 {
     public int NumberOfPlayers;

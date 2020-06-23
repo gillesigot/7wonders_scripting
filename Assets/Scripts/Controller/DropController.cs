@@ -91,21 +91,33 @@ public class DropController
     /// <returns>The new card location.</returns>
     private Transform WonderBuild(GameObject card)
     {
-        Transform childLayout = this.DropZone.parent.GetChild(0);
-        Image cardAppearance = card.GetComponent<Image>();
-        string cardBackPath = CARD_BACK_1;
-        switch (GameManager.Age)
+        Playable playable = card.GetComponent<Playable>();
+        if (Player.City.BuildWonder(playable.id))
         {
-            case 1: cardBackPath = CARD_BACK_1;
-                break;
-            case 2: cardBackPath = CARD_BACK_2;
-                break;
-            case 3: cardBackPath = CARD_BACK_3;
-                break;
+            Transform childLayout = this.DropZone.parent.GetChild(0);
+            Image cardAppearance = card.GetComponent<Image>();
+            string cardBackPath = CARD_BACK_1;
+            switch (GameManager.Age)
+            {
+                case 1:
+                    cardBackPath = CARD_BACK_1;
+                    break;
+                case 2:
+                    cardBackPath = CARD_BACK_2;
+                    break;
+                case 3:
+                    cardBackPath = CARD_BACK_3;
+                    break;
+            }
+            Sprite cardBack = Resources.Load<Sprite>(cardBackPath);
+            cardAppearance.sprite = cardBack;
+            return childLayout;
         }
-        Sprite cardBack = Resources.Load<Sprite>(cardBackPath);
-        cardAppearance.sprite = cardBack;
-        return childLayout;
+        else
+        {
+            Debug.Log("Wonder build impossible: build conditions are not met.");
+            return null;
+        }
     }
 
     /// <summary>
@@ -135,6 +147,7 @@ public class DropController
 
         GameManager.Instance().EndTurn();
         PlayerBoardController.RefreshHand();
+        PlayerBoardController.CleanTradeBoards();
 
         if (this.Player.Hand.Count == 0)
         {

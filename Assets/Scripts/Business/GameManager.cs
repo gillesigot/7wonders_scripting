@@ -105,13 +105,14 @@ public class GameManager
     /// </summary>
     public void EndTurn()
     {
-        // TODO TEMP Mocking IA playing
         foreach (Player p in Players)
         {
+            // Hack: TEMP Mocking IA playing
             if (!p.IsHuman)
                 p.Hand.RemoveAt(0);
             if (p.Hand.Count == 1)
                 p.Hand = new List<Card>();
+            p.City.TradeResources = new Dictionary<Card.ResourceType, int>();
         }
         this.RotateHands();
     }

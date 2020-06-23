@@ -17,7 +17,7 @@
     {
         // TODO check if an age is ending -> count war points
 
-        // TODO TEMP Display scores board
+        // Hack: TEMP Display scores board
         if (age > 3)
             UnityEngine.Debug.Log("Game has ended.");
         else
