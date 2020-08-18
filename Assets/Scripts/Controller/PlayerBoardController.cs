@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
 using static Card;
@@ -30,6 +29,10 @@ public class PlayerBoardController
     public static Image RightDiscardPile { get; set; }
     // Used to create east traded resources representation.
     public static TradeBoard RightTradeBoard { get; set; }
+    // Used to create west defeat tokens representation.
+    public static DefeatTokenBoard LeftDefeatTokenBoard { get; set; }
+    // Used to create east defeat tokens representation.
+    public static DefeatTokenBoard RightDefeatTokenBoard { get; set; }
 
     public PlayerBoardController()
     {
@@ -41,9 +44,11 @@ public class PlayerBoardController
         LeftDiscardPile = GameObject.Find("discard_left").GetComponent<Image>();
         RightDiscardPile = GameObject.Find("discard_right").GetComponent<Image>();
         RightTradeBoard = GameObject.Find("trade_board_right").GetComponent<TradeBoard>();
+        LeftDefeatTokenBoard = GameObject.Find("defeat_left").GetComponent<DefeatTokenBoard>();
+        RightDefeatTokenBoard = GameObject.Find("defeat_right").GetComponent<DefeatTokenBoard>();
     }
 
-    // PLAYER'S DISPLAY
+    #region Player's display
 
     /// <summary>
     /// Refresh the coin amount on the player board.
@@ -59,6 +64,15 @@ public class PlayerBoardController
     public static void RefreshWarPoints()
     {
         WarPoints.text = Player.VictoryWarPoints.ToString();
+
+        // Manage defeat tokens
+        LeftDefeatTokenBoard.CleanBoard();
+        RightDefeatTokenBoard.CleanBoard();
+
+        for (int i = 0; i < Player.WestDefeatWarTokens; i++)
+            LeftDefeatTokenBoard.AddToken();
+        for (int i = 0; i < Player.EastDefeatWarTokens; i++)
+            RightDefeatTokenBoard.AddToken();
     }
 
     /// <summary>
@@ -71,7 +85,9 @@ public class PlayerBoardController
         RightDiscardPile.sprite = Resources.Load<Sprite>("discard_pile_" + age);
     }
 
-    // HAND MANAGEMENT
+    #endregion
+
+    #region Hand management
 
     /// <summary>
     /// Refresh the cards display in player's hand.
@@ -91,7 +107,9 @@ public class PlayerBoardController
         CardFactory.DiscardLastCard();
     }
 
-    // TRADE MANAGEMENT
+    #endregion
+
+    #region Trade management
 
     /// <summary>
     /// Activate the trade panel and set it up to trade with a given player.
@@ -236,4 +254,6 @@ public class PlayerBoardController
         }
         return resWanted;
     }
+
+    #endregion
 }

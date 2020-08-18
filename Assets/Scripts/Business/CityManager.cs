@@ -72,6 +72,9 @@ public class CityManager
         this.Bonus = new List<BonusCard>();
         this.ResourceTreeLeaves = new List<ResourceTreeNode>();
     }
+
+    #region City management
+
     /// <summary>
     /// Notify the city that a card has been dicarded. It's considered as sold in aid of the city.
     /// </summary>
@@ -117,16 +120,17 @@ public class CityManager
                         resourceBuilding.IsBuyable
                         );
                     break;
-                //case CardType.WAR: this.WarBuildings.Add((WarCard)building);
-                //    break;
-                //case CardType.CIVIL: this.CivilBuildings.Add((CivilCard)building);
-                //    break;
-                //case CardType.COMMERCIAL: this.CommercialBuildings.Add((CommercialCard)building);
-                //    break;
-                //case CardType.SCIENCE: this.ScienceBuildings.Add((ScienceCard)building);
-                //    break;
-                //case CardType.GUILD: this.Bonus.Add((BonusCard)building);
-                //    break;
+                case CardType.WAR:
+                    this.WarBuildings.Add((WarCard)building);
+                    break;
+                    //case CardType.CIVIL: this.CivilBuildings.Add((CivilCard)building);
+                    //    break;
+                    //case CardType.COMMERCIAL: this.CommercialBuildings.Add((CommercialCard)building);
+                    //    break;
+                    //case CardType.SCIENCE: this.ScienceBuildings.Add((ScienceCard)building);
+                    //    break;
+                    //case CardType.GUILD: this.Bonus.Add((BonusCard)building);
+                    //    break;
             }
             this.Owner.Hand.Remove(building);
 
@@ -135,6 +139,32 @@ public class CityManager
         else
             return false;
     }
+
+    /// <summary>
+    /// Get all city buildings names.
+    /// </summary>
+    /// <returns>Array of all buildings names.</returns>
+    private string[] GetBuildingNames()
+    {
+        string[] resourceNames = this.Resources.Select(o => o.Name).ToArray();
+        string[] warNames = this.WarBuildings.Select(o => o.Name).ToArray();
+        string[] civilNames = this.CivilBuildings.Select(o => o.Name).ToArray();
+        string[] commercialNames = this.CommercialBuildings.Select(o => o.Name).ToArray();
+        string[] scienceNames = this.ScienceBuildings.Select(o => o.Name).ToArray();
+        string[] bonusNames = this.Bonus.Select(o => o.Name).ToArray();
+
+        return resourceNames
+            .Concat(warNames)
+            .Concat(civilNames)
+            .Concat(commercialNames)
+            .Concat(scienceNames)
+            .Concat(bonusNames)
+            .ToArray();
+    }
+
+    #endregion
+
+    #region Build & resources management
 
     /// <summary>
     /// Get a list of resources that can be bought.
@@ -254,28 +284,6 @@ public class CityManager
     }
 
     /// <summary>
-    /// Get all city buildings names.
-    /// </summary>
-    /// <returns>Array of all buildings names.</returns>
-    private string[] GetBuildingNames()
-    {
-        string[] resourceNames = this.Resources.Select(o => o.Name).ToArray();
-        string[] warNames = this.WarBuildings.Select(o => o.Name).ToArray();
-        string[] civilNames = this.CivilBuildings.Select(o => o.Name).ToArray();
-        string[] commercialNames = this.CommercialBuildings.Select(o => o.Name).ToArray();
-        string[] scienceNames = this.ScienceBuildings.Select(o => o.Name).ToArray();
-        string[] bonusNames = this.Bonus.Select(o => o.Name).ToArray();
-
-        return resourceNames
-            .Concat(warNames)
-            .Concat(civilNames)
-            .Concat(commercialNames)
-            .Concat(scienceNames)
-            .Concat(bonusNames)
-            .ToArray();
-    }
-
-    /// <summary>
     /// Buy (sell) resources from neighbour.
     /// </summary>
     /// <param name="resources">The resources being traded.</param>
@@ -296,4 +304,19 @@ public class CityManager
         // Hack: TEMP check for price reduction AND give that money to related player
         this.Owner.Coins -= (totalResources * 2);
     }
+
+    #endregion
+
+    #region War management
+
+    /// <summary>
+    /// Sum all war cards points for this city.
+    /// </summary>
+    /// <returns>The total amount of war points.</returns>
+    public int GetWarPoints()
+    {
+        return this.WarBuildings.Sum(warCard => warCard.WarPoints);
+    }
+
+    #endregion
 }

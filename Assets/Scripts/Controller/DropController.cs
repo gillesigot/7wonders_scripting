@@ -151,6 +151,7 @@ public class DropController
 
         if (this.Player.Hand.Count == 0)
         {
+            this.GameController.ResolveConflicts(GameManager.Age);
             GameManager.Age++;
             this.GameController.StartAge(GameManager.Age);
         }

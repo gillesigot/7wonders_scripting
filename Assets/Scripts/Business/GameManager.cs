@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.UIElements;
 
 public class GameManager
 {
@@ -140,5 +141,36 @@ public class GameManager
 
         for (int i = 0; i < hands.Length; i++)
             Players.ElementAt(i).Hand = shiftedHands[i];
+    }
+
+    /// <summary>
+    /// Compare each player's war score and return victory/defeat matrix.
+    /// </summary>
+    /// <returns>The war score matrix.</returns>
+    public List<int[]> CaculateWarResults()
+    {
+        const int VICTORY = 1, EQUALITY = 0, DEFEAT = -1;
+        List<int[]> warResults = new List<int[]>();
+        Player[] players = this.Players.ToArray<Player>();
+
+        for (int i = 0; i < NbPlayers; i++)
+        {
+            int leftCity = i - 1 < 0 ? NbPlayers - 1 : i - 1;
+            int rightCity = i + 1 == NbPlayers ? 0 : i + 1;
+            int[] current_results = new int[] { EQUALITY, EQUALITY };
+
+            if (players[leftCity].City.GetWarPoints() < players[i].City.GetWarPoints())
+                current_results[0] = VICTORY;
+            else if (players[leftCity].City.GetWarPoints() > players[i].City.GetWarPoints())
+                current_results[0] = DEFEAT;
+
+            if (players[rightCity].City.GetWarPoints() < players[i].City.GetWarPoints())
+                current_results[1] = VICTORY;
+            else if (players[rightCity].City.GetWarPoints() > players[i].City.GetWarPoints())
+                current_results[1] = DEFEAT;
+
+            warResults.Add(current_results);
+        }
+        return warResults;
     }
 }
