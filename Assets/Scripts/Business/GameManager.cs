@@ -184,4 +184,16 @@ public class GameManager
             civilResults.Add(p.City.GetCivilPoints());
         return civilResults;
     }
+
+    /// <summary>
+    /// Get all players science score.
+    /// </summary>
+    /// <returns>List of players science score.</returns>
+    public List<int> GetScienceResults()
+    {
+        List<int> scienceResults = new List<int>();
+        foreach (Player p in this.Players)
+            scienceResults.Add(p.City.GetSciencePoints());
+        return scienceResults;
+    }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using static Card;
 public class CityManager
@@ -126,10 +127,11 @@ public class CityManager
                 case CardType.CIVIL:
                     this.CivilBuildings.Add((CivilCard)building);
                     break;
-                    //case CardType.COMMERCIAL: this.CommercialBuildings.Add((CommercialCard)building);
-                    //    break;
-                    //case CardType.SCIENCE: this.ScienceBuildings.Add((ScienceCard)building);
-                    //    break;
+                //case CardType.COMMERCIAL: this.CommercialBuildings.Add((CommercialCard)building);
+                //    break;
+                case CardType.SCIENCE:
+                    this.ScienceBuildings.Add((ScienceCard)building);
+                    break;
                     //case CardType.GUILD: this.Bonus.Add((BonusCard)building);
                     //    break;
             }
@@ -330,6 +332,41 @@ public class CityManager
     public int GetCivilPoints()
     {
         return this.CivilBuildings.Sum(civilCard => civilCard.VictoryPoints);
+    }
+
+    #endregion
+
+    #region Science buildings management
+
+    /// <summary>
+    /// Compute science card points for the city.
+    /// </summary>
+    /// <returns>The total science points.</returns>
+    public int GetSciencePoints()
+    {
+        int total = 0;
+        const int TABLET = 0, GEAR = 1, COMPASS = 2;
+        int[] scienceType = new int[3];
+
+        foreach (ScienceCard sc in this.ScienceBuildings)
+        {
+            if ((int)sc.ScienceCardType == TABLET)
+                scienceType[TABLET]++;
+            else if ((int)sc.ScienceCardType == GEAR)
+                scienceType[GEAR]++;
+            else
+                scienceType[COMPASS]++;
+        }
+
+        total += (int)Math.Pow((int)scienceType[(int)ScienceType.TABLET], 2);
+        total += (int)Math.Pow((int)scienceType[(int)ScienceType.GEAR], 2);
+        total += (int)Math.Pow((int)scienceType[(int)ScienceType.COMPASS], 2);
+
+        int bonus = scienceType.Min();
+
+        total += bonus * GameConsts.SCIENCE_BONUS;
+
+        return total;
     }
 
     #endregion

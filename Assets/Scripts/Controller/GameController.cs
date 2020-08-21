@@ -25,10 +25,17 @@ public class GameController
             for (int i = 0; i < civilRes.Count; i++)
                 civilLabel += "Joueur " + (i + 1) + ": " + civilRes[i] + " points \n";
 
+            List<int> scienceRes = this.GameManager.GetScienceResults();
+            string scienceLabel = "";
+            for (int i = 0; i < scienceRes.Count; i++)
+                scienceLabel += "Joueur " + (i + 1) + ": " + scienceRes[i] + " points \n";
+
             UnityEngine.Debug.Log(
                     "Game has ended. \n" +
-                    "Civil victory points : \n" +
-                    civilLabel
+                    "Civil victory points: \n" +
+                    civilLabel +
+                    "Science victory points: \n" +
+                    scienceLabel
                     );
         }
         else

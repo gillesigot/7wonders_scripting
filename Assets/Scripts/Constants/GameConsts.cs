@@ -12,4 +12,6 @@
     public static readonly int[] WAR_VICTORY_POINTS = new int[] {1, 3, 5};
     // Define the amount of victory points you get when losing a war.
     public const int WAR_DEFEAT_POINTS = -1;
+    // Define the value of science bonus for 3 identic symbols.
+    public const int SCIENCE_BONUS = 7;
 }
