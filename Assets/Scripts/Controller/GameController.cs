@@ -19,7 +19,18 @@ public class GameController
     {
         // Hack: TEMP Display scores board
         if (age > 3)
-            UnityEngine.Debug.Log("Game has ended.");
+        {
+            List<int> civilRes = this.GameManager.GetCivilResults();
+            string civilLabel = "";
+            for (int i = 0; i < civilRes.Count; i++)
+                civilLabel += "Joueur " + (i + 1) + ": " + civilRes[i] + " points \n";
+
+            UnityEngine.Debug.Log(
+                    "Game has ended. \n" +
+                    "Civil victory points : \n" +
+                    civilLabel
+                    );
+        }
         else
         {
             GameManager.Age = age;

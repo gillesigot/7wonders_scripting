@@ -123,8 +123,9 @@ public class CityManager
                 case CardType.WAR:
                     this.WarBuildings.Add((WarCard)building);
                     break;
-                    //case CardType.CIVIL: this.CivilBuildings.Add((CivilCard)building);
-                    //    break;
+                case CardType.CIVIL:
+                    this.CivilBuildings.Add((CivilCard)building);
+                    break;
                     //case CardType.COMMERCIAL: this.CommercialBuildings.Add((CommercialCard)building);
                     //    break;
                     //case CardType.SCIENCE: this.ScienceBuildings.Add((ScienceCard)building);
@@ -316,6 +317,19 @@ public class CityManager
     public int GetWarPoints()
     {
         return this.WarBuildings.Sum(warCard => warCard.WarPoints);
+    }
+
+    #endregion
+
+    #region Civil buildings management
+
+    /// <summary>
+    /// Sum all civil cards points for this city.
+    /// </summary>
+    /// <returns>The total amount of civil points.</returns>
+    public int GetCivilPoints()
+    {
+        return this.CivilBuildings.Sum(civilCard => civilCard.VictoryPoints);
     }
 
     #endregion

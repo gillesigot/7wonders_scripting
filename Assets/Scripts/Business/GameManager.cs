@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.UIElements;
 
 public class GameManager
 {
@@ -172,5 +171,17 @@ public class GameManager
             warResults.Add(current_results);
         }
         return warResults;
+    }
+
+    /// <summary>
+    /// Get all players civil score.
+    /// </summary>
+    /// <returns>List of players civil score.</returns>
+    public List<int> GetCivilResults()
+    {
+        List<int> civilResults = new List<int>();
+        foreach (Player p in this.Players)
+            civilResults.Add(p.City.GetCivilPoints());
+        return civilResults;
     }
 }
