@@ -1130,9 +1130,9 @@
 		},
         "chainto": [],
         "nplayersplayable": 0,
-        "checkleft": true,
-        "checkright": true,
-        "checkself": false,
+        "checkleft": false,
+        "checkright": false,
+        "checkself": true,
         "bonustype": 0,
         "reward":[{
             "reward": 0,

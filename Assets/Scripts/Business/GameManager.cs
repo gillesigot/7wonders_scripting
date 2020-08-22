@@ -58,6 +58,30 @@ public class GameManager
                 return Players[i];
         return null;
     }
+    
+    /// <summary>
+    /// Get the city on the left of the current player's city.
+    /// </summary>
+    /// <param name="players">The list of all players.</param>
+    /// <param name="currentPlayer">The position of the current player in players list.</param>
+    /// <returns></returns>
+    private CityManager GetLeftCity(Player[] players, int currentPlayer)
+    {
+        int idxLeftCity = currentPlayer - 1 < 0 ? NbPlayers - 1 : currentPlayer - 1;
+        return players[idxLeftCity].City;
+    }
+
+    /// <summary>
+    /// Get the city on the right of the current player's city.
+    /// </summary>
+    /// <param name="players">The list of all players.</param>
+    /// <param name="currentPlayer">The position of the current player in players list.</param>
+    /// <returns></returns>
+    private CityManager GetRightCity(Player[] players, int currentPlayer)
+    {
+        int idxRightCity = currentPlayer + 1 == NbPlayers ? 0 : currentPlayer + 1;
+        return players[idxRightCity].City;
+    }
 
     /// <summary>
     /// Distribute appropriate cards to all players.
@@ -154,21 +178,21 @@ public class GameManager
 
         for (int i = 0; i < NbPlayers; i++)
         {
-            int leftCity = i - 1 < 0 ? NbPlayers - 1 : i - 1;
-            int rightCity = i + 1 == NbPlayers ? 0 : i + 1;
-            int[] current_results = new int[] { EQUALITY, EQUALITY };
+            CityManager leftCity = this.GetLeftCity(players, i);
+            CityManager rightCity = this.GetRightCity(players, i);
+            int[] currentResults = new int[] { EQUALITY, EQUALITY };
 
-            if (players[leftCity].City.GetWarPoints() < players[i].City.GetWarPoints())
-                current_results[0] = VICTORY;
-            else if (players[leftCity].City.GetWarPoints() > players[i].City.GetWarPoints())
-                current_results[0] = DEFEAT;
+            if (leftCity.GetWarPoints() < players[i].City.GetWarPoints())
+                currentResults[0] = VICTORY;
+            else if (leftCity.GetWarPoints() > players[i].City.GetWarPoints())
+                currentResults[0] = DEFEAT;
 
-            if (players[rightCity].City.GetWarPoints() < players[i].City.GetWarPoints())
-                current_results[1] = VICTORY;
-            else if (players[rightCity].City.GetWarPoints() > players[i].City.GetWarPoints())
-                current_results[1] = DEFEAT;
+            if (rightCity.GetWarPoints() < players[i].City.GetWarPoints())
+                currentResults[1] = VICTORY;
+            else if (rightCity.GetWarPoints() > players[i].City.GetWarPoints())
+                currentResults[1] = DEFEAT;
 
-            warResults.Add(current_results);
+            warResults.Add(currentResults);
         }
         return warResults;
     }
@@ -195,5 +219,119 @@ public class GameManager
         foreach (Player p in this.Players)
             scienceResults.Add(p.City.GetSciencePoints());
         return scienceResults;
+    }
+
+    /// <summary>
+    /// Get all players bonus score (guilds related).
+    /// </summary>
+    /// <returns>List of players bonus score.</returns>
+    public List<int> GetBonusResults()
+    {
+        List<int> bonusResults = new List<int>();
+        Player[] players = this.Players.ToArray<Player>();
+
+        for (int i = 0; i < NbPlayers; i++)
+        {
+            CityManager leftCity = this.GetLeftCity(players, i);
+            CityManager rightCity = this.GetRightCity(players, i);
+            int currentBonus = 0;
+            List<BonusCard> guilds = players[i].City.Bonus;
+            foreach (BonusCard guild in guilds)
+            {
+                switch (guild.Bonus)
+                {
+                    case BonusCard.BonusType.CARD_BONUS:
+                        currentBonus += this.CalculateCardBonus(guild, players[i].City, leftCity, rightCity);
+                        break;
+                    case BonusCard.BonusType.DEFEAT_BONUS:
+                        currentBonus += this.CalculateDefeatBonus(players, i);
+                        break;
+                    case BonusCard.BonusType.WONDER_BONUS:
+                        // Hack: TEMP compute wonder bonus
+                        break;
+                }
+            }
+            bonusResults.Add(currentBonus);
+        }
+        return bonusResults;
+    }
+
+    /// <summary>
+    /// Calculate bonus points based on cards built on current/left/right cities.
+    /// </summary>
+    /// <param name="guild">The card giving the bonus.</param>
+    /// <param name="currentCity">The player's city.</param>
+    /// <param name="leftCity">The left player's city.</param>
+    /// <param name="rightCity">The right player's city.</param>
+    /// <returns></returns>
+    private int CalculateCardBonus(BonusCard guild, CityManager currentCity, CityManager leftCity, CityManager rightCity)
+    {
+        List<Card> cardsToCheck = new List<Card>();
+        int bonusPoints = 0;
+        
+        //if (guild.CheckSelf) TODO uncomment
+        cardsToCheck.AddRange(currentCity.GetAllBuildings());
+        if (guild.CheckLeft)
+            cardsToCheck.AddRange(leftCity.GetAllBuildings());
+        if (guild.CheckRight)
+            cardsToCheck.AddRange(rightCity.GetAllBuildings());
+
+        foreach (Card c in cardsToCheck)
+            foreach (Card.CardType bonusType in guild.BonusCardType)
+                if (c.Type == bonusType)
+                    bonusPoints += GetBonusPoints(bonusType, c, guild);
+
+        return bonusPoints;
+    }
+
+    /// <summary>
+    /// Get amount of bonus points according to bonus card type.
+    /// </summary>
+    /// <param name="bonusCardType">The bonus card type.</param>
+    /// <param name="card">The current card being checked.</param>
+    /// <param name="guild">The guild card giving the current bonus.</param>
+    /// <returns>The amount of points earned.</returns>
+    private int GetBonusPoints(Card.CardType bonusCardType, Card card, BonusCard guild)
+    {
+        int points = 0;
+        string[] manufacturedResourcesCardNames = new string[] { "Presse", "Metier a tisser", "Verrerie" };
+
+        if (bonusCardType == Card.CardType.RESOURCE)
+        {
+            if (guild.ResourceKind == BonusCard.ResourceMetaType.MANUFACTURED)
+            {
+                if (manufacturedResourcesCardNames.Contains(card.Name))
+                    points += 2;
+            }
+            else if (guild.ResourceKind == BonusCard.ResourceMetaType.RAW)
+            {
+                if (!manufacturedResourcesCardNames.Contains(card.Name))
+                    points++;
+            }
+            else  // "Guilde des armateurs"
+                points++;
+        }
+        else
+            points++;
+
+        return points;
+    }
+
+    /// <summary>
+    /// Calculate bonus points based on war opponents defeats.
+    /// </summary>
+    /// <param name="players">List of all players.</param>
+    /// <param name="currentPlayerIdx">Position of current player in the list.</param>
+    /// <returns></returns>
+    private int CalculateDefeatBonus(Player[] players, int currentPlayerIdx)
+    {
+        int bonusPoints = 0;
+        int leftPlayer = currentPlayerIdx - 1 < 0 ? NbPlayers - 1 : currentPlayerIdx - 1;
+        int rightPlayer = currentPlayerIdx + 1 == NbPlayers ? 0 : currentPlayerIdx + 1;
+
+        bonusPoints += players[leftPlayer].EastDefeatWarTokens;
+        bonusPoints += players[rightPlayer].WestDefeatWarTokens;
+
+        return bonusPoints;
     }
 }

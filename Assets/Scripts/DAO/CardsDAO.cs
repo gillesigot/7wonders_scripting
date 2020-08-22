@@ -93,7 +93,7 @@ public class CardDAO
 
     [DefaultValue(DEFAULT_INT_VALUE)]
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
-    public int Bonus { get; set; }
+    public int BonusType { get; set; }
 
     [DefaultValue(null)]
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
@@ -260,7 +260,7 @@ public static class CardsDAO
             cardDAO.CheckLeft,
             cardDAO.CheckRight,
             cardDAO.CheckSelf,
-            (BonusCard.BonusType)cardDAO.Bonus,
+            (BonusCard.BonusType)cardDAO.BonusType,
             GetBonusCardType(cardDAO.BonusCardType.ToList()),
             (BonusCard.ResourceMetaType)cardDAO.ResourceKind
             );

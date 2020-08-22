@@ -30,12 +30,20 @@ public class GameController
             for (int i = 0; i < scienceRes.Count; i++)
                 scienceLabel += "Joueur " + (i + 1) + ": " + scienceRes[i] + " points \n";
 
+            List<int> guildRes = this.GameManager.GetBonusResults();
+            string guildLabel = "";
+            for (int i = 0; i < guildRes.Count; i++)
+                guildLabel += "Joueur " + (i + 1) + ": " + guildRes[i] + " points \n";
+
+            // TODO display treasure victory points
             UnityEngine.Debug.Log(
-                    "Game has ended. \n" +
+                    "Game has ended. \n\n" +
                     "Civil victory points: \n" +
-                    civilLabel +
+                    civilLabel + "\n" +
                     "Science victory points: \n" +
-                    scienceLabel
+                    scienceLabel + "\n" +
+                    "Guild victory points: \n" +
+                    guildLabel
                     );
         }
         else

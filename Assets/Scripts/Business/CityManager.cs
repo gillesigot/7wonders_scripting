@@ -132,8 +132,9 @@ public class CityManager
                 case CardType.SCIENCE:
                     this.ScienceBuildings.Add((ScienceCard)building);
                     break;
-                    //case CardType.GUILD: this.Bonus.Add((BonusCard)building);
-                    //    break;
+                case CardType.GUILD:
+                    this.Bonus.Add((BonusCard)building);
+                    break;
             }
             this.Owner.Hand.Remove(building);
 
@@ -141,6 +142,22 @@ public class CityManager
         }
         else
             return false;
+    }
+
+    /// <summary>
+    /// Get all the city buildings.
+    /// </summary>
+    /// <returns>The list of city buildings.</returns>
+    public List<Card> GetAllBuildings()
+    {
+        List<Card> allBuildings = new List<Card>();
+        allBuildings.AddRange(this.Resources);
+        allBuildings.AddRange(this.WarBuildings);
+        allBuildings.AddRange(this.CivilBuildings);
+        allBuildings.AddRange(this.CommercialBuildings);
+        allBuildings.AddRange(this.ScienceBuildings);
+        allBuildings.AddRange(this.Bonus);
+        return allBuildings;
     }
 
     /// <summary>
@@ -358,15 +375,63 @@ public class CityManager
                 scienceType[COMPASS]++;
         }
 
+        total = this.ComputeScienceScore(scienceType);
+
+        if (this.Bonus.Where(bonus => bonus.Bonus == BonusCard.BonusType.SCIENCE_BONUS).Count() > 0)
+            return MaximizeSciencePoints(scienceType);
+        else
+            return total;
+    }
+
+    /// <summary>
+    /// Compute the total science score.
+    /// </summary>
+    /// <param name="scienceType">Science type sorted science card counts.</param>
+    /// <returns>The total science score.</returns>
+    private int ComputeScienceScore(int[] scienceType)
+    {
+        int total = 0;
+
         total += (int)Math.Pow((int)scienceType[(int)ScienceType.TABLET], 2);
         total += (int)Math.Pow((int)scienceType[(int)ScienceType.GEAR], 2);
         total += (int)Math.Pow((int)scienceType[(int)ScienceType.COMPASS], 2);
 
         int bonus = scienceType.Min();
-
         total += bonus * GameConsts.SCIENCE_BONUS;
 
         return total;
+    }
+
+    /// <summary>
+    /// Maximize science points using the bonus granted by science type guild.
+    /// </summary>
+    /// <param name="scienceType">Science type sorted science card counts.</param>
+    /// <returns>The total science points including bonus.</returns>
+    private int MaximizeSciencePoints(int[] scienceType)
+    {
+        int[] minOptimization = scienceType.ToArray();
+        int[] maxOptimization = scienceType.ToArray();
+        int min = scienceType.Min();
+        int max = scienceType.Max();
+
+        for (int i = 0; i < minOptimization.Length; i++)
+            if (minOptimization[i] == min)
+            {
+                minOptimization[i]++;
+                break;
+            }
+
+        for (int i = 0; i < maxOptimization.Length; i++)
+            if (maxOptimization[i] == max)
+            {
+                maxOptimization[i]++;
+                break;
+            }
+
+        int minTotal = this.ComputeScienceScore(minOptimization);
+        int maxTotal = this.ComputeScienceScore(maxOptimization);
+
+        return (minTotal > maxTotal) ? minTotal : maxTotal;
     }
 
     #endregion
