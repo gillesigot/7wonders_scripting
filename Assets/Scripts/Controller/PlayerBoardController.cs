@@ -191,8 +191,13 @@ public class PlayerBoardController
 
         if (IsAvailableForTrade(resourceType, resourceQuantity, resLabels) && resourceQuantity >= 0)  
         {
-            // Hack: TEMP check for price reduction in city manager
-            totalCost += (value * 2);
+            // Hack: TEMP only for east trading
+            const int RAW = 0, MANUFACTURED = 1;
+            if (CityManager.RAW_RESOURCES.Contains(resourceType))
+                totalCost += (value * Player.City.EastTradePrice[RAW]);
+            else
+                totalCost += (value * Player.City.EastTradePrice[MANUFACTURED]);
+
             if (Player.Coins >= totalCost)
             {
                 label.text = splittedLabel[0] + SPLIT_CHAR + " " + resourceQuantity;

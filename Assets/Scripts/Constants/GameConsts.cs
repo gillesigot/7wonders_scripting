@@ -14,4 +14,6 @@
     public const int WAR_DEFEAT_POINTS = -1;
     // Define the value of science bonus for 3 identic symbols.
     public const int SCIENCE_BONUS = 7;
+    // Define the default value a resource can be bought through trading.
+    public const int DEFAULT_TRADE_PRICE = 2;
 }

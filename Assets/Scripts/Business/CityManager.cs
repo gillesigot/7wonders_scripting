@@ -41,19 +41,29 @@ public class CityManager
             return node;
         }
     }
-
+    // The price to pay for resources on east trading.
+    public int[] EastTradePrice { get; set; }
+    // The price to pay for resources on west trading.
+    public int[] WestTradePrice { get; set; }
     // Represents the player owning the city.
     public Player Owner { get; set; }
     // Represents the city resources.
     public List<ResourceCard> Resources { get; set; }
     // Represents temporary resources get by trading.
     public Dictionary<ResourceType, int> TradeResources { get; set; }
+    // Define the raw type resources.
+    public static readonly ResourceType[] RAW_RESOURCES = new ResourceType[] {
+            ResourceType.CLAY,
+            ResourceType.ORE,
+            ResourceType.STONE,
+            ResourceType.WOOD
+        };
     // Represents the city war buildings.
     public List<WarCard> WarBuildings { get; set; }
     // Represents the city civil buildings.
     public List<CivilCard> CivilBuildings { get; set; }
     // Represents the city commercial buildings.
-    public List<CommercialCard> CommercialBuildings { get; set; }
+    public List<Card> CommercialBuildings { get; set; }
     // Represents the city science buildings.
     public List<ScienceCard> ScienceBuildings { get; set; }
     // Represents the city bonuses (guilds, commercial bonuses, ...).
@@ -68,10 +78,12 @@ public class CityManager
         this.TradeResources = new Dictionary<ResourceType, int>();
         this.WarBuildings = new List<WarCard>();
         this.CivilBuildings = new List<CivilCard>();
-        this.CommercialBuildings = new List<CommercialCard>();
+        this.CommercialBuildings = new List<Card>();
         this.ScienceBuildings = new List<ScienceCard>();
         this.Bonus = new List<BonusCard>();
         this.ResourceTreeLeaves = new List<ResourceTreeNode>();
+        this.EastTradePrice = new int[] { GameConsts.DEFAULT_TRADE_PRICE, GameConsts.DEFAULT_TRADE_PRICE };
+        this.WestTradePrice = new int[] { GameConsts.DEFAULT_TRADE_PRICE, GameConsts.DEFAULT_TRADE_PRICE };
     }
 
     #region City management
@@ -113,13 +125,9 @@ public class CityManager
             switch (building.Type)
             {
                 case CardType.RESOURCE:
-                    ResourceCard resourceBuilding = (ResourceCard)building;
-                    this.Resources.Add(resourceBuilding);
-                    this.AddToResourceTree(
-                        resourceBuilding.Resources, 
-                        resourceBuilding.IsOptional, 
-                        resourceBuilding.IsBuyable
-                        );
+                    ResourceCard rc = (ResourceCard)building;
+                    this.Resources.Add(rc);
+                    this.AddToResourceTree(rc.Resources, rc.IsOptional, rc.IsBuyable);
                     break;
                 case CardType.WAR:
                     this.WarBuildings.Add((WarCard)building);
@@ -127,8 +135,24 @@ public class CityManager
                 case CardType.CIVIL:
                     this.CivilBuildings.Add((CivilCard)building);
                     break;
-                //case CardType.COMMERCIAL: this.CommercialBuildings.Add((CommercialCard)building);
-                //    break;
+                case CardType.COMMERCIAL:
+                    this.CommercialBuildings.Add(building);
+                    if (building is ResourceCard)
+                    {
+                        ResourceCard comResCard = (ResourceCard)building;
+                        this.AddToResourceTree(comResCard.Resources, comResCard.IsOptional, comResCard.IsBuyable);
+                    }
+                    else if (building is BonusCard)
+                    {
+                        BonusCard bc = (BonusCard)building;
+                        this.ApplyDirectCommercialBonus(bc);
+                    }
+                    else if (building is CommercialCard)
+                    {
+                        CommercialCard cc = (CommercialCard)building;
+                        this.ApplyTradeReduction(cc);
+                    }
+                    break;
                 case CardType.SCIENCE:
                     this.ScienceBuildings.Add((ScienceCard)building);
                     break;
@@ -145,18 +169,35 @@ public class CityManager
     }
 
     /// <summary>
-    /// Get all the city buildings.
+    /// Get all city buildings of given types.
     /// </summary>
+    /// <param name="cardTypes">The list of building types to retrieve.</param>
     /// <returns>The list of city buildings.</returns>
-    public List<Card> GetAllBuildings()
+    public List<Card> GetAllBuildings(CardType[] cardTypes)
     {
         List<Card> allBuildings = new List<Card>();
-        allBuildings.AddRange(this.Resources);
-        allBuildings.AddRange(this.WarBuildings);
-        allBuildings.AddRange(this.CivilBuildings);
-        allBuildings.AddRange(this.CommercialBuildings);
-        allBuildings.AddRange(this.ScienceBuildings);
-        allBuildings.AddRange(this.Bonus);
+        foreach (CardType type in cardTypes)
+            switch (type)
+            {
+                case CardType.RESOURCE:
+                    allBuildings.AddRange(this.Resources);
+                    break;
+                case CardType.WAR:
+                    allBuildings.AddRange(this.WarBuildings);
+                    break;
+                case CardType.CIVIL:
+                    allBuildings.AddRange(this.CivilBuildings);
+                    break;
+                case CardType.COMMERCIAL:
+                    allBuildings.AddRange(this.CommercialBuildings);
+                    break;
+                case CardType.SCIENCE:
+                    allBuildings.AddRange(this.ScienceBuildings);
+                    break;
+                case CardType.GUILD:
+                    allBuildings.AddRange(this.Bonus);
+                    break;
+            }
         return allBuildings;
     }
 
@@ -309,20 +350,27 @@ public class CityManager
     /// <param name="resources">The resources being traded.</param>
     public void BuyResources(Dictionary<ResourceType, int> resources)
     {
-        int totalResources = 0;
+        const int RAW = 0, MANUFACTURED = 1;
+        int[] totalResources = new int[] { 0, 0 };
+        int typeRes;
         foreach (KeyValuePair<ResourceType, int> resource in resources)
+        {
+            typeRes = RAW_RESOURCES.Contains(resource.Key) ? RAW : MANUFACTURED;
             if (this.TradeResources.ContainsKey(resource.Key))
             {
-                totalResources += (resource.Value - this.TradeResources[resource.Key]);
+                totalResources[typeRes] += (resource.Value - this.TradeResources[resource.Key]);
                 this.TradeResources[resource.Key] = resource.Value;
             }
             else
             {
                 this.TradeResources.Add(resource.Key, resource.Value);
-                totalResources += resource.Value;
+                totalResources[typeRes] += resource.Value;
             }
-        // Hack: TEMP check for price reduction AND give that money to related player
-        this.Owner.Coins -= (totalResources * 2);
+        }
+        // Hack: TEMP price reduction only applied to east trade AND give that money to related player
+        this.Owner.Coins -= 
+            (totalResources[RAW] * this.EastTradePrice[RAW]) + 
+            (totalResources[MANUFACTURED] * this.EastTradePrice[MANUFACTURED]);
     }
 
     #endregion
@@ -432,6 +480,121 @@ public class CityManager
         int maxTotal = this.ComputeScienceScore(maxOptimization);
 
         return (minTotal > maxTotal) ? minTotal : maxTotal;
+    }
+
+    #endregion
+
+    #region Commercial buildings management
+
+    public void ApplyDirectCommercialBonus(BonusCard bc)
+    {
+        if (bc.BonusCardType.Length == 0 && bc.Bonus != BonusCard.BonusType.WONDER_BONUS)
+            this.Owner.Coins += bc.Reward[0].Quantity;
+        else
+        {
+            CityManager leftCity = GameManager.Instance().GetLeftCity(this.Owner);
+            CityManager rightCity = GameManager.Instance().GetRightCity(this.Owner);
+            this.Owner.Coins += this.CalculateCardBonus(bc, leftCity, rightCity);
+        }
+    }
+
+    public void ApplyTradeReduction(CommercialCard cc)
+    {
+        const int RAW = 0, MANUFACTURED = 1;
+        ResourceType[] resources = cc.Resources.Select(res => res.Type).ToArray();
+
+        if (cc.LeftPlayer)
+            if (resources.All(RAW_RESOURCES.Contains))
+                this.WestTradePrice[RAW] = cc.Price;
+            else
+                this.WestTradePrice[MANUFACTURED] = cc.Price;
+
+        if (cc.RightPlayer)
+            if (resources.All(RAW_RESOURCES.Contains))
+                this.EastTradePrice[RAW] = cc.Price;
+            else
+                this.EastTradePrice[MANUFACTURED] = cc.Price;
+    }
+
+    #endregion
+
+    #region Bonus buildings management
+
+    /// <summary>
+    /// Calculate bonus points based on cards built on current/left/right cities.
+    /// </summary>
+    /// <param name="bonusCard">The card giving the bonus.</param>
+    /// <param name="leftCity">The left player's city.</param>
+    /// <param name="rightCity">The right player's city.</param>
+    /// <returns></returns>
+    public int CalculateCardBonus(BonusCard bonusCard, CityManager leftCity, CityManager rightCity)
+    {
+        List<Card> cardsToCheck = new List<Card>();
+        int bonusPoints = 0;
+
+        if (bonusCard.CheckSelf)
+            cardsToCheck.AddRange(this.GetAllBuildings(bonusCard.BonusCardType));
+        if (bonusCard.CheckLeft)
+            cardsToCheck.AddRange(leftCity.GetAllBuildings(bonusCard.BonusCardType));
+        if (bonusCard.CheckRight)
+            cardsToCheck.AddRange(rightCity.GetAllBuildings(bonusCard.BonusCardType));
+
+        foreach (Card c in cardsToCheck)
+            foreach (Card.CardType bonusType in bonusCard.BonusCardType)
+                bonusPoints += GetBonusPoints(bonusType, c, bonusCard);
+
+        return bonusPoints;
+    }
+
+    /// <summary>
+    /// Get amount of bonus points according to bonus card type.
+    /// </summary>
+    /// <param name="bonusCardType">The bonus card type.</param>
+    /// <param name="card">The current card being checked.</param>
+    /// <param name="bonusCard">The bonus card giving the current bonus.</param>
+    /// <returns>The amount of points earned.</returns>
+    private int GetBonusPoints(Card.CardType bonusCardType, Card card, BonusCard bonusCard)
+    {
+        int points = 0;
+        string[] manufacturedResourcesCardNames = new string[] { "Presse", "Metier a tisser", "Verrerie" };
+
+        if (bonusCardType == Card.CardType.RESOURCE)
+        {
+            if (bonusCard.ResourceKind == BonusCard.ResourceMetaType.MANUFACTURED)
+            {
+                if (manufacturedResourcesCardNames.Contains(card.Name))
+                    points += 2;
+            }
+            else if (bonusCard.ResourceKind == BonusCard.ResourceMetaType.RAW)
+            {
+                if (!manufacturedResourcesCardNames.Contains(card.Name))
+                    points++;
+            }
+            else  // "Guilde des armateurs"
+                points++;
+        }
+        else
+            points++;
+
+        return points;
+    }
+
+    /// <summary>
+    /// Calculate bonus points based on war opponents defeats.
+    /// </summary>
+    /// <param name="players">List of all players.</param>
+    /// <param name="currentPlayerIdx">Position of current player in the list.</param>
+    /// <returns></returns>
+    public int CalculateDefeatBonus(Player[] players, int currentPlayerIdx)
+    {
+        int bonusPoints = 0;
+        int leftPlayer = currentPlayerIdx - 1 < 0 ? players.Length - 1 : currentPlayerIdx - 1;
+        int rightPlayer = currentPlayerIdx + 1 == players.Length ? 0 : currentPlayerIdx + 1;
+
+        bonusPoints += players[leftPlayer].EastDefeatWarTokens;
+        bonusPoints += players[rightPlayer].WestDefeatWarTokens;
+
+        return bonusPoints;
     }
 
     #endregion

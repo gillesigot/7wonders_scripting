@@ -40,6 +40,11 @@ public class GameController
             for (int i = 0; i < goldRes.Count; i++)
                 goldLabel += "Joueur " + (i + 1) + ": " + goldRes[i] + " points \n";
 
+            List<int> comRes = this.GameManager.GetCommercialBonusResults();
+            string comLabel = "";
+            for (int i = 0; i < comRes.Count; i++)
+                comLabel += "Joueur " + (i + 1) + ": " + comRes[i] + " points \n";
+
             UnityEngine.Debug.Log(
                     "Game has ended. \n\n" +
                     "Civil victory points: \n" +
@@ -49,7 +54,9 @@ public class GameController
                     "Guild victory points: \n" +
                     guildLabel + "\n" +
                     "Treasure victory points: \n" +
-                    goldLabel
+                    goldLabel + "\n" +
+                    "Trade victory points: \n" +
+                    comLabel
                     );
         }
         else

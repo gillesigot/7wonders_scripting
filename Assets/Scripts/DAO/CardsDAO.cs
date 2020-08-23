@@ -144,10 +144,12 @@ public static class CardsDAO
                     break;
                 case Card.CardType.COMMERCIAL:
                     if (cardDAO.Price < 0)
+                    {
                         if (cardDAO.Resources is null)
                             cards.Add(GetBonusCard(cardDAO)); // Commercial cards acting as bonus cards
                         else
-                        cards.Add(GetResourceCard(cardDAO)); // Commercial cards acting as resources
+                            cards.Add(GetResourceCard(cardDAO)); // Commercial cards acting as resources
+                    }
                     else
                         cards.Add(GetCommercialCard(cardDAO));
                     break;

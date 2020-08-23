@@ -2643,7 +2643,9 @@
         {
             "type": 3,
             "quantity": 1
-        }]
+        }],
+        "isoptional": true,
+        "isbuyable": false
     },
     {
         "id": "com05",
@@ -2670,7 +2672,9 @@
         {
             "type": 6,
             "quantity": 1
-        }]
+        }],
+        "isoptional": true,
+        "isbuyable": false
     },
     {
         "id": "com06",
@@ -3016,7 +3020,9 @@
         {
             "type": 6,
             "quantity": 1
-        }]
+        }],
+        "isoptional": true,
+        "isbuyable": false
     },
     {
         "id": "com19",
@@ -3043,7 +3049,9 @@
         {
             "type": 6,
             "quantity": 1
-        }]
+        }],
+        "isoptional": true,
+        "isbuyable": false
     },
     {
         "id": "com20",
@@ -3074,7 +3082,9 @@
         {
             "type": 3,
             "quantity": 1
-        }]
+        }],
+        "isoptional": true,
+        "isbuyable": false
     },
     {
         "id": "com21",
@@ -3127,7 +3137,9 @@
         {
             "type": 3,
             "quantity": 1
-        }]
+        }],
+        "isoptional": true,
+        "isbuyable": false
     },
     {
         "id": "com23",
