@@ -61,27 +61,29 @@ public class GameController
     /// <param name="age">The current achieving age.</param>
     public void ResolveConflicts(int age)
     {
+        const int WEST = 0, EAST = 1;
         List<int[]> victoryMatrix = this.GameManager.CaculateWarResults();
 
-        // Hack: TEMP apply war points to IA
-        int[] humanResults = victoryMatrix[0];
-        EvaluateResult(humanResults[0], "WEST");
-        EvaluateResult(humanResults[1], "EAST");
+        for (int i = 0; i < victoryMatrix.Count; i++)
+        {
+            EvaluateResult(victoryMatrix[i][WEST], "WEST", this.GameManager.Players[i]);
+            EvaluateResult(victoryMatrix[i][EAST], "EAST", this.GameManager.Players[i]);
+        }
 
         PlayerBoardController.RefreshWarPoints();
 
         // Update war victory points, defeat points and defeat tokens.
-        void EvaluateResult(int result, string side)
+        void EvaluateResult(int result, string side, Player p)
         {
             if (result > 0)
-                this.GameManager.GetHumanPlayer().VictoryWarPoints += GameConsts.WAR_VICTORY_POINTS[age - 1];
+                p.VictoryWarPoints += GameConsts.WAR_VICTORY_POINTS[age - 1];
             else if (result < 0)
             {
-                this.GameManager.GetHumanPlayer().VictoryWarPoints += GameConsts.WAR_DEFEAT_POINTS;
+                p.VictoryWarPoints += GameConsts.WAR_DEFEAT_POINTS;
                 if (side.Contains("WEST"))
-                    this.GameManager.GetHumanPlayer().WestDefeatWarTokens += 1;
+                    p.WestDefeatWarTokens += 1;
                 else
-                    this.GameManager.GetHumanPlayer().EastDefeatWarTokens += 1;
+                    p.EastDefeatWarTokens += 1;
             }
                     
         }
