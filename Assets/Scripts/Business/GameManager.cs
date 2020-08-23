@@ -334,4 +334,16 @@ public class GameManager
 
         return bonusPoints;
     }
+
+    /// <summary>
+    /// Get all players treasure score.
+    /// </summary>
+    /// <returns>List of players treasure score.</returns>
+    public List<int> GetTreasureResults()
+    {
+        List<int> treasureResults = new List<int>();
+        foreach (Player p in this.Players)
+            treasureResults.Add(p.Coins / 3);
+        return treasureResults;
+    }
 }

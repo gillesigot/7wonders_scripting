@@ -35,7 +35,11 @@ public class GameController
             for (int i = 0; i < guildRes.Count; i++)
                 guildLabel += "Joueur " + (i + 1) + ": " + guildRes[i] + " points \n";
 
-            // TODO display treasure victory points
+            List<int> goldRes = this.GameManager.GetTreasureResults();
+            string goldLabel = "";
+            for (int i = 0; i < goldRes.Count; i++)
+                goldLabel += "Joueur " + (i + 1) + ": " + goldRes[i] + " points \n";
+
             UnityEngine.Debug.Log(
                     "Game has ended. \n\n" +
                     "Civil victory points: \n" +
@@ -43,7 +47,9 @@ public class GameController
                     "Science victory points: \n" +
                     scienceLabel + "\n" +
                     "Guild victory points: \n" +
-                    guildLabel
+                    guildLabel + "\n" +
+                    "Treasure victory points: \n" +
+                    goldLabel
                     );
         }
         else
