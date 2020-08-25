@@ -17,47 +17,9 @@ public class GameController
     /// <param name="age">The age to be started.</param>
     public void StartAge(int age)
     {
-        // Hack: TEMP Display scores board
         if (age > 3)
         {
-            List<int> civilRes = this.GameManager.GetCivilResults();
-            string civilLabel = "";
-            for (int i = 0; i < civilRes.Count; i++)
-                civilLabel += "Joueur " + (i + 1) + ": " + civilRes[i] + " points \n";
-
-            List<int> scienceRes = this.GameManager.GetScienceResults();
-            string scienceLabel = "";
-            for (int i = 0; i < scienceRes.Count; i++)
-                scienceLabel += "Joueur " + (i + 1) + ": " + scienceRes[i] + " points \n";
-
-            List<int> guildRes = this.GameManager.GetBonusResults();
-            string guildLabel = "";
-            for (int i = 0; i < guildRes.Count; i++)
-                guildLabel += "Joueur " + (i + 1) + ": " + guildRes[i] + " points \n";
-
-            List<int> goldRes = this.GameManager.GetTreasureResults();
-            string goldLabel = "";
-            for (int i = 0; i < goldRes.Count; i++)
-                goldLabel += "Joueur " + (i + 1) + ": " + goldRes[i] + " points \n";
-
-            List<int> comRes = this.GameManager.GetCommercialBonusResults();
-            string comLabel = "";
-            for (int i = 0; i < comRes.Count; i++)
-                comLabel += "Joueur " + (i + 1) + ": " + comRes[i] + " points \n";
-
-            UnityEngine.Debug.Log(
-                    "Game has ended. \n\n" +
-                    "Civil victory points: \n" +
-                    civilLabel + "\n" +
-                    "Science victory points: \n" +
-                    scienceLabel + "\n" +
-                    "Guild victory points: \n" +
-                    guildLabel + "\n" +
-                    "Treasure victory points: \n" +
-                    goldLabel + "\n" +
-                    "Trade victory points: \n" +
-                    comLabel
-                    );
+            PlayerBoardController.DisplayScoreBoard(this.GameManager.Players);
         }
         else
         {

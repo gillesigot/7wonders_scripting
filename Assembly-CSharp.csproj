@@ -86,6 +86,7 @@
     <Compile Include="Assets\Scripts\Presentation\DropZone.cs" />
     <Compile Include="Assets\Scripts\Presentation\GameStart.cs" />
     <Compile Include="Assets\Scripts\Presentation\Playable.cs" />
+    <Compile Include="Assets\Scripts\Presentation\ScoreBoard.cs" />
     <Compile Include="Assets\Scripts\Presentation\ShiftLayout.cs" />
     <Compile Include="Assets\Scripts\Presentation\TradeBoard.cs" />
     <Compile Include="Assets\Scripts\Presentation\TradeButton.cs" />

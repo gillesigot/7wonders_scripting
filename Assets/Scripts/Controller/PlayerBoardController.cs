@@ -33,6 +33,8 @@ public class PlayerBoardController
     public static DefeatTokenBoard LeftDefeatTokenBoard { get; set; }
     // Used to create east defeat tokens representation.
     public static DefeatTokenBoard RightDefeatTokenBoard { get; set; }
+    // Used to display end game scores.
+    public static ScoreBoard ScoreBoard { get; set; }
 
     public PlayerBoardController()
     {
@@ -46,6 +48,7 @@ public class PlayerBoardController
         RightTradeBoard = GameObject.Find("trade_board_right").GetComponent<TradeBoard>();
         LeftDefeatTokenBoard = GameObject.Find("defeat_left").GetComponent<DefeatTokenBoard>();
         RightDefeatTokenBoard = GameObject.Find("defeat_right").GetComponent<DefeatTokenBoard>();
+        ScoreBoard = GameObject.Find("score_board").GetComponent<ScoreBoard>();
     }
 
     #region Player's display
@@ -83,6 +86,15 @@ public class PlayerBoardController
     {
         LeftDiscardPile.sprite = Resources.Load<Sprite>("discard_pile_" + age);
         RightDiscardPile.sprite = Resources.Load<Sprite>("discard_pile_" + age);
+    }
+
+    /// <summary>
+    /// Display the board with all players scores.
+    /// </summary>
+    /// <param name="players">All current game players.</param>
+    public static void DisplayScoreBoard(List<Player> players)
+    {
+        ScoreBoard.Display(players);
     }
 
     #endregion
