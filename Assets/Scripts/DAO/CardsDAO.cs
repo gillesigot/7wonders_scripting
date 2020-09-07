@@ -1,12 +1,11 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 
 /// <summary>
-/// This class represents cards information stored in data files.
+/// This class represents cards information stored in data file.
 /// </summary>
 public class CardDAO
 {
@@ -104,7 +103,7 @@ public class CardDAO
 }
 
 /// <summary>
-/// Cards data access object manipulate the cards information stored in data files.
+/// Cards data access object, manipulate the cards information stored in data file.
 /// </summary>
 public static class CardsDAO
 {
@@ -288,7 +287,7 @@ public static class CardsDAO
     /// </summary>
     /// <param name="rqsDAO">The CardDAO resources array.</param>
     /// <returns>The resources list as Card applicable resources list.</returns>
-    private static Card.ResourceQuantity[] GetResources(List<CardDAO.ResourceQuantity> rqsDAO)
+    public static Card.ResourceQuantity[] GetResources(List<CardDAO.ResourceQuantity> rqsDAO)
     {
         List<Card.ResourceQuantity> resources = new List<Card.ResourceQuantity>();
         foreach (CardDAO.ResourceQuantity rqDAO in rqsDAO)
@@ -308,7 +307,7 @@ public static class CardsDAO
     /// </summary>
     /// <param name="rqsDAO">The CardDAO rewards array.</param>
     /// <returns>The rewards list as Card applicable rewards list.</returns>
-    private static BonusCard.RewardQuantity[] GetReward(List<CardDAO.RewardQuantity> rqsDAO)
+    public static BonusCard.RewardQuantity[] GetReward(List<CardDAO.RewardQuantity> rqsDAO)
     {
         List<BonusCard.RewardQuantity> rewards = new List<BonusCard.RewardQuantity>();
         foreach (CardDAO.RewardQuantity rqDAO in rqsDAO)

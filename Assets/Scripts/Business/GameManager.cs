@@ -29,7 +29,7 @@ public class GameManager
         {
             Player player = new Player();
             player.City = new CityManager(player);
-            player.Wonder = new WonderManager(player);
+            player.WonderManager = new WonderManager(player);
             if (i == 0) player.IsHuman = true;
             Players.Add(player);
         }
@@ -122,6 +122,22 @@ public class GameManager
         for (int i = 0; i < guilds.Count - numberOfAllowedGuilds; i++)
             cards.Remove(guilds.ElementAt(rand.Next(guilds.Count)));
         return cards;
+    }
+
+    /// <summary>
+    /// Distribute randomly a wonder to all players.
+    /// </summary>
+    /// <param name="side">Choose A/B side of wonders (both if not mentionned)</param>
+    public void LoadWonders(char side = '\0')
+    {
+        List<Wonder> wonders = WondersDAO.GetWonders(side);
+
+        Random rand = new Random();
+        foreach (Player player in this.Players)
+        {
+            Wonder wonder = wonders.ElementAt(rand.Next(wonders.Count));
+            player.WonderManager.Wonder = wonder;
+        }
     }
 
     /// <summary>

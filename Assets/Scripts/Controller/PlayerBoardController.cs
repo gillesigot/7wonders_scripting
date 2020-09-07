@@ -97,6 +97,17 @@ public class PlayerBoardController
         ScoreBoard.Display(players);
     }
 
+    /// <summary>
+    /// Display the wonder board according to the one attributed to the player.
+    /// </summary>
+    /// <param name="wonderID">The wonder's ID to display.</param>
+    public static void RefreshWonderBoard(string wonderID)
+    {
+        Image wonderBoard = GameObject.Find("wonder_board").GetComponent<Image>();
+        Sprite wonderImage = Resources.Load<Sprite>("wonders/" + wonderID);
+        wonderBoard.sprite = wonderImage;
+    }
+
     #endregion
 
     #region Hand management

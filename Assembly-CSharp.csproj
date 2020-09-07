@@ -72,6 +72,7 @@
     <Compile Include="Assets\Scripts\Controller\GameController.cs" />
     <Compile Include="Assets\Scripts\Controller\PlayerBoardController.cs" />
     <Compile Include="Assets\Scripts\DAO\CardsDAO.cs" />
+    <Compile Include="Assets\Scripts\DAO\WondersDAO.cs" />
     <Compile Include="Assets\Scripts\Model\BonusCard.cs" />
     <Compile Include="Assets\Scripts\Model\Card.cs" />
     <Compile Include="Assets\Scripts\Model\CivilCard.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="Assets\Scripts\Model\ResourceCard.cs" />
     <Compile Include="Assets\Scripts\Model\ScienceCard.cs" />
     <Compile Include="Assets\Scripts\Model\WarCard.cs" />
+    <Compile Include="Assets\Scripts\Model\Wonder.cs" />
     <Compile Include="Assets\Scripts\Presentation\CardFactory.cs" />
     <Compile Include="Assets\Scripts\Presentation\DefeatTokenBoard.cs" />
     <Compile Include="Assets\Scripts\Presentation\Draggable.cs" />

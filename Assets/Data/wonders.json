@@ -1,0 +1,573 @@
+[
+    {
+        "id": "wonder1",
+        "name": "Ephesos",
+        "side": "A",
+        "baseresource": 6,
+        "steps":[{
+            "stepbuildcondition":[{
+                "type": 2,
+                "quantity": 2
+            }],
+            "steptypes": [0],
+            "reward":[{
+                "reward": 0,
+                "quantity": 3
+            }]
+		},
+        {
+            "stepbuildcondition":[{
+                "type": 3,
+                "quantity": 2
+            }],
+            "steptypes": [0],
+            "reward":[{
+                "reward": 1,
+                "quantity": 9
+            }]
+        },
+        {
+            "stepbuildcondition":[{
+                "type": 6,
+                "quantity": 2
+            }],
+            "steptypes": [0],
+            "reward":[{
+                "reward": 0,
+                "quantity": 7
+            }]
+        }]
+    },
+    {
+        "id": "wonder2",
+        "name": "Ephesos",
+        "side": "B",
+        "baseresource": 6,
+        "steps":[{
+            "stepbuildcondition":[{
+                "type": 2,
+                "quantity": 2
+            }],
+            "steptypes": [0],
+            "reward":[{
+                "reward": 0,
+                "quantity": 2
+            },
+            {
+                "reward": 1,
+                "quantity": 4
+            }]
+		},
+        {
+            "stepbuildcondition":[{
+                "type": 3,
+                "quantity": 2
+            }],
+            "steptypes": [0],
+            "reward":[{
+                "reward": 0,
+                "quantity": 3
+            },
+            {
+                "reward": 1,
+                "quantity": 4
+            }]
+        },
+        {
+            "stepbuildcondition":[{
+                "type": 4,
+                "quantity": 1
+            },
+            {
+                "type": 5,
+                "quantity": 1
+            },
+            {
+                "type": 6,
+                "quantity": 1
+            }],
+            "steptypes": [0],
+            "reward":[{
+                "reward": 0,
+                "quantity": 5
+            },
+            {
+                "reward": 1,
+                "quantity": 4
+            }]
+        }]
+    },
+    {
+        "id": "wonder3",
+        "name": "Halikarnassos",
+        "side": "A",
+        "baseresource": 5,
+        "steps":[{
+            "stepbuildcondition":[{
+                "type": 0,
+                "quantity": 2
+            }],
+            "steptypes": [0],
+            "reward":[{
+                "reward": 0,
+                "quantity": 3
+            }]
+		},
+        {
+            "stepbuildcondition":[{
+                "type": 1,
+                "quantity": 1
+            }],
+            "steptypes": [5],
+            "buildtype": 2
+        },
+        {
+            "stepbuildcondition":[{
+                "type": 5,
+                "quantity": 2
+            }],
+            "steptypes": [0],
+            "reward":[{
+                "reward": 0,
+                "quantity": 7
+            }]
+        }]
+    },
+    {
+        "id": "wonder4",
+        "name": "Halikarnassos",
+        "side": "B",
+        "baseresource": 5,
+        "steps":[{
+            "stepbuildcondition":[{
+                "type": 1,
+                "quantity": 2
+            }],
+            "steptypes": [0, 5],
+            "reward":[{
+                "reward": 0,
+                "quantity": 2
+            }],
+            "buildtype": 2
+		},
+        {
+            "stepbuildcondition":[{
+                "type": 0,
+                "quantity": 3
+            }],
+            "steptypes": [0, 5],
+            "reward":[{
+                "reward": 0,
+                "quantity": 1
+            }],
+            "buildtype": 2
+        },
+        {
+            "stepbuildcondition":[{
+                "type": 4,
+                "quantity": 1
+            },
+            {
+                "type": 5,
+                "quantity": 1
+            },
+            {
+                "type": 6,
+                "quantity": 1
+            }],
+            "steptypes": [5],
+            "buildtype": 2
+        }]
+    },
+    {
+        "id": "wonder5",
+        "name": "Rhodos",
+        "side": "A",
+        "baseresource": 1,
+        "steps":[{
+            "stepbuildcondition":[{
+                "type": 3,
+                "quantity": 2
+            }],
+            "steptypes": [0],
+            "reward":[{
+                "reward": 0,
+                "quantity": 3
+            }]
+		},
+        {
+            "stepbuildcondition":[{
+                "type": 0,
+                "quantity": 3
+            }],
+            "steptypes": [1],
+            "warpoints": 2
+        },
+        {
+            "stepbuildcondition":[{
+                "type": 1,
+                "quantity": 4
+            }],
+            "steptypes": [0],
+            "reward":[{
+                "reward": 0,
+                "quantity": 7
+            }]
+        }]
+    },
+    {
+        "id": "wonder6",
+        "name": "Rhodos",
+        "side": "B",
+        "baseresource": 1,
+        "steps":[{
+            "stepbuildcondition":[{
+                "type": 2,
+                "quantity": 3
+            }],
+            "steptypes": [0, 1],
+            "reward":[{
+                "reward": 0,
+                "quantity": 3
+            },
+            {
+                "reward": 1,
+                "quantity": 3
+            }],
+            "warpoints": 1
+		},
+        {
+            "stepbuildcondition":[{
+                "type": 1,
+                "quantity": 4
+            }],
+            "steptypes": [0, 1],
+            "reward":[{
+                "reward": 0,
+                "quantity": 4
+            },
+            {
+                "reward": 1,
+                "quantity": 4
+            }],
+            "warpoints": 1
+        }]
+    },
+    {
+        "id": "wonder7",
+        "name": "Olympia",
+        "side": "A",
+        "baseresource": 3,
+        "steps":[{
+            "stepbuildcondition":[{
+                "type": 3,
+                "quantity": 2
+            }],
+            "steptypes": [0],
+            "reward":[{
+                "reward": 0,
+                "quantity": 3
+            }]
+		},
+        {
+            "stepbuildcondition":[{
+                "type": 2,
+                "quantity": 2
+            }],
+            "steptypes": [5],
+            "buildtype": 0
+        },
+        {
+            "stepbuildcondition":[{
+                "type": 1,
+                "quantity": 2
+            }],
+            "steptypes": [0],
+            "reward":[{
+                "reward": 0,
+                "quantity": 7
+            }]
+		}]
+    },
+    {
+        "id": "wonder8",
+        "name": "Olympia",
+        "side": "B",
+        "baseresource": 3,
+        "steps":[{
+            "stepbuildcondition":[{
+                "type": 3,
+                "quantity": 2
+            }],
+            "steptypes": [3],
+            "tradetype": 1,
+            "resources": 0
+		},
+        {
+            "stepbuildcondition":[{
+                "type": 2,
+                "quantity": 2
+            }],
+            "steptypes": [0],
+            "reward":[{
+                "reward": 0,
+                "quantity": 5
+            }]
+        },
+        {
+            "stepbuildcondition":[{
+                "type": 1,
+                "quantity": 2
+            },
+            {
+                "type": 5,
+                "quantity": 1
+            }],
+            "steptypes": [4]
+		}]
+    },
+    {
+        "id": "wonder9",
+        "name": "Gizah",
+        "side": "A",
+        "baseresource": 2,
+        "steps":[{
+            "stepbuildcondition":[{
+                "type": 2,
+                "quantity": 2
+            }],
+            "steptypes": [0],
+            "reward":[{
+                "reward": 0,
+                "quantity": 3
+            }]
+		},
+        {
+            "stepbuildcondition":[{
+                "type": 3,
+                "quantity": 3
+            }],
+            "steptypes": [0],
+            "reward":[{
+                "reward": 0,
+                "quantity": 5
+            }]
+        },
+        {
+            "stepbuildcondition":[{
+                "type": 2,
+                "quantity": 4
+            }],
+            "steptypes": [0],
+            "reward":[{
+                "reward": 0,
+                "quantity": 7
+            }]
+		}]
+    },
+    {
+        "id": "wonder10",
+        "name": "Gizah",
+        "side": "B",
+        "baseresource": 2,
+        "steps":[{
+            "stepbuildcondition":[{
+                "type": 3,
+                "quantity": 2
+            }],
+            "steptypes": [0],
+            "reward":[{
+                "reward": 0,
+                "quantity": 3
+            }]
+		},
+        {
+            "stepbuildcondition":[{
+                "type": 2,
+                "quantity": 3
+            }],
+            "steptypes": [0],
+            "reward":[{
+                "reward": 0,
+                "quantity": 5
+            }]
+        },
+        {
+            "stepbuildcondition":[{
+                "type": 0,
+                "quantity": 3
+            }],
+            "steptypes": [0],
+            "reward":[{
+                "reward": 0,
+                "quantity": 5
+            }]
+        },
+        {
+            "stepbuildcondition":[{
+                "type": 2,
+                "quantity": 4
+            },
+            {
+                "type": 6,
+                "quantity": 1
+            }],
+            "steptypes": [0],
+            "reward":[{
+                "reward": 0,
+                "quantity": 7
+            }]
+		}]
+    },
+    {
+        "id": "wonder11",
+        "name": "Babylon",
+        "side": "A",
+        "baseresource": 0,
+        "steps":[{
+            "stepbuildcondition":[{
+                "type": 0,
+                "quantity": 2
+            }],
+            "steptypes": [0],
+            "reward":[{
+                "reward": 0,
+                "quantity": 3
+            }]
+		},
+        {
+            "stepbuildcondition":[{
+                "type": 3,
+                "quantity": 3
+            }],
+            "steptypes": [2]
+        },
+        {
+            "stepbuildcondition":[{
+                "type": 0,
+                "quantity": 4
+            }],
+            "steptypes": [0],
+            "reward":[{
+                "reward": 0,
+                "quantity": 7
+            }]
+		}]
+    },
+    {
+        "id": "wonder12",
+        "name": "Babylon",
+        "side": "B",
+        "baseresource": 0,
+        "steps":[{
+            "stepbuildcondition":[{
+                "type": 0,
+                "quantity": 1
+            },
+            {
+                "type": 5,
+                "quantity": 1
+            }],
+            "steptypes": [0],
+            "reward":[{
+                "reward": 0,
+                "quantity": 3
+            }]
+		},
+        {
+            "stepbuildcondition":[{
+                "type": 3,
+                "quantity": 2
+            },
+            {
+                "type": 4,
+                "quantity": 1
+            }],
+            "steptypes": [5],
+            "buildtype": 1
+        },
+        {
+            "stepbuildcondition":[{
+                "type": 0,
+                "quantity": 3
+            },
+            {
+                "type": 6,
+                "quantity": 1
+            }],
+            "steptypes": [2]
+		}]
+    },
+    {
+        "id": "wonder13",
+        "name": "Alexandria",
+        "side": "A",
+        "baseresource": 4,
+        "steps":[{
+            "stepbuildcondition":[{
+                "type": 2,
+                "quantity": 2
+            }],
+            "steptypes": [0],
+            "reward":[{
+                "reward": 0,
+                "quantity": 3
+            }]
+		},
+        {
+            "stepbuildcondition":[{
+                "type": 1,
+                "quantity": 2
+            }],
+            "steptypes": [3],
+            "tradetype": 0,
+            "resources": 0
+        },
+        {
+            "stepbuildcondition":[{
+                "type": 4,
+                "quantity": 2
+            }],
+            "steptypes": [0],
+            "reward":[{
+                "reward": 0,
+                "quantity": 7
+            }]
+		}]
+    },
+    {
+        "id": "wonder14",
+        "name": "Alexandria",
+        "side": "B",
+        "baseresource": 4,
+        "steps":[{
+            "stepbuildcondition":[{
+                "type": 0,
+                "quantity": 2
+            }],
+            "steptypes": [3],
+            "tradetype": 0,
+            "resources": 0
+		},
+        {
+            "stepbuildcondition":[{
+                "type": 3,
+                "quantity": 2
+            }],
+            "steptypes": [3],
+            "tradetype": 0,
+            "resources": 1
+        },
+        {
+            "stepbuildcondition":[{
+                "type": 2,
+                "quantity": 3
+            }],
+            "steptypes": [0],
+            "reward":[{
+                "reward": 0,
+                "quantity": 7
+            }]
+		}]
+    }
+]

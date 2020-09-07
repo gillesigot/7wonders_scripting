@@ -16,8 +16,8 @@ public class Player
     public bool IsHuman { get; set; }
     // Represent the city of a player.
     public CityManager City { get; set; }
-    // Represent the wonder of a player.
-    public WonderManager Wonder { get; set; }
+    // Represent the wonder manager of a player.
+    public WonderManager WonderManager { get; set; }
     // Represent the cards in player's hand.
     public List<Card> Hand { get; set; }
 

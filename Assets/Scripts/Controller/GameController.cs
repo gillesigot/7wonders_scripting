@@ -27,6 +27,12 @@ public class GameController
             this.GameManager.DistributeCards();
             PlayerBoardController.RefreshHand();
             PlayerBoardController.RefreshDiscardPiles(age);
+
+            if (age == 1)
+            {
+                this.GameManager.LoadWonders();
+                PlayerBoardController.RefreshWonderBoard(this.GameManager.GetHumanPlayer().WonderManager.Wonder.ID);
+            }
         }
     }
 
