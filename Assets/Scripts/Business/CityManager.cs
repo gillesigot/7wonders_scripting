@@ -558,7 +558,7 @@ public class CityManager
         int points = 0;
         string[] manufacturedResourcesCardNames = new string[] { "Presse", "Metier a tisser", "Verrerie" };
 
-        if (bonusCardType == Card.CardType.RESOURCE)
+        if (bonusCardType == Card.CardType.RESOURCE && card.Type == Card.CardType.RESOURCE)
         {
             if (bonusCard.ResourceKind == BonusCard.ResourceMetaType.MANUFACTURED)
             {
@@ -574,7 +574,10 @@ public class CityManager
                 points++;
         }
         else
-            points++;
+        {
+            if (bonusCardType == card.Type)
+                points++;
+        }
 
         return points;
     }
