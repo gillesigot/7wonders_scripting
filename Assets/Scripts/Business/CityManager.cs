@@ -99,19 +99,6 @@ public class CityManager
     }
 
     /// <summary>
-    /// Build a wonder step and apply effect, if building conditions are met.
-    /// </summary>
-    /// <param name="building_id">The building discarded in order to build a wonder step.</param>
-    /// <returns></returns>
-    public bool BuildWonder(string building_id)
-    {
-        Card building = this.Owner.Hand.Select(o => o).Where(o => o.ID == building_id).First();
-        this.Owner.Hand.Remove(building);
-        // Hack: TEMP manage wonder build condition + build effect on wonder board
-        return true;
-    }
-
-    /// <summary>
     /// Build the building within the city if building conditions are met.
     /// </summary>
     /// <param name="building_id">The id of the building to build.</param>
@@ -301,10 +288,10 @@ public class CityManager
         if (this.ResourceTreeLeaves.Count > 0)
         {
             foreach (ResourceTreeNode rtn in this.ResourceTreeLeaves)
-                if (HasMatchingResources(rtn.Resources, building))
+                if (HasMatchingResources(rtn.Resources, building.CardBuildCondition.Resources))
                     return true;
         }
-        else if (HasMatchingResources(new Dictionary<ResourceType, int>(), building))
+        else if (HasMatchingResources(new Dictionary<ResourceType, int>(), building.CardBuildCondition.Resources))
             return true;
 
         return false;
@@ -313,13 +300,13 @@ public class CityManager
     /// <summary>
     /// If city has enough resources (bought or not) to build building, returns True.
     /// </summary>
-    /// <param name="resources">The resources to evaluate.</param>
-    /// <param name="building">The building to build.</param>
+    /// <param name="leafPath">The resources tree path to evaluate.</param>
+    /// <param name="neededResources">The resources needed to build the building.</param>
     /// <returns>True if enough resources (bought or not).</returns>
-    private bool HasMatchingResources(Dictionary<ResourceType, int> resources, Card building)
+    public bool HasMatchingResources(Dictionary<ResourceType, int> leafPath, ResourceQuantity[] neededResources)
     {
         bool matching = true;
-        foreach (ResourceQuantity rq in building.CardBuildCondition.Resources)
+        foreach (ResourceQuantity rq in neededResources)
         {
             if (rq.Type == ResourceType.GOLD)
             {
@@ -330,9 +317,9 @@ public class CityManager
             }
             else
             {
-                if (resources.ContainsKey(rq.Type) || this.TradeResources.ContainsKey(rq.Type))
+                if (leafPath.ContainsKey(rq.Type) || this.TradeResources.ContainsKey(rq.Type))
                 {
-                    int cityQuantity = resources.ContainsKey(rq.Type) ? resources[rq.Type] : 0;
+                    int cityQuantity = leafPath.ContainsKey(rq.Type) ? leafPath[rq.Type] : 0;
                     int tradeQuantity = this.TradeResources.ContainsKey(rq.Type) ? this.TradeResources[rq.Type] : 0;
                     if ((cityQuantity + tradeQuantity) < rq.Quantity)
                         matching = false;
@@ -488,8 +475,16 @@ public class CityManager
 
     public void ApplyDirectCommercialBonus(BonusCard bc)
     {
-        if (bc.BonusCardType.Length == 0 && bc.Bonus != BonusCard.BonusType.WONDER_BONUS)
-            this.Owner.Coins += bc.Reward[0].Quantity;
+        if (bc.BonusCardType.Length == 0)
+        {
+            if (bc.Bonus != BonusCard.BonusType.WONDER_BONUS)
+                this.Owner.Coins += bc.Reward[0].Quantity;
+            else
+            {
+                List<Player> players = GameManager.Instance().Players;
+                this.Owner.Coins += this.CalculateWonderBonus(players.ToArray(), players.IndexOf(this.Owner)) * 3;
+            }
+        }
         else
         {
             CityManager leftCity = GameManager.Instance().GetLeftCity(this.Owner);
@@ -526,7 +521,7 @@ public class CityManager
     /// <param name="bonusCard">The card giving the bonus.</param>
     /// <param name="leftCity">The left player's city.</param>
     /// <param name="rightCity">The right player's city.</param>
-    /// <returns></returns>
+    /// <returns>The amount of points earned.</returns>
     public int CalculateCardBonus(BonusCard bonusCard, CityManager leftCity, CityManager rightCity)
     {
         List<Card> cardsToCheck = new List<Card>();
@@ -587,7 +582,7 @@ public class CityManager
     /// </summary>
     /// <param name="players">List of all players.</param>
     /// <param name="currentPlayerIdx">Position of current player in the list.</param>
-    /// <returns></returns>
+    /// <returns>The amount of points earned.</returns>
     public int CalculateDefeatBonus(Player[] players, int currentPlayerIdx)
     {
         int bonusPoints = 0;
@@ -596,6 +591,25 @@ public class CityManager
 
         bonusPoints += players[leftPlayer].EastDefeatWarTokens;
         bonusPoints += players[rightPlayer].WestDefeatWarTokens;
+
+        return bonusPoints;
+    }
+
+    /// <summary>
+    /// Calculate bonus points based on achieved wonder steps of current player and opponents.
+    /// </summary>
+    /// <param name="players">List of all players.</param>
+    /// <param name="currentPlayerIdx">Position of the current player in the list.</param>
+    /// <returns>The amount of points earned.</returns>
+    public int CalculateWonderBonus(Player[] players, int currentPlayerIdx)
+    {
+        int bonusPoints = 0;
+        int leftPlayer = currentPlayerIdx - 1 < 0 ? players.Length - 1 : currentPlayerIdx - 1;
+        int rightPlayer = currentPlayerIdx + 1 == players.Length ? 0 : currentPlayerIdx + 1;
+
+        bonusPoints += players[leftPlayer].WonderManager.AchievedSteps;
+        bonusPoints += players[rightPlayer].WonderManager.AchievedSteps;
+        bonusPoints += players[currentPlayerIdx].WonderManager.AchievedSteps;
 
         return bonusPoints;
     }

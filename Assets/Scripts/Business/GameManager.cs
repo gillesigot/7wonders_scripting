@@ -270,7 +270,7 @@ public class GameManager
                         currentBonus += players[i].City.CalculateDefeatBonus(players, i);
                         break;
                     case BonusCard.BonusType.WONDER_BONUS:
-                        // Hack: TEMP compute wonder bonus
+                        currentBonus += players[i].City.CalculateWonderBonus(players, i);
                         break;
                 }
             }
@@ -291,16 +291,20 @@ public class GameManager
             int commercialBonus = 0;
             List<Card> comCards = p.City.CommercialBuildings;
             foreach (Card c in comCards)
-                if (
-                    c is BonusCard && 
-                    ((BonusCard) c).Reward.Any(r => r.Reward == BonusCard.RewardType.VICTORY_POINT) &&
-                    ((BonusCard)c).Bonus != BonusCard.BonusType.WONDER_BONUS // Hack: TEMP no implemented yet
-                    )
-                    commercialBonus += p.City.CalculateCardBonus(
-                        (BonusCard)c, 
-                        this.GetLeftCity(p), 
+                if (c is BonusCard && ((BonusCard)c).Reward.Any(r => r.Reward == BonusCard.RewardType.VICTORY_POINT))
+                {
+                    if (((BonusCard)c).Bonus == BonusCard.BonusType.WONDER_BONUS)
+                        commercialBonus += p.City.CalculateWonderBonus(
+                            this.Players.ToArray(), 
+                            this.Players.IndexOf(p)
+                            );
+                    else
+                        commercialBonus += p.City.CalculateCardBonus(
+                        (BonusCard)c,
+                        this.GetLeftCity(p),
                         this.GetRightCity(p)
                         );
+                }
             comResults.Add(commercialBonus);
         }
         return comResults;

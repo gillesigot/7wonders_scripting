@@ -91,8 +91,11 @@ public class DropController
     /// <returns>The new card location.</returns>
     private Transform WonderBuild(GameObject card)
     {
+        if (Player.WonderManager.IsWonderBuilt())
+            return null;
+
         Playable playable = card.GetComponent<Playable>();
-        if (Player.City.BuildWonder(playable.id))
+        if (Player.WonderManager.BuildWonder(playable.id))
         {
             Transform childLayout = this.DropZone.parent.GetChild(0);
             Image cardAppearance = card.GetComponent<Image>();
