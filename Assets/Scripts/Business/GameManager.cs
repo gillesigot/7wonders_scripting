@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using static Card;
 
 public class GameManager
 {
@@ -137,6 +138,12 @@ public class GameManager
         {
             Wonder wonder = wonders.ElementAt(rand.Next(wonders.Count));
             player.WonderManager.Wonder = wonder;
+            ResourceQuantity baseResource = new ResourceQuantity
+            {
+                Type = wonder.BaseResource,
+                Quantity = 1
+            };
+            player.City.AddToResourceTree(new ResourceQuantity[] { baseResource }, false, false);
         }
     }
 

@@ -242,24 +242,24 @@ public class CityManager
     /// <param name="resources">The resources to add.</param>
     /// <param name="optional">If the the player must choose between the given resources.</param>
     /// <param name="buyable">If those resources can be bought by other players.</param>
-    private void AddToResourceTree(ResourceQuantity[] resources, bool optional, bool buyable)
+    public void AddToResourceTree(ResourceQuantity[] resources, bool optional, bool buyable)
     {
         List<ResourceTreeNode> newResources = null;
+
         if (optional) 
             newResources = new List<ResourceTreeNode>();
+
         foreach (ResourceQuantity rq in resources)
         {
             if (!optional)
                 newResources = new List<ResourceTreeNode>();
 
-            // Hack: TEMP Should be initialized by resource on the wonder board
             if (this.ResourceTreeLeaves.Count == 0)
                 newResources.Add(new ResourceTreeNode(rq));
+            else
+                foreach (ResourceTreeNode node in this.ResourceTreeLeaves)
+                    newResources.Add(node.Add(new ResourceTreeNode(rq), buyable));
 
-            foreach (ResourceTreeNode node in this.ResourceTreeLeaves)
-            {
-                newResources.Add(node.Add(new ResourceTreeNode(rq), buyable));
-            }
             if (!optional)
                 this.ResourceTreeLeaves = newResources;
         }
