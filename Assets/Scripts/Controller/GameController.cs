@@ -31,7 +31,10 @@ public class GameController
             if (age == 1)
             {
                 this.GameManager.LoadWonders();
-                PlayerBoardController.RefreshWonderBoard(this.GameManager.GetHumanPlayer().WonderManager.Wonder.ID);
+                PlayerBoardController.RefreshWonderBoard(
+                    this.GameManager.GetHumanPlayer().WonderManager.Wonder.ID,
+                    this.GameManager.GetHumanPlayer().WonderManager.Wonder.Steps.Count
+                    );
             }
         }
     }

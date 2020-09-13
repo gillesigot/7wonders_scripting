@@ -35,6 +35,8 @@ public class PlayerBoardController
     public static DefeatTokenBoard RightDefeatTokenBoard { get; set; }
     // Used to display end game scores.
     public static ScoreBoard ScoreBoard { get; set; }
+    // Used to setup wonder layout.
+    public static WonderLayout WonderLayout { get; set; }
 
     public PlayerBoardController()
     {
@@ -49,6 +51,7 @@ public class PlayerBoardController
         LeftDefeatTokenBoard = GameObject.Find("defeat_left").GetComponent<DefeatTokenBoard>();
         RightDefeatTokenBoard = GameObject.Find("defeat_right").GetComponent<DefeatTokenBoard>();
         ScoreBoard = GameObject.Find("score_board").GetComponent<ScoreBoard>();
+        WonderLayout = GameObject.Find("wonder_layout").GetComponent<WonderLayout>();
     }
 
     #region Player's display
@@ -101,11 +104,13 @@ public class PlayerBoardController
     /// Display the wonder board according to the one attributed to the player.
     /// </summary>
     /// <param name="wonderID">The wonder's ID to display.</param>
-    public static void RefreshWonderBoard(string wonderID)
+    /// <param name="nbSteps">The number of wonder buildable steps.</param>
+    public static void RefreshWonderBoard(string wonderID, int nbSteps)
     {
         Image wonderBoard = GameObject.Find("wonder_board").GetComponent<Image>();
         Sprite wonderImage = Resources.Load<Sprite>("wonders/" + wonderID);
         wonderBoard.sprite = wonderImage;
+        WonderLayout.SetWonderLayout(nbSteps);
     }
 
     #endregion
