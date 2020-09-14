@@ -29,7 +29,7 @@ public class ScoreBoard : MonoBehaviour
         {
             // Header
             Text header = scores.Single(s => s.name == "r0" + i);
-            header.text = (i == 0) ? "You" : "Joueur " + (i + 1);
+            header.text = (i == 0) ? "You" : "Player " + (i + 1);
 
             // War results
             Text warPoints = scores.Single(s => s.name == "r1" + i);
@@ -42,9 +42,8 @@ public class ScoreBoard : MonoBehaviour
 
             // Wonder results
             Text wonderPoints = scores.Single(s => s.name == "r3" + i);
-            // Hack TEMP: to implement
-            List<int> wonderScores = new List<int> { 0 };
-            wonderPoints.text = "";
+            List<int> wonderScores = this.GameManager.GetWonderResults();
+            wonderPoints.text = wonderScores[i].ToString();
 
             // Civil results
             Text civilPoints = scores.Single(s => s.name == "r4" + i);

@@ -16,4 +16,6 @@
     public const int SCIENCE_BONUS = 7;
     // Define the default value a resource can be bought through trading.
     public const int DEFAULT_TRADE_PRICE = 2;
+    // Define the default value resources can be bought with reduction by trading.
+    public const int DEFAULT_TRADE_REDUCTION_PRICE = 1;
 }

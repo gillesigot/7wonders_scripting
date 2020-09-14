@@ -321,4 +321,16 @@ public class GameManager
             treasureResults.Add(p.Coins / 3);
         return treasureResults;
     }
+
+    /// <summary>
+    /// Get all players wonder score.
+    /// </summary>
+    /// <returns>List of players wonder score.</returns>
+    public List<int> GetWonderResults()
+    {
+        List<int> wonderResults = new List<int>();
+        foreach (Player p in this.Players)
+            wonderResults.Add(p.WonderManager.GetWonderPoints());
+        return wonderResults;
+    }
 }

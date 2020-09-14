@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using static BonusCard;
 using static Card;
 public class CityManager
 {
@@ -365,12 +366,12 @@ public class CityManager
     #region War management
 
     /// <summary>
-    /// Sum all war cards points for this city.
+    /// Sum all war cards points for this city (and additional wonder war bonus if any).
     /// </summary>
     /// <returns>The total amount of war points.</returns>
     public int GetWarPoints()
     {
-        return this.WarBuildings.Sum(warCard => warCard.WarPoints);
+        return this.WarBuildings.Sum(warCard => warCard.WarPoints) + this.Owner.WonderManager.GetWarPoints();
     }
 
     #endregion
@@ -396,7 +397,6 @@ public class CityManager
     /// <returns>The total science points.</returns>
     public int GetSciencePoints()
     {
-        int total = 0;
         const int TABLET = 0, GEAR = 1, COMPASS = 2;
         int[] scienceType = new int[3];
 
@@ -410,12 +410,13 @@ public class CityManager
                 scienceType[COMPASS]++;
         }
 
-        total = this.ComputeScienceScore(scienceType);
-
         if (this.Bonus.Where(bonus => bonus.Bonus == BonusCard.BonusType.SCIENCE_BONUS).Count() > 0)
-            return MaximizeSciencePoints(scienceType);
-        else
-            return total;
+            scienceType = MaximizeSciencePoints(scienceType);
+
+        if (this.Owner.WonderManager.HasScienceBonus())
+            scienceType = MaximizeSciencePoints(scienceType);
+
+        return this.ComputeScienceScore(scienceType);
     }
 
     /// <summary>
@@ -438,11 +439,11 @@ public class CityManager
     }
 
     /// <summary>
-    /// Maximize science points using the bonus granted by science type guild.
+    /// Maximize science points using science bonus.
     /// </summary>
     /// <param name="scienceType">Science type sorted science card counts.</param>
-    /// <returns>The total science points including bonus.</returns>
-    private int MaximizeSciencePoints(int[] scienceType)
+    /// <returns>Maximized science card counts including bonus.</returns>
+    private int[] MaximizeSciencePoints(int[] scienceType)
     {
         int[] minOptimization = scienceType.ToArray();
         int[] maxOptimization = scienceType.ToArray();
@@ -466,13 +467,17 @@ public class CityManager
         int minTotal = this.ComputeScienceScore(minOptimization);
         int maxTotal = this.ComputeScienceScore(maxOptimization);
 
-        return (minTotal > maxTotal) ? minTotal : maxTotal;
+        return (minTotal > maxTotal) ? minOptimization : maxOptimization;
     }
 
     #endregion
 
     #region Commercial buildings management
 
+    /// <summary>
+    /// Get commercial instant bonus (if applicable).
+    /// </summary>
+    /// <param name="bc">The commercial bonus card granting the bonus.</param>
     public void ApplyDirectCommercialBonus(BonusCard bc)
     {
         if (bc.BonusCardType.Length == 0)
@@ -493,22 +498,36 @@ public class CityManager
         }
     }
 
+    /// <summary>
+    /// Apply a reduction on trade with involved neighbour at the given price for given resources.
+    /// </summary>
+    /// <param name="cc">The commercial card granting the trade reduction.</param>
     public void ApplyTradeReduction(CommercialCard cc)
     {
-        const int RAW = 0, MANUFACTURED = 1;
         ResourceType[] resources = cc.Resources.Select(res => res.Type).ToArray();
 
         if (cc.LeftPlayer)
             if (resources.All(RAW_RESOURCES.Contains))
-                this.WestTradePrice[RAW] = cc.Price;
+                this.WestTradePrice[(int)ResourceMetaType.RAW] = cc.Price;
             else
-                this.WestTradePrice[MANUFACTURED] = cc.Price;
+                this.WestTradePrice[(int)ResourceMetaType.MANUFACTURED] = cc.Price;
 
         if (cc.RightPlayer)
             if (resources.All(RAW_RESOURCES.Contains))
-                this.EastTradePrice[RAW] = cc.Price;
+                this.EastTradePrice[(int)ResourceMetaType.RAW] = cc.Price;
             else
-                this.EastTradePrice[MANUFACTURED] = cc.Price;
+                this.EastTradePrice[(int)ResourceMetaType.MANUFACTURED] = cc.Price;
+    }
+
+    /// <summary>
+    /// Apply bilateral trade reduction on give resources at given price.
+    /// </summary>
+    /// <param name="metaType">The meta type of the resources involved.</param>
+    /// <param name="price">The price set for the transactions.</param>
+    public void ApplyTradeReduction(ResourceMetaType metaType, int price)
+    {
+        this.WestTradePrice[(int)metaType] = price;
+        this.EastTradePrice[(int)metaType] = price;
     }
 
     #endregion
@@ -607,9 +626,9 @@ public class CityManager
         int leftPlayer = currentPlayerIdx - 1 < 0 ? players.Length - 1 : currentPlayerIdx - 1;
         int rightPlayer = currentPlayerIdx + 1 == players.Length ? 0 : currentPlayerIdx + 1;
 
-        bonusPoints += players[leftPlayer].WonderManager.AchievedSteps;
-        bonusPoints += players[rightPlayer].WonderManager.AchievedSteps;
-        bonusPoints += players[currentPlayerIdx].WonderManager.AchievedSteps;
+        bonusPoints += players[leftPlayer].WonderManager.AchivedSteps.Count;
+        bonusPoints += players[rightPlayer].WonderManager.AchivedSteps.Count;
+        bonusPoints += players[currentPlayerIdx].WonderManager.AchivedSteps.Count;
 
         return bonusPoints;
     }

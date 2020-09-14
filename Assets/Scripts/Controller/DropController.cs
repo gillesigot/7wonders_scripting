@@ -95,8 +95,16 @@ public class DropController
             return null;
 
         Playable playable = card.GetComponent<Playable>();
-        if (Player.WonderManager.BuildWonder(playable.id))
+        int actionToPerform = Player.WonderManager.BuildWonder(playable.id);
+
+        if (actionToPerform >= 0)
         {
+            switch (actionToPerform)
+            {
+                case 1: PlayerBoardController.RefreshCoinAmount();
+                    break;
+            }
+
             Transform childLayout = this.DropZone.parent.GetChild(0);
             Image cardAppearance = card.GetComponent<Image>();
             string cardBackPath = CARD_BACK_1;
