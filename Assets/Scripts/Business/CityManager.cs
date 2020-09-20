@@ -626,9 +626,9 @@ public class CityManager
         int leftPlayer = currentPlayerIdx - 1 < 0 ? players.Length - 1 : currentPlayerIdx - 1;
         int rightPlayer = currentPlayerIdx + 1 == players.Length ? 0 : currentPlayerIdx + 1;
 
-        bonusPoints += players[leftPlayer].WonderManager.AchivedSteps.Count;
-        bonusPoints += players[rightPlayer].WonderManager.AchivedSteps.Count;
-        bonusPoints += players[currentPlayerIdx].WonderManager.AchivedSteps.Count;
+        bonusPoints += players[leftPlayer].WonderManager.AchievedSteps.Count;
+        bonusPoints += players[rightPlayer].WonderManager.AchievedSteps.Count;
+        bonusPoints += players[currentPlayerIdx].WonderManager.AchievedSteps.Count;
 
         return bonusPoints;
     }

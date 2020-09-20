@@ -153,8 +153,11 @@ public class DropController
     /// </summary>
     private void EndTurn()
     {
-        if (this.Player.Hand.Count == 1)
+        if (this.Player.Hand.Count < 1)
             PlayerBoardController.DiscardLastCard();
+        else
+            if (this.Player.Hand.Count == 1 && !this.Player.WonderManager.HasExtraBuildBonus())
+                PlayerBoardController.DiscardLastCard();
 
         GameManager.Instance().EndTurn();
         PlayerBoardController.RefreshHand();

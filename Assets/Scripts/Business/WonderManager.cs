@@ -11,12 +11,12 @@ public class WonderManager
     // The wonder representation.
     public Wonder Wonder { get; set; }
     // List of all built wonder steps.
-    public List<Step> AchivedSteps { get; set; }
+    public List<Step> AchievedSteps { get; set; }
 
     public WonderManager(Player player)
     {
         this.Owner = player;
-        this.AchivedSteps = new List<Step>();
+        this.AchievedSteps = new List<Step>();
     }
 
     /// <summary>
@@ -25,7 +25,7 @@ public class WonderManager
     /// <returns>True if wonder is done.</returns>
     public bool IsWonderBuilt()
     {
-        return this.AchivedSteps.Count == this.Wonder.Steps.Count;
+        return this.AchievedSteps.Count == this.Wonder.Steps.Count;
     }
 
     /// <summary>
@@ -35,7 +35,7 @@ public class WonderManager
     /// <returns>The type of action to be performed (-1 if nothing).</returns>
     public int BuildWonder(string building_id)
     {
-        Step nextStep = this.Wonder.Steps[this.AchivedSteps.Count];
+        Step nextStep = this.Wonder.Steps[this.AchievedSteps.Count];
         bool canBuild = false;
 
         foreach (ResourceTreeNode rtn in this.Owner.City.ResourceTreeLeaves)
@@ -103,8 +103,6 @@ public class WonderManager
                 case Step.StepType.BUILDER:
                     switch (step.Builder)
                     {
-                        case Step.BuilderType.EXTRA_BUILD:  // TODO
-                            break;
                         case Step.BuilderType.FREE_BUILD:  // TODO
                             break;
                         case Step.BuilderType.GARBAGE_BUILD:  // TODO
@@ -114,7 +112,7 @@ public class WonderManager
             }
         }
 
-        this.AchivedSteps.Add(step);
+        this.AchievedSteps.Add(step);
         return actionToPerform;
     }
 
@@ -127,7 +125,7 @@ public class WonderManager
         int wonderPoints = 0;
 
         // Checking if steps with victory point bonuses and add them to total
-        foreach (Step step in this.AchivedSteps)
+        foreach (Step step in this.AchievedSteps)
             foreach (Step.StepType type in step.Types)
                 wonderPoints += step.Reward
                     .Where(o => o.Reward == RewardType.VICTORY_POINT)
@@ -143,7 +141,7 @@ public class WonderManager
     /// <returns>The sum of the war points.</returns>
     public int GetWarPoints()
     {
-        return this.AchivedSteps
+        return this.AchievedSteps
             .Where(step => step.Types.Any(stepType => stepType == Step.StepType.WAR))
             .Sum(warStep => warStep.WarPoints);
     }
@@ -154,8 +152,19 @@ public class WonderManager
     /// <returns>True if bonus applicable (related step has been built).</returns>
     public bool HasScienceBonus()
     {
-        return this.AchivedSteps
+        return this.AchievedSteps
             .Where(step => step.Types.Any(stepType => stepType == Step.StepType.SCIENCE))
+            .Count() > 0;
+    }
+
+    /// <summary>
+    /// Tell if an extra build is granted by the wonder.
+    /// </summary>
+    /// <returns>True if bonus applicable (related step has been built).</returns>
+    public bool HasExtraBuildBonus()
+    {
+        return this.AchievedSteps
+            .Where(step => step.Builder == Step.BuilderType.EXTRA_BUILD)
             .Count() > 0;
     }
 }

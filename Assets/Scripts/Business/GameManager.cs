@@ -152,16 +152,23 @@ public class GameManager
     /// </summary>
     public void EndTurn()
     {
+        bool skipRotating = false;
         foreach (Player p in Players)
         {
             // Hack: TEMP Mocking IA playing
-            if (!p.IsHuman)
+            if (!p.IsHuman && p.Hand.Count > 0)
                 p.Hand.RemoveAt(0);
             if (p.Hand.Count == 1)
+                if (p.WonderManager.HasExtraBuildBonus())
+                    skipRotating = true;
+                else
+                    p.Hand = new List<Card>();
+            else if (p.Hand.Count < 1)
                 p.Hand = new List<Card>();
             p.City.TradeResources = new Dictionary<Card.ResourceType, int>();
         }
-        this.RotateHands();
+        if (!skipRotating)
+            this.RotateHands();
     }
 
     /// <summary>

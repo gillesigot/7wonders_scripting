@@ -37,13 +37,16 @@ public class CardFactory : MonoBehaviour
     }
 
     /// <summary>
-    /// Return the number of cards remaining in player's hand.
+    /// Remove the last player's card (if any).
     /// </summary>
     public void DiscardLastCard()
     {
-        Transform discardPile = GameObject.Find("discard_pile").transform;
-        GameObject card = this.transform.GetChild(0).gameObject;
-        card.transform.position = discardPile.position;
-        card.SetActive(false);
+        if (this.transform.childCount > 0)
+        {
+            Transform discardPile = GameObject.Find("discard_pile").transform;
+            GameObject card = this.transform.GetChild(0).gameObject;
+            card.transform.position = discardPile.position;
+            card.SetActive(false);
+        }
     }
 }
