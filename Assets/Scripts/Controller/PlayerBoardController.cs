@@ -37,6 +37,8 @@ public class PlayerBoardController
     public static ScoreBoard ScoreBoard { get; set; }
     // Used to setup wonder layout.
     public static WonderLayout WonderLayout { get; set; }
+    // Used to explore given cards and pick one.
+    public static ExplorerLayout ExplorerLayout { get; set; }
 
     public PlayerBoardController()
     {
@@ -52,6 +54,7 @@ public class PlayerBoardController
         RightDefeatTokenBoard = GameObject.Find("defeat_right").GetComponent<DefeatTokenBoard>();
         ScoreBoard = GameObject.Find("score_board").GetComponent<ScoreBoard>();
         WonderLayout = GameObject.Find("wonder_layout").GetComponent<WonderLayout>();
+        ExplorerLayout = GameObject.Find("card_explorer").GetComponent<ExplorerLayout>();
     }
 
     #region Player's display
@@ -133,6 +136,15 @@ public class PlayerBoardController
     public static void DiscardLastCard()
     {
         CardFactory.DiscardLastCard();
+    }
+
+    /// <summary>
+    /// Discard the given card.
+    /// </summary>
+    /// <param name="card">The card to discard.</param>
+    public static void DiscardCard(GameObject card)
+    {
+        CardFactory.DestroyCard(card);
     }
 
     #endregion
@@ -286,6 +298,33 @@ public class PlayerBoardController
             resWanted.Add(wantedType, wantedQuantity);
         }
         return resWanted;
+    }
+
+    #endregion
+
+    #region Card exploring
+
+    /// <summary>
+    /// Load cards in the card explorer and set the layout accordingly.
+    /// </summary>
+    /// <param name="cards">The list of cards to load.</param>
+    public static void ExploreCards(List<Playable> cards)
+    {
+        ExplorerLayout.ToggleExplorer(true);
+        ExplorerLayout.ExploreCards(cards);
+    }
+
+    /// <summary>
+    /// Pick a card from the explorer and add it to the player's city.
+    /// </summary>
+    /// <param name="id">The id of the selected card.</param>
+    public static void SelectCardToBuild(string id)
+    {
+        Card card = GameManager.GetCardById(id);
+        if (Player.City.Build(card, true))
+            ExplorerLayout.ToggleExplorer(false);
+        else
+            Debug.Log("Build impossible: building is already in the city.");
     }
 
     #endregion

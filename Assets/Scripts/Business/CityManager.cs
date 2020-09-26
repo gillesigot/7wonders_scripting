@@ -102,13 +102,12 @@ public class CityManager
     /// <summary>
     /// Build the building within the city if building conditions are met.
     /// </summary>
-    /// <param name="building_id">The id of the building to build.</param>
+    /// <param name="building">The building card to build.</param>
+    /// <param name="isFreeBuild">If the building can be built for free.</param>
     /// <returns>True if built.</returns>
-    public bool Build(string building_id)
+    public bool Build(Card building, bool isFreeBuild)
     {
-        Card building = this.Owner.Hand.Select(o => o).Where(o => o.ID == building_id).First();
-
-        if (IsBuildable(building))
+        if (IsBuildable(building, isFreeBuild))
         {
             switch (building.Type)
             {
@@ -259,13 +258,17 @@ public class CityManager
     /// Check if the city has enough resources or required chainings to build the building.
     /// </summary>
     /// <param name="building">The building to build.</param>
+    /// <param name="isFreeBuild">If the building can be built for free.</param>
     /// <returns>True if buildable.</returns>
-    private bool IsBuildable(Card building)
+    private bool IsBuildable(Card building, bool isFreeBuild)
     {
         // Same building cannot be built twice
         string[] buildingNames = this.GetBuildingNames();
         if (buildingNames.Contains(building.Name))
             return false;
+
+        if (isFreeBuild)
+            return true;
 
         // Free to build or only GOLD
         if (building.CardBuildCondition.Resources.Length == 0)

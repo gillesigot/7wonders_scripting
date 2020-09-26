@@ -43,10 +43,18 @@ public class CardFactory : MonoBehaviour
     {
         if (this.transform.childCount > 0)
         {
-            Transform discardPile = GameObject.Find("discard_pile").transform;
             GameObject card = this.transform.GetChild(0).gameObject;
-            card.transform.position = discardPile.position;
-            card.SetActive(false);
+            GameManager.DiscardPile.Add(card.GetComponent<Playable>());
+            Destroy(card);
         }
+    }
+
+    /// <summary>
+    /// Destroy the given card as gameobject.
+    /// </summary>
+    /// <param name="card">The card to destroy.</param>
+    public void DestroyCard(GameObject card)
+    {
+        Destroy(card);
     }
 }

@@ -2,12 +2,14 @@
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
+public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     // Used to save the parent to which the draggable will return.
     public Transform ParentToReturnTo { get; set; }
     // Used to store the active zoom panel.
     private GameObject ZoomPanel { get; set; }
+    // Used to detect click on the draggable.
+    public bool clickable = false;
 
     /// <summary>
     /// Save this as parent and start drag.
@@ -87,5 +89,27 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         }
         else
             Destroy(ZoomPanel);
+    }
+
+    /// <summary>
+    /// Get playable id and send it to player UI controller.
+    /// </summary>
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (this.clickable)
+        {
+            Playable card = this.GetComponent<Playable>();
+            PlayerBoardController.SelectCardToBuild(card.id);
+
+            Transform newParent = GameObject.Find("build_zones").transform.GetChild((int)card.buildType);
+            if (card.buildType == Card.CardType.RESOURCE)
+            {
+                ShiftLayout layout = newParent.GetComponent<ShiftLayout>();
+                newParent = layout.Shift(this.gameObject);
+            }
+            this.ParentToReturnTo = newParent;
+            this.ZoomOnComponent(false);
+            this.StopDraggable();
+        }
     }
 }

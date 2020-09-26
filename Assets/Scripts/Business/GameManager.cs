@@ -13,6 +13,8 @@ public class GameManager
     public List<Player> Players { get; set; }
     // Used to determine which age of the game is currently played.
     public static int Age { get; set; }
+    // Used to keep tracks of all cards put on the discard pile.
+    public static List<Playable> DiscardPile { get; set; }
 
     // Raised when invalid game settings are defined.
     public class WrongGameSettingsException : Exception
@@ -35,6 +37,7 @@ public class GameManager
             Players.Add(player);
         }
         Age = 1;
+        DiscardPile = new List<Playable>();
     }
     /// <summary>
     /// Get unique instance of Game manager (create it of not created yet).
@@ -107,6 +110,16 @@ public class GameManager
     }
 
     /// <summary>
+    /// Get a card by its id.
+    /// </summary>
+    /// <param name="cardID">The id of the card to retrieve.</param>
+    /// <returns>The corresponding card.</returns>
+    public static Card GetCardById(string cardID)
+    {
+        return CardsDAO.GetCardById(cardID);
+    }
+
+    /// <summary>
     /// Remove randomly extra guilds to fit number of players.
     /// </summary>
     /// <param name="cards">All cards from Age 3.</param>
@@ -136,14 +149,30 @@ public class GameManager
         Random rand = new Random();
         foreach (Player player in this.Players)
         {
-            Wonder wonder = wonders.ElementAt(rand.Next(wonders.Count));
-            player.WonderManager.Wonder = wonder;
-            ResourceQuantity baseResource = new ResourceQuantity
+            // TODO: TO REMOVE
+            if (player.IsHuman)
             {
-                Type = wonder.BaseResource,
-                Quantity = 1
-            };
-            player.City.AddToResourceTree(new ResourceQuantity[] { baseResource }, false, false);
+                Wonder wonder = wonders.ElementAt(3); // Halikarnasssós B
+                player.WonderManager.Wonder = wonder;
+                ResourceQuantity baseResource = new ResourceQuantity
+                {
+                    Type = wonder.BaseResource,
+                    Quantity = 1
+                };
+                player.City.AddToResourceTree(new ResourceQuantity[] { baseResource }, false, false);
+            }
+            else
+            {
+                // TODO: KEEP THAT PART
+                Wonder wonder = wonders.ElementAt(rand.Next(wonders.Count));
+                player.WonderManager.Wonder = wonder;
+                ResourceQuantity baseResource = new ResourceQuantity
+                {
+                    Type = wonder.BaseResource,
+                    Quantity = 1
+                };
+                player.City.AddToResourceTree(new ResourceQuantity[] { baseResource }, false, false);
+            }
         }
     }
 
@@ -155,14 +184,33 @@ public class GameManager
         bool skipRotating = false;
         foreach (Player p in Players)
         {
-            // Hack: TEMP Mocking IA playing
             if (!p.IsHuman && p.Hand.Count > 0)
+            {
+                // Hack: TEMP Mocking IA playing
+                UnityEngine.GameObject dummyIARepresentation = new UnityEngine.GameObject();
+                Playable playable = dummyIARepresentation.AddComponent<Playable>();
+                playable.id = p.Hand[0].ID;
+                playable.buildType = p.Hand[0].Type;
+                DiscardPile.Add(playable);
+
                 p.Hand.RemoveAt(0);
+            }
             if (p.Hand.Count == 1)
                 if (p.WonderManager.HasExtraBuildBonus())
                     skipRotating = true;
                 else
-                    p.Hand = new List<Card>();
+                {
+                    if (!p.IsHuman)
+                    {
+                        // Hack: TEMP IA discarding last cards
+                        UnityEngine.GameObject dummyIARepresentation = new UnityEngine.GameObject();
+                        Playable playable = dummyIARepresentation.AddComponent<Playable>();
+                        playable.id = p.Hand[0].ID;
+                        playable.buildType = p.Hand[0].Type;
+                        DiscardPile.Add(playable);
+                    }
+                    p.Hand.RemoveAt(0);
+                }
             else if (p.Hand.Count < 1)
                 p.Hand = new List<Card>();
             p.City.TradeResources = new Dictionary<Card.ResourceType, int>();

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class DropController
@@ -65,7 +66,9 @@ public class DropController
     private Transform RegularBuild(GameObject card)
     {
         Playable playable = card.GetComponent<Playable>();
-        if (Player.City.Build(playable.id))
+        Card building = Player.Hand.Select(o => o).Where(o => o.ID == playable.id).First();
+
+        if (Player.City.Build(building, false))
         {
             PlayerBoardController.RefreshCoinAmount();
             Transform newParent = GameObject.Find("build_zones").transform.GetChild((int)playable.buildType);
@@ -103,6 +106,10 @@ public class DropController
             {
                 case 1: PlayerBoardController.RefreshCoinAmount();
                     break;
+                case 2: // TODO PlayerBoardController.ExploreCards with guilds from neighbours
+                    break;
+                case 3: PlayerBoardController.ExploreCards(GameManager.DiscardPile);
+                    break;
             }
 
             Transform childLayout = this.DropZone.parent.GetChild(0);
@@ -138,12 +145,11 @@ public class DropController
     /// <returns>The new card location.</returns>
     private Transform Discard(GameObject card)
     {
-        card.transform.position = this.DiscardPile.position;
-        card.SetActive(false);
-
         Playable playable = card.GetComponent<Playable>();
         Player.City.Discard(playable.id);
         PlayerBoardController.RefreshCoinAmount();
+        GameManager.DiscardPile.Add(playable);
+        PlayerBoardController.DiscardCard(card);
 
         return DiscardPile;
     }

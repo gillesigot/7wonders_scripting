@@ -55,14 +55,16 @@ public class WonderManager
     }
 
     /// <summary>
-    /// 
+    /// Add the given step to the wonder and apply direct effects.
     /// </summary>
-    /// <param name="step"></param>
+    /// <param name="step">The step to add to the wonder.</param>
     private int AddWonderStep(Step step)
     {
         // Action to perform:
         // 0 - step is build, do nothing
         // 1 - Refresh coins
+        // 2 - Select guild to copy
+        // 3 - Build card for discard pile
 
         int actionToPerform = 0;
         foreach (Step.StepType type in step.Types)
@@ -98,16 +100,12 @@ public class WonderManager
                     else
                         this.Owner.City.ApplyTradeReduction(step.ResourceMetaType, GameConsts.DEFAULT_TRADE_REDUCTION_PRICE);
                     break;
-                case Step.StepType.GUILD:  // TODO
+                case Step.StepType.GUILD:
+                    actionToPerform = 2;
                     break;
                 case Step.StepType.BUILDER:
-                    switch (step.Builder)
-                    {
-                        case Step.BuilderType.FREE_BUILD:  // TODO
-                            break;
-                        case Step.BuilderType.GARBAGE_BUILD:  // TODO
-                            break;
-                    }
+                    if (step.Builder == Step.BuilderType.GARBAGE_BUILD)
+                        actionToPerform = 3;
                     break;
             }
         }
@@ -126,11 +124,10 @@ public class WonderManager
 
         // Checking if steps with victory point bonuses and add them to total
         foreach (Step step in this.AchievedSteps)
-            foreach (Step.StepType type in step.Types)
-                wonderPoints += step.Reward
-                    .Where(o => o.Reward == RewardType.VICTORY_POINT)
-                    .Select(o => o.Quantity)
-                    .FirstOrDefault();
+            wonderPoints += step.Reward
+                .Where(o => o.Reward == RewardType.VICTORY_POINT)
+                .Select(o => o.Quantity)
+                .FirstOrDefault();
 
         return wonderPoints;
     }

@@ -164,6 +164,57 @@ public static class CardsDAO
     }
 
     /// <summary>
+    /// Retrieve a given stored card  according to its id.
+    /// </summary>
+    /// <param name="id">The id of the card to retrieve.</param>
+    /// <returns>The corresponding card (or null if not found).</returns>
+    public static Card GetCardById(string id)
+    {
+        string jsonValues = File.ReadAllText(StorageConsts.CARD_FILE_LOCATION);
+        List<CardDAO> cardsDAO = JsonConvert.DeserializeObject<List<CardDAO>>(jsonValues);
+
+        Card card = null;
+
+        foreach (CardDAO cardDAO in cardsDAO)
+        {
+            if (cardDAO.ID.Contains(id))
+            {
+                switch ((Card.CardType)cardDAO.CardType)
+                {
+                    case Card.CardType.RESOURCE:
+                        card = GetResourceCard(cardDAO);
+                        break;
+                    case Card.CardType.WAR:
+                        card = GetWarCard(cardDAO);
+                        break;
+                    case Card.CardType.CIVIL:
+                        card = GetCivilCard(cardDAO);
+                        break;
+                    case Card.CardType.COMMERCIAL:
+                        if (cardDAO.Price < 0)
+                        {
+                            if (cardDAO.Resources is null)
+                                card = GetBonusCard(cardDAO); // Commercial cards acting as bonus cards
+                            else
+                                card = GetResourceCard(cardDAO); // Commercial cards acting as resources
+                        }
+                        else
+                            card = GetCommercialCard(cardDAO);
+                        break;
+                    case Card.CardType.SCIENCE:
+                        card = GetScienceCard(cardDAO);
+                        break;
+                    case Card.CardType.GUILD:
+                        card = GetBonusCard(cardDAO);
+                        break;
+                }
+                break;
+            }
+        }
+        return card;
+    }
+
+    /// <summary>
     /// Retrieve basic fields to instanciate a Card.
     /// </summary>
     /// <param name="cardDAO">The object containing the card information.</param>

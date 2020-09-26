@@ -86,6 +86,7 @@
     <Compile Include="Assets\Scripts\Presentation\DefeatTokenBoard.cs" />
     <Compile Include="Assets\Scripts\Presentation\Draggable.cs" />
     <Compile Include="Assets\Scripts\Presentation\DropZone.cs" />
+    <Compile Include="Assets\Scripts\Presentation\ExplorerLayout.cs" />
     <Compile Include="Assets\Scripts\Presentation\GameStart.cs" />
     <Compile Include="Assets\Scripts\Presentation\Playable.cs" />
     <Compile Include="Assets\Scripts\Presentation\ScoreBoard.cs" />
