@@ -20,6 +20,15 @@ public class WonderManager
     }
 
     /// <summary>
+    /// Get the next wonder step to build.
+    /// </summary>
+    /// <returns>The next wonder step.</returns>
+    public Step GetNextStep()
+    {
+        return this.Wonder.Steps[this.AchievedSteps.Count];
+    }
+
+    /// <summary>
     /// Tell if the wonder is fully built or not.
     /// </summary>
     /// <returns>True if wonder is done.</returns>
@@ -35,23 +44,26 @@ public class WonderManager
     /// <returns>The type of action to be performed (-1 if nothing).</returns>
     public int BuildWonder(string building_id)
     {
-        Step nextStep = this.Wonder.Steps[this.AchievedSteps.Count];
-        bool canBuild = false;
-
-        foreach (ResourceTreeNode rtn in this.Owner.City.ResourceTreeLeaves)
-            if (this.Owner.City.HasMatchingResources(rtn.Resources, nextStep.BuildCondition))
-            {
-                canBuild = true;
-                break;
-            }
-        if (!canBuild)
+        if (IsNextStepBuildable())
+        {
+            Card building = this.Owner.Hand.Select(o => o).Where(o => o.ID == building_id).First();
+            this.Owner.Hand.Remove(building);
+            return this.AddWonderStep(this.GetNextStep());
+        }
+        else
             return -1;
+    }
 
-        Card building = this.Owner.Hand.Select(o => o).Where(o => o.ID == building_id).First();
-        this.Owner.Hand.Remove(building);
-
-        int actionToPerform = this.AddWonderStep(nextStep);
-        return actionToPerform;
+    /// <summary>
+    /// Analyze if the wonder next step can be built.
+    /// </summary>
+    /// <returns>True if the built.</returns>
+    public bool IsNextStepBuildable()
+    {
+        foreach (ResourceTreeNode rtn in this.Owner.City.ResourceTreeLeaves)
+            if (this.Owner.City.HasMatchingResources(rtn.Resources, this.GetNextStep().BuildCondition))
+                return true;
+        return false;
     }
 
     /// <summary>

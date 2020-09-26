@@ -70,7 +70,7 @@ public class ScoreBoard : MonoBehaviour
             totalPoints.text = (
                 players[i].VictoryWarPoints + 
                 treasureScores[i] + 
-                wonderScores[0] +
+                wonderScores[i] +
                 civilScores[i] +
                 commercialScores[i] +
                 guildScores[i] +

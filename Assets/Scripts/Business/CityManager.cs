@@ -102,6 +102,22 @@ public class CityManager
     }
 
     /// <summary>
+    /// Check how much money is needed to build a given building.
+    /// </summary>
+    /// <param name="building">The building to build.</param>
+    /// <returns>The amount of coins needed.</returns>
+    public int IsMoneyRequired(Card building)
+    {
+        if (building.CardBuildCondition.Resources.Length == 1)
+        {
+            ResourceQuantity firstRes = building.CardBuildCondition.Resources.ElementAt(0);
+            if (firstRes.Type == ResourceType.GOLD)
+                return firstRes.Quantity;
+        }
+        return 0;
+    }
+
+    /// <summary>
     /// Build the building within the city if building conditions are met.
     /// </summary>
     /// <param name="building">The building card to build.</param>
@@ -111,6 +127,7 @@ public class CityManager
     {
         if (IsBuildable(building, isFreeBuild))
         {
+            this.Owner.Coins -= this.IsMoneyRequired(building);
             switch (building.Type)
             {
                 case CardType.RESOURCE:
@@ -262,7 +279,7 @@ public class CityManager
     /// <param name="building">The building to build.</param>
     /// <param name="isFreeBuild">If the building can be built for free.</param>
     /// <returns>True if buildable.</returns>
-    private bool IsBuildable(Card building, bool isFreeBuild)
+    public bool IsBuildable(Card building, bool isFreeBuild)
     {
         // Same building cannot be built twice
         string[] buildingNames = this.GetBuildingNames();
@@ -272,18 +289,15 @@ public class CityManager
         if (isFreeBuild)
             return true;
 
-        // Free to build or only GOLD
+        // Free to build
         if (building.CardBuildCondition.Resources.Length == 0)
             return true;
-        else if (building.CardBuildCondition.Resources.Length == 1)
-        {
-            ResourceQuantity firstRes = building.CardBuildCondition.Resources.ElementAt(0);
-            if (firstRes.Type == ResourceType.GOLD && this.Owner.Coins >= firstRes.Quantity)
-            {
-                this.Owner.Coins -= firstRes.Quantity;
+
+        // Only GOLD
+        int coinsNeeded = IsMoneyRequired(building);
+        if (building.CardBuildCondition.Resources.Length == 1  && coinsNeeded > 0)
+            if (coinsNeeded <= this.Owner.Coins)
                 return true;
-            }
-        }
 
         // Check chainings
         foreach (string buildingName in building.CardBuildCondition.ChainFrom)
@@ -499,7 +513,7 @@ public class CityManager
             else
             {
                 List<Player> players = GameManager.Instance().Players;
-                this.Owner.Coins += this.CalculateWonderBonus(players.ToArray(), players.IndexOf(this.Owner)) * 3;
+                this.Owner.Coins += this.CalculateWonderBonus(players.ToArray(), players.IndexOf(this.Owner), true) * bc.Reward.Where(r => r.Reward == RewardType.GOLD).First().Quantity;
             }
         }
         else
@@ -621,6 +635,8 @@ public class CityManager
         int rightPlayer = currentPlayerIdx + 1 == players.Length ? 0 : currentPlayerIdx + 1;
 
         bonusPoints += players[leftPlayer].EastDefeatWarTokens;
+        bonusPoints += players[leftPlayer].WestDefeatWarTokens;
+        bonusPoints += players[rightPlayer].EastDefeatWarTokens;
         bonusPoints += players[rightPlayer].WestDefeatWarTokens;
 
         return bonusPoints;
@@ -631,15 +647,18 @@ public class CityManager
     /// </summary>
     /// <param name="players">List of all players.</param>
     /// <param name="currentPlayerIdx">Position of the current player in the list.</param>
+    /// <param name="selfOnly">Count current player's steps only.</param>
     /// <returns>The amount of points earned.</returns>
-    public int CalculateWonderBonus(Player[] players, int currentPlayerIdx)
+    public int CalculateWonderBonus(Player[] players, int currentPlayerIdx, bool selfOnly)
     {
         int bonusPoints = 0;
-        int leftPlayer = currentPlayerIdx - 1 < 0 ? players.Length - 1 : currentPlayerIdx - 1;
-        int rightPlayer = currentPlayerIdx + 1 == players.Length ? 0 : currentPlayerIdx + 1;
-
-        bonusPoints += players[leftPlayer].WonderManager.AchievedSteps.Count;
-        bonusPoints += players[rightPlayer].WonderManager.AchievedSteps.Count;
+        if (!selfOnly)
+        {
+            int leftPlayer = currentPlayerIdx - 1 < 0 ? players.Length - 1 : currentPlayerIdx - 1;
+            int rightPlayer = currentPlayerIdx + 1 == players.Length ? 0 : currentPlayerIdx + 1;
+            bonusPoints += players[leftPlayer].WonderManager.AchievedSteps.Count;
+            bonusPoints += players[rightPlayer].WonderManager.AchievedSteps.Count;
+        }
         bonusPoints += players[currentPlayerIdx].WonderManager.AchievedSteps.Count;
 
         return bonusPoints;

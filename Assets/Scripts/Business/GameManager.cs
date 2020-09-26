@@ -149,7 +149,7 @@ public class GameManager
         Random rand = new Random();
         foreach (Player player in this.Players)
         {
-            Wonder wonder = wonders.ElementAt(rand.Next(wonders.Count));
+            Wonder wonder = wonders.ElementAt(rand.Next(wonders.Count)); // TODO: if wonder A given, wonder B isn't available anymore 
             player.WonderManager.Wonder = wonder;
             ResourceQuantity baseResource = new ResourceQuantity
             {
@@ -157,6 +157,61 @@ public class GameManager
                 Quantity = 1
             };
             player.City.AddToResourceTree(new ResourceQuantity[] { baseResource }, false, false);
+        }
+    }
+
+    /// <summary>
+    /// Set an AI for each non human players according to AI level.
+    /// </summary>
+    /// <param name="level">The AI level of cleverness. </param>
+    public void LoadAI(int level)
+    {
+        foreach (Player p in Players)
+        {
+            if (!p.IsHuman)
+            {
+                p.AI = new AIManager(p);
+                switch (level)
+                {
+                    case 1:  // Easy - mostly random
+                        p.AI.RandomBuilding = true;
+                        p.AI.RandomWonder = true;
+                        p.AI.RandomDiscard = true;
+                        break;
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Perform the move decided by the AI.
+    /// </summary>
+    /// <param name="choice">Move chosen by the AI.</param>
+    public void ApplyAIChoice(Player player, AIManager.Choice choice)
+    {
+        switch (choice.Action)
+        {
+            case AIManager.Action.BUILD_CITY:
+                player.City.Build(choice.CardToPlay, false);
+                if (!player.City.IsBuildable(choice.CardToPlay, false))
+                {
+                    player.City.IsBuildable(choice.CardToPlay, false);
+                }
+                break;
+            case AIManager.Action.BUILD_WONDER:
+                player.WonderManager.BuildWonder(choice.CardToPlay.ID);
+                break;
+            case AIManager.Action.DISCARD:
+                // TODO implement AI representation of this
+                UnityEngine.GameObject dummyIARepresentation = new UnityEngine.GameObject();
+                Playable playable = dummyIARepresentation.AddComponent<Playable>();
+                playable.id = choice.CardToPlay.ID;
+                playable.buildType = choice.CardToPlay.Type;
+                // ----------------------------------------
+
+                player.City.Discard(playable.id);
+                DiscardPile.Add(playable);
+                break;
         }
     }
 
@@ -170,14 +225,8 @@ public class GameManager
         {
             if (!p.IsHuman && p.Hand.Count > 0)
             {
-                // Hack: TEMP Mocking IA playing
-                UnityEngine.GameObject dummyIARepresentation = new UnityEngine.GameObject();
-                Playable playable = dummyIARepresentation.AddComponent<Playable>();
-                playable.id = p.Hand[0].ID;
-                playable.buildType = p.Hand[0].Type;
-                DiscardPile.Add(playable);
-
-                p.Hand.RemoveAt(0);
+                AIManager.Choice choice = p.AI.Play();
+                this.ApplyAIChoice(p, choice);
             }
             if (p.Hand.Count == 1)
                 if (p.WonderManager.HasExtraBuildBonus())
@@ -186,7 +235,6 @@ public class GameManager
                 {
                     if (!p.IsHuman)
                     {
-                        // Hack: TEMP IA discarding last cards
                         UnityEngine.GameObject dummyIARepresentation = new UnityEngine.GameObject();
                         Playable playable = dummyIARepresentation.AddComponent<Playable>();
                         playable.id = p.Hand[0].ID;
@@ -309,7 +357,7 @@ public class GameManager
                         currentBonus += players[i].City.CalculateDefeatBonus(players, i);
                         break;
                     case BonusCard.BonusType.WONDER_BONUS:
-                        currentBonus += players[i].City.CalculateWonderBonus(players, i);
+                        currentBonus += players[i].City.CalculateWonderBonus(players, i, false);
                         break;
                 }
             }
@@ -335,7 +383,8 @@ public class GameManager
                     if (((BonusCard)c).Bonus == BonusCard.BonusType.WONDER_BONUS)
                         commercialBonus += p.City.CalculateWonderBonus(
                             this.Players.ToArray(), 
-                            this.Players.IndexOf(p)
+                            this.Players.IndexOf(p),
+                            true
                             );
                     else
                         commercialBonus += p.City.CalculateCardBonus(

@@ -63,6 +63,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Business\AIManager.cs" />
     <Compile Include="Assets\Scripts\Business\CityManager.cs" />
     <Compile Include="Assets\Scripts\Business\GameManager.cs" />
     <Compile Include="Assets\Scripts\Business\WonderManager.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="Assets\Scripts\Presentation\TradeBoard.cs" />
     <Compile Include="Assets\Scripts\Presentation\TradeButton.cs" />
     <Compile Include="Assets\Scripts\Presentation\WonderLayout.cs" />
+    <Compile Include="Assets\ToggleScores.cs" />
     <Reference Include="UnityEngine">
       <HintPath>C:/Users/Gilles/Documents/unity_games/2019.3.14f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>

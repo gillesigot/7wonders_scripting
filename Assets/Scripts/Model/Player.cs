@@ -20,6 +20,8 @@ public class Player
     public WonderManager WonderManager { get; set; }
     // Represent the cards in player's hand.
     public List<Card> Hand { get; set; }
+    // Player's way of playing (if not human).
+    public AIManager AI { get; set; }
 
     public Player(
         bool isHuman = false,

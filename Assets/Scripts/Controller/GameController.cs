@@ -15,7 +15,8 @@ public class GameController
     /// Distribute cards to start a new age.
     /// </summary>
     /// <param name="age">The age to be started.</param>
-    public void StartAge(int age)
+    /// <param name="AILevel">The AI level of cleverness.</param>
+    public void StartAge(int age, int AILevel=0)
     {
         if (age > 3)
         {
@@ -32,6 +33,7 @@ public class GameController
             if (age == 1)
             {
                 this.GameManager.LoadWonders();
+                this.GameManager.LoadAI(AILevel);
                 PlayerBoardController.RefreshWonderBoard(
                     this.GameManager.GetHumanPlayer().WonderManager.Wonder.ID,
                     this.GameManager.GetHumanPlayer().WonderManager.Wonder.Steps.Count
@@ -89,4 +91,6 @@ public class GameController
 
         return neighboursBuildings;
     }
+
+
 }

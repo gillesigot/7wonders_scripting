@@ -5,6 +5,7 @@ public class GameStart : MonoBehaviour
 {
     public int NumberOfPlayers;
     public int StartingAge;
+    public int AILevel;
     public GameController GameController { get; set; }
     private PlayerBoardController PlayerBoardController { get; set; }
 
@@ -22,6 +23,6 @@ public class GameStart : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        this.GameController.StartAge(this.StartingAge);
+        this.GameController.StartAge(this.StartingAge, AILevel);
     }
 }
