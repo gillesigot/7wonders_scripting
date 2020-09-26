@@ -152,7 +152,7 @@ public class GameManager
             // TODO: TO REMOVE
             if (player.IsHuman)
             {
-                Wonder wonder = wonders.ElementAt(3); // Halikarnasssós B
+                Wonder wonder = wonders.ElementAt(7); // Olympía B
                 player.WonderManager.Wonder = wonder;
                 ResourceQuantity baseResource = new ResourceQuantity
                 {

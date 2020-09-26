@@ -305,13 +305,35 @@ public class PlayerBoardController
     #region Card exploring
 
     /// <summary>
-    /// Load cards in the card explorer and set the layout accordingly.
+    /// Load cards (as Playable) in the card explorer and set the layout accordingly.
     /// </summary>
     /// <param name="cards">The list of cards to load.</param>
     public static void ExploreCards(List<Playable> cards)
     {
-        ExplorerLayout.ToggleExplorer(true);
-        ExplorerLayout.ExploreCards(cards);
+        if (cards.Count > 0)
+        {
+            ExplorerLayout.ToggleExplorer(true);
+            ExplorerLayout.ExploreCards(cards);
+        }
+        else
+            Debug.Log("No cards to display.");
+    }
+
+    /// <summary>
+    /// Load cards (as Card) in the card explorer and set the layout accordingly.
+    /// </summary>
+    /// <param name="cards">The list of cards to load.</param>
+    public static void ExploreCards(List<Card> cards)
+    {
+        List<Playable> playableCards = new List<Playable>();
+        foreach (Card card in cards)
+        {
+            Playable playableCard = new GameObject().AddComponent<Playable>();
+            playableCard.id = card.ID;
+            playableCard.buildType = card.Type;
+            playableCards.Add(playableCard);
+        }
+        ExploreCards(playableCards);
     }
 
     /// <summary>

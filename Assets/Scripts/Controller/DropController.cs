@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -106,7 +107,8 @@ public class DropController
             {
                 case 1: PlayerBoardController.RefreshCoinAmount();
                     break;
-                case 2: // TODO PlayerBoardController.ExploreCards with guilds from neighbours
+                case 2: List<Card> guildsToCopy = this.GameController.GetNeighboursBuildings(this.Player, new Card.CardType[] { Card.CardType.GUILD });
+                    PlayerBoardController.ExploreCards(guildsToCopy);
                     break;
                 case 3: PlayerBoardController.ExploreCards(GameManager.DiscardPile);
                     break;

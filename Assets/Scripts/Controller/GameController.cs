@@ -72,4 +72,20 @@ public class GameController
                     
         }
     }
+
+    /// <summary>
+    /// Retrieve neighbours buildings from given types.
+    /// </summary>
+    /// <param name="currentPlayer">The player to retrieve neighbours from.</param>
+    /// <param name="cardTypes">The types of buildings to retrieve.</param>
+    /// <returns>The list of neighbours buildings from given types.</returns>
+    public List<Card> GetNeighboursBuildings(Player currentPlayer, Card.CardType[] cardTypes)
+    {
+        List<Card> neighboursBuildings = new List<Card>();
+
+        neighboursBuildings.AddRange(this.GameManager.GetLeftCity(currentPlayer).GetAllBuildings(cardTypes));
+        neighboursBuildings.AddRange(this.GameManager.GetRightCity(currentPlayer).GetAllBuildings(cardTypes));
+
+        return neighboursBuildings;
+    }
 }
