@@ -100,7 +100,8 @@ public class PlayerBoardController
     /// <param name="players">All current game players.</param>
     public static void DisplayScoreBoard(List<Player> players)
     {
-        ScoreBoard.Display(players);
+        if (!ExplorerLayout.IsActive())
+            ScoreBoard.Display(players);
     }
 
     /// <summary>
@@ -340,13 +341,21 @@ public class PlayerBoardController
     /// Pick a card from the explorer and add it to the player's city.
     /// </summary>
     /// <param name="id">The id of the selected card.</param>
-    public static void SelectCardToBuild(string id)
+    public static bool SelectCardToBuild(string id)
     {
         Card card = GameManager.GetCardById(id);
         if (Player.City.Build(card, true))
+        {
             ExplorerLayout.ToggleExplorer(false);
+            if (GameManager.Age > 3)
+                DisplayScoreBoard(GameManager.Instance().Players);
+            return true;
+        }
         else
+        {
             Debug.Log("Build impossible: building is already in the city.");
+            return false;
+        }
     }
 
     #endregion

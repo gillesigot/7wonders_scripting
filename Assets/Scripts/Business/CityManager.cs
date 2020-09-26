@@ -71,6 +71,8 @@ public class CityManager
     public List<BonusCard> Bonus { get; set; }
     // Represents all resources of the city. As some are switchable, all possible values are gathered.
     public List<ResourceTreeNode> ResourceTreeLeaves { get; set; }
+    // Represent the number of free build performed during the current age.
+    public int FreeBuildCount { get; set; }
 
     public CityManager(Player player)
     {
@@ -297,6 +299,13 @@ public class CityManager
         }
         else if (HasMatchingResources(new Dictionary<ResourceType, int>(), building.CardBuildCondition.Resources))
             return true;
+
+        // Check wonder free build bonus
+        if (this.Owner.WonderManager.HasFreeBuildBonus() && this.FreeBuildCount == 0)
+        {
+            this.FreeBuildCount++;
+            return true;
+        }
 
         return false;
     }

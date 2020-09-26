@@ -15,6 +15,15 @@ public class ExplorerLayout : MonoBehaviour
     }
 
     /// <summary>
+    /// Tell if the explore board is currently displayed.
+    /// </summary>
+    /// <returns>True if displayed.</returns>
+    public bool IsActive()
+    {
+        return exploreBoard.activeSelf;
+    }
+
+    /// <summary>
     /// Hide/show explorer panel.
     /// </summary>
     /// <param name="show">True if it should be displayed.</param>
@@ -38,19 +47,22 @@ public class ExplorerLayout : MonoBehaviour
             playable.id = card.id;
             playable.buildType = card.buildType;
 
-            Draggable draggable = CardPrefab.GetComponent<Draggable>();
-            draggable.clickable = true;
-
             Image image = CardPrefab.GetComponent<Image>();
             Sprite cardFront = Resources.Load<Sprite>("cards/" + card.id);
             image.sprite = cardFront;
 
-            Instantiate(CardPrefab, exploreBoard.transform);
+            GameObject cardGO = Instantiate(CardPrefab, exploreBoard.transform);
+            Draggable draggable = cardGO.GetComponent<Draggable>();
+            draggable.Clickable = true;
         }
 
+        float minSpacing = -98;
         if (cards.Count <= 7)
             this.Layout.spacing = 9;
         else
-            this.Layout.spacing = cards.Count * -4f;
+        {
+            float newSpacing = cards.Count * -4f;
+            this.Layout.spacing = newSpacing < minSpacing ? minSpacing : newSpacing;
+        }
     }
 }

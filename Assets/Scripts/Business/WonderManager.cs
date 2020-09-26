@@ -164,4 +164,15 @@ public class WonderManager
             .Where(step => step.Builder == Step.BuilderType.EXTRA_BUILD)
             .Count() > 0;
     }
+
+    /// <summary>
+    /// Tell if a free build is granted by the wonder.
+    /// </summary>
+    /// <returns>True if bonus applicable (related step has been built).</returns>
+    public bool HasFreeBuildBonus()
+    {
+        return this.AchievedSteps
+            .Where(step => step.Builder == Step.BuilderType.FREE_BUILD)
+            .Count() > 0;
+    }
 }

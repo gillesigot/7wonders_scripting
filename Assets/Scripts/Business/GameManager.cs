@@ -149,30 +149,14 @@ public class GameManager
         Random rand = new Random();
         foreach (Player player in this.Players)
         {
-            // TODO: TO REMOVE
-            if (player.IsHuman)
+            Wonder wonder = wonders.ElementAt(rand.Next(wonders.Count));
+            player.WonderManager.Wonder = wonder;
+            ResourceQuantity baseResource = new ResourceQuantity
             {
-                Wonder wonder = wonders.ElementAt(7); // Olympía B
-                player.WonderManager.Wonder = wonder;
-                ResourceQuantity baseResource = new ResourceQuantity
-                {
-                    Type = wonder.BaseResource,
-                    Quantity = 1
-                };
-                player.City.AddToResourceTree(new ResourceQuantity[] { baseResource }, false, false);
-            }
-            else
-            {
-                // TODO: KEEP THAT PART
-                Wonder wonder = wonders.ElementAt(rand.Next(wonders.Count));
-                player.WonderManager.Wonder = wonder;
-                ResourceQuantity baseResource = new ResourceQuantity
-                {
-                    Type = wonder.BaseResource,
-                    Quantity = 1
-                };
-                player.City.AddToResourceTree(new ResourceQuantity[] { baseResource }, false, false);
-            }
+                Type = wonder.BaseResource,
+                Quantity = 1
+            };
+            player.City.AddToResourceTree(new ResourceQuantity[] { baseResource }, false, false);
         }
     }
 
@@ -387,5 +371,14 @@ public class GameManager
         foreach (Player p in this.Players)
             wonderResults.Add(p.WonderManager.GetWonderPoints());
         return wonderResults;
+    }
+
+    /// <summary>
+    /// Reset the free build count for each player's city.
+    /// </summary>
+    public void ResetFreeBuildCount()
+    {
+        foreach (Player p in this.Players)
+            p.City.FreeBuildCount = 0;
     }
 }

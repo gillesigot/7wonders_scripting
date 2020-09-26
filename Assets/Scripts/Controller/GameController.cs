@@ -25,6 +25,7 @@ public class GameController
         {
             GameManager.Age = age;
             this.GameManager.DistributeCards();
+            this.GameManager.ResetFreeBuildCount();
             PlayerBoardController.RefreshHand();
             PlayerBoardController.RefreshDiscardPiles(age);
 
