@@ -167,13 +167,14 @@ public class DropController
             if (this.Player.Hand.Count == 1 && !this.Player.WonderManager.HasExtraBuildBonus())
                 PlayerBoardController.DiscardLastCard();
 
-        GameManager.Instance().EndTurn();
+        GameManager.Instance().EndTurn(this.GameController);
         PlayerBoardController.RefreshHand();
         PlayerBoardController.CleanTradeBoards();
 
         if (this.Player.Hand.Count == 0)
         {
             this.GameController.ResolveConflicts(GameManager.Age);
+            this.GameController.RefreshAIBoards();
             GameManager.Age++;
             this.GameController.StartAge(GameManager.Age);
         }

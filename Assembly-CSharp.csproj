@@ -69,6 +69,7 @@
     <Compile Include="Assets\Scripts\Business\WonderManager.cs" />
     <Compile Include="Assets\Scripts\Constants\GameConsts.cs" />
     <Compile Include="Assets\Scripts\Constants\StorageConsts.cs" />
+    <Compile Include="Assets\Scripts\Controller\AIController.cs" />
     <Compile Include="Assets\Scripts\Controller\DropController.cs" />
     <Compile Include="Assets\Scripts\Controller\GameController.cs" />
     <Compile Include="Assets\Scripts\Controller\PlayerBoardController.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="Assets\Scripts\Model\WarCard.cs" />
     <Compile Include="Assets\Scripts\Model\Wonder.cs" />
     <Compile Include="Assets\Scripts\Presentation\CardFactory.cs" />
+    <Compile Include="Assets\Scripts\Presentation\ClosePlayer.cs" />
     <Compile Include="Assets\Scripts\Presentation\DefeatTokenBoard.cs" />
     <Compile Include="Assets\Scripts\Presentation\Draggable.cs" />
     <Compile Include="Assets\Scripts\Presentation\DropZone.cs" />
@@ -92,10 +94,10 @@
     <Compile Include="Assets\Scripts\Presentation\Playable.cs" />
     <Compile Include="Assets\Scripts\Presentation\ScoreBoard.cs" />
     <Compile Include="Assets\Scripts\Presentation\ShiftLayout.cs" />
+    <Compile Include="Assets\Scripts\Presentation\ToggleScores.cs" />
     <Compile Include="Assets\Scripts\Presentation\TradeBoard.cs" />
     <Compile Include="Assets\Scripts\Presentation\TradeButton.cs" />
     <Compile Include="Assets\Scripts\Presentation\WonderLayout.cs" />
-    <Compile Include="Assets\ToggleScores.cs" />
     <Reference Include="UnityEngine">
       <HintPath>C:/Users/Gilles/Documents/unity_games/2019.3.14f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>

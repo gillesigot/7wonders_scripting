@@ -39,6 +39,10 @@ public class PlayerBoardController
     public static WonderLayout WonderLayout { get; set; }
     // Used to explore given cards and pick one.
     public static ExplorerLayout ExplorerLayout { get; set; }
+    // Left virtual player 
+    public static ClosePlayer LeftPlayerGUI { get; set; }
+    // Right virtual player board
+    public static ClosePlayer RightPlayerGUI { get; set; }
 
     public PlayerBoardController()
     {
@@ -55,6 +59,8 @@ public class PlayerBoardController
         ScoreBoard = GameObject.Find("score_board").GetComponent<ScoreBoard>();
         WonderLayout = GameObject.Find("wonder_layout").GetComponent<WonderLayout>();
         ExplorerLayout = GameObject.Find("card_explorer").GetComponent<ExplorerLayout>();
+        LeftPlayerGUI = GameObject.Find("left_player").GetComponent<ClosePlayer>();
+        RightPlayerGUI = GameObject.Find("right_player").GetComponent<ClosePlayer>();
     }
 
     #region Player's display
@@ -115,6 +121,22 @@ public class PlayerBoardController
         Sprite wonderImage = Resources.Load<Sprite>("wonders/" + wonderID);
         wonderBoard.sprite = wonderImage;
         WonderLayout.SetWonderLayout(nbSteps);
+    }
+
+    /// <summary>
+    /// Instantiate new AI controller linked to left GUI
+    /// </summary>
+    public static AIController GetLeftAIBoard()
+    {
+        return new AIController(LeftPlayerGUI);
+    }
+
+    /// <summary>
+    /// Instantiate new AI controller linked to right GUI
+    /// </summary>
+    public static AIController GetRightAIBoard()
+    {
+        return new AIController(RightPlayerGUI);
     }
 
     #endregion

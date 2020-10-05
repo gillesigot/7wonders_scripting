@@ -62,12 +62,12 @@ public class GameManager
                 return Players[i];
         return null;
     }
-    
+
     /// <summary>
     /// Get the city on the left of the current player's city.
     /// </summary>
     /// <param name="currentPlayer">The current player in players list.</param>
-    /// <returns></returns>
+    /// <returns>The city on the left of the current player's city.</returns>
     public CityManager GetLeftCity(Player currentPlayer)
     {
         int idxPlayer = this.Players.IndexOf(currentPlayer);
@@ -79,12 +79,36 @@ public class GameManager
     /// Get the city on the right of the current player's city.
     /// </summary>
     /// <param name="currentPlayer">The current player in players list.</param>
-    /// <returns></returns>
+    /// <returns>The city on the right of the current player's city.</returns>
     public CityManager GetRightCity(Player currentPlayer)
     {
         int idxPlayer = this.Players.IndexOf(currentPlayer);
         int idxRightCity = idxPlayer + 1 == NbPlayers ? 0 : idxPlayer + 1;
         return this.Players[idxRightCity].City;
+    }
+
+    /// <summary>
+    /// Get the player on the left of the current player.
+    /// </summary>
+    /// <param name="currentPlayer">The current player.</param>
+    /// <returns>The player on the left of the current player's city.</returns>
+    public Player GetLeftPlayer(Player currentPlayer)
+    {
+        int idxPlayer = this.Players.IndexOf(currentPlayer);
+        int idxLeftPlayer = idxPlayer - 1 < 0 ? NbPlayers - 1 : idxPlayer - 1;
+        return this.Players[idxLeftPlayer];
+    }
+
+    /// <summary>
+    /// Get the player on the right of the current player.
+    /// </summary>
+    /// <param name="currentPlayer">The current player.</param>
+    /// <returns>The player on the right of the current player's city.</returns>
+    public Player GetRightPlayer(Player currentPlayer)
+    {
+        int idxPlayer = this.Players.IndexOf(currentPlayer);
+        int idxRightPlayer = idxPlayer + 1 == NbPlayers ? 0 : idxPlayer + 1;
+        return this.Players[idxRightPlayer];
     }
 
     /// <summary>
@@ -149,7 +173,10 @@ public class GameManager
         Random rand = new Random();
         foreach (Player player in this.Players)
         {
-            Wonder wonder = wonders.ElementAt(rand.Next(wonders.Count)); // TODO: if wonder A given, wonder B isn't available anymore 
+            Wonder wonder = wonders.ElementAt(rand.Next(wonders.Count));
+            List<Wonder> wondersToRemove = wonders.Where(w => w.Name.Contains(wonder.Name)).ToList();
+            foreach (Wonder wonderToRemove in wondersToRemove)
+                wonders.Remove(wonderToRemove); // Remove A & B side.
             player.WonderManager.Wonder = wonder;
             ResourceQuantity baseResource = new ResourceQuantity
             {
@@ -193,24 +220,13 @@ public class GameManager
         {
             case AIManager.Action.BUILD_CITY:
                 player.City.Build(choice.CardToPlay, false);
-                if (!player.City.IsBuildable(choice.CardToPlay, false))
-                {
-                    player.City.IsBuildable(choice.CardToPlay, false);
-                }
                 break;
             case AIManager.Action.BUILD_WONDER:
                 player.WonderManager.BuildWonder(choice.CardToPlay.ID);
                 break;
             case AIManager.Action.DISCARD:
-                // TODO implement AI representation of this
-                UnityEngine.GameObject dummyIARepresentation = new UnityEngine.GameObject();
-                Playable playable = dummyIARepresentation.AddComponent<Playable>();
-                playable.id = choice.CardToPlay.ID;
-                playable.buildType = choice.CardToPlay.Type;
-                // ----------------------------------------
-
-                player.City.Discard(playable.id);
-                DiscardPile.Add(playable);
+                player.City.Discard(choice.CardToPlay.ID);
+                DiscardPile.Add(Playable.GetPlayable(choice.CardToPlay.ID, choice.CardToPlay.Type));
                 break;
         }
     }
@@ -218,7 +234,8 @@ public class GameManager
     /// <summary>
     /// Perform all end turn game actions.
     /// </summary>
-    public void EndTurn()
+    /// <param name="gc">Current game controller.</param>
+    public void EndTurn(GameController gc)
     {
         bool skipRotating = false;
         foreach (Player p in Players)
@@ -227,6 +244,8 @@ public class GameManager
             {
                 AIManager.Choice choice = p.AI.Play();
                 this.ApplyAIChoice(p, choice);
+                gc.RefreshAIBoards();
+                gc.SetLastMove(p, choice);
             }
             if (p.Hand.Count == 1)
                 if (p.WonderManager.HasExtraBuildBonus())
@@ -234,18 +253,12 @@ public class GameManager
                 else
                 {
                     if (!p.IsHuman)
-                    {
-                        UnityEngine.GameObject dummyIARepresentation = new UnityEngine.GameObject();
-                        Playable playable = dummyIARepresentation.AddComponent<Playable>();
-                        playable.id = p.Hand[0].ID;
-                        playable.buildType = p.Hand[0].Type;
-                        DiscardPile.Add(playable);
-                    }
+                        DiscardPile.Add(Playable.GetPlayable(p.Hand[0].ID, p.Hand[0].Type));
                     p.Hand.RemoveAt(0);
                 }
             else if (p.Hand.Count < 1)
                 p.Hand = new List<Card>();
-            p.City.TradeResources = new Dictionary<Card.ResourceType, int>();
+            p.City.TradeResources = new Dictionary<ResourceType, int>();
         }
         if (!skipRotating)
             this.RotateHands();

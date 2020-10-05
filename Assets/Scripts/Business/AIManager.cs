@@ -70,7 +70,6 @@ public class AIManager
         {
             choice.CardToPlay = GetRandomCard();
         }
-
         return choice;
     }
 

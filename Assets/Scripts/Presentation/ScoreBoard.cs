@@ -7,6 +7,7 @@ public class ScoreBoard : MonoBehaviour
 {
     public GameObject scorePanel;
     public GameObject scoreTable;
+    public GameObject toggleScoreBoard;
 
     private GameManager GameManager { get; set; }
     private Text[] scores;
@@ -24,6 +25,7 @@ public class ScoreBoard : MonoBehaviour
     public void Display(List<Player> players)
     {
         this.scorePanel.SetActive(true);
+        this.toggleScoreBoard.SetActive(true);
 
         for (int i = 0; i < players.Count; i++)
         {

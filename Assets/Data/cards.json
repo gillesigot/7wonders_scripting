@@ -3224,22 +3224,19 @@
 		},
         "chainto": [],
         "nplayersplayable": 6,
-        "resources": [{
-            "type": 0,
+        "checkleft": false,
+        "checkright": false,
+        "checkself": true,
+        "bonustype": 0,
+        "reward":[{
+            "reward": 0,
             "quantity": 1
         },
         {
-            "type": 1,
+            "reward": 1,
             "quantity": 1
-        },
-        {
-            "type": 2,
-            "quantity": 1
-        },
-        {
-            "type": 3,
-            "quantity": 1
-        }]
+        }],
+        "bonuscardtype": [3]
     },
     {
         "id": "com26",

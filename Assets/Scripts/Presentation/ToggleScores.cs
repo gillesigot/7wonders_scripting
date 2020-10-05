@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-// Hack: TEMP made for debug purpose
 public class ToggleScores : MonoBehaviour
 {
     public GameObject score_board;
