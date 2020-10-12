@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 public class GameController
 {
@@ -8,6 +9,8 @@ public class GameController
     private AIController LeftPlayer { get; set; }
     // The right virtual player board controller.
     private AIController RightPlayer { get; set; }
+    // The distant virtual player(s) board controller.
+    private AIController[] DistantPlayers { get; set; }
 
     public GameController(int nbPlayer)
     {
@@ -46,12 +49,19 @@ public class GameController
                 this.GameManager.LoadAI(AILevel);
                 this.LeftPlayer = PlayerBoardController.GetLeftAIBoard();
                 this.RightPlayer = PlayerBoardController.GetRightAIBoard();
-                Player leftPlayer = this.GameManager.GetLeftPlayer(humanPlayer);
-                Player rightPlayer = this.GameManager.GetRightPlayer(humanPlayer);
-                this.LeftPlayer.Player = leftPlayer;
-                this.RightPlayer.Player = rightPlayer;
-                this.LeftPlayer.InitializeAIBoard();
-                this.RightPlayer.InitializeAIBoard();
+                Player[] distantPlayers = this.GameManager.GetDistantPlayers();
+                if (distantPlayers.Length > 0)
+                    this.DistantPlayers = PlayerBoardController.SetExtraPlayers(distantPlayers);
+
+                foreach (Player p in this.GameManager.Players)
+                {
+                    if (p == this.GameManager.GetLeftPlayer(humanPlayer))
+                        this.LeftPlayer.InitializeAIBoard(p);
+                    else if (p == this.GameManager.GetRightPlayer(humanPlayer))
+                        this.RightPlayer.InitializeAIBoard(p);
+                    else if (!p.IsHuman)
+                        this.DistantPlayers.Reverse().Where(dp => dp.Player == null).First().InitializeAIBoard(p);
+                }
                 this.RefreshAIBoards();
             }
         }
@@ -114,6 +124,8 @@ public class GameController
     {
         this.LeftPlayer.RefreshBoard();
         this.RightPlayer.RefreshBoard();
+        if (this.DistantPlayers != null)
+            this.DistantPlayers.ToList().ForEach(dp => dp.RefreshBoard());
     }
 
     /// <summary>
@@ -127,8 +139,8 @@ public class GameController
             this.LeftPlayer.SetLastMove(move);
         else if (player == this.RightPlayer.Player)
             this.RightPlayer.SetLastMove(move);
-
-        // TODO update other players board (if any)
+        else if (this.GameManager.GetDistantPlayers().Contains(player))
+            this.DistantPlayers.Where(dp => dp.Player == player).First().SetLastMove(move);
     }
 
     /// <summary>
@@ -138,5 +150,7 @@ public class GameController
     {
         this.LeftPlayer.CleanLastMove();
         this.RightPlayer.CleanLastMove();
+        if (this.DistantPlayers != null)
+            this.DistantPlayers.ToList().ForEach(dp => dp.CleanLastMove());
     }
 }

@@ -2,6 +2,8 @@
 
 public class Player
 {
+    // The player's name.
+    public string Name { get; set; }
     // Used to define the starting amount of coins of all players.
     private const int STARTING_COINS_AMOUNT = 3;
     // Amount of coins owned by the player

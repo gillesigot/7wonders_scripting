@@ -3,7 +3,7 @@ using System.Linq;
 
 public class AIController
 {
-    public ClosePlayer PlayerBoard { get; set; }
+    public VirtualPlayer PlayerBoard { get; set; }
     public Player Player { get; set; }
 
     public enum CardColor { 
@@ -17,16 +17,18 @@ public class AIController
         white = 7,
     }
 
-    public AIController(ClosePlayer cp)
+    public AIController(VirtualPlayer vp)
     {
-        this.PlayerBoard = cp;
+        this.PlayerBoard = vp;
     }
 
     /// <summary>
     /// Initialize the board representation of a virtual player.
     /// </summary>
-    public void InitializeAIBoard()
+    /// <param name="player">The linked virtual player.</param>
+    public void InitializeAIBoard(Player player)
     {
+        this.Player = player;
         this.PlayerBoard.DisplayPlayerStat(this.Player);
     }
 
@@ -92,7 +94,9 @@ public class AIController
                         {
                             if (!(boc.CheckLeft && boc.CheckRight))
                             {
-                                if (boc.BonusCardType[0] == Card.CardType.COMMERCIAL)
+                                if (boc.BonusCardType.Length == 0)
+                                    symbolNames.Add("coin");
+                                else if (boc.BonusCardType[0] == Card.CardType.COMMERCIAL)
                                     symbolNames.Add("MEDIUM_COMMERCIAL_BONUS");
                                 else if (boc.BonusCardType[0] == Card.CardType.RESOURCE)
                                 {
@@ -171,15 +175,11 @@ public class AIController
         {
             symbolsValue.Add(((CivilCard)card).VictoryPoints);
         }
-        else if (card.Type == Card.CardType.COMMERCIAL && card is CommercialCard)
+        else if (card.Type == Card.CardType.COMMERCIAL && card is BonusCard)
         {
-            CommercialCard cc = (CommercialCard)card;
-            if (cc.Price < 0 && cc.Resources == null)
-            {
-                BonusCard bc = (BonusCard)card;
-                if (bc.Bonus == BonusCard.BonusType.FREE_BONUS)
-                    symbolsValue.Add(bc.Reward[0].Quantity);
-            }
+            BonusCard bc = (BonusCard)card;
+            if (bc.Bonus == BonusCard.BonusType.FREE_BONUS)
+                symbolsValue.Add(bc.Reward[0].Quantity);
         }
 
         return symbolsValue.ToArray();
@@ -204,7 +204,7 @@ public class AIController
         }
         else if (move.Action == AIManager.Action.BUILD_WONDER)
         {
-            cardName = "Wonder";  // TODO Describe step being built.
+            cardName = "Wonder";  // Hack: TEMP Describe step being built.
         }
         this.PlayerBoard.SetLastMove(cardName, cardColor.ToString(), symbols, symbolsValue);
     }

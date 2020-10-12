@@ -31,6 +31,7 @@ public class GameManager
         for (int i = 0; i < NbPlayers; i++)
         {
             Player player = new Player();
+            player.Name = (i == 0) ? "You" : GameConsts.PLAYERS_NAME[i - 1];
             player.City = new CityManager(player);
             player.WonderManager = new WonderManager(player);
             if (i == 0) player.IsHuman = true;
@@ -109,6 +110,22 @@ public class GameManager
         int idxPlayer = this.Players.IndexOf(currentPlayer);
         int idxRightPlayer = idxPlayer + 1 == NbPlayers ? 0 : idxPlayer + 1;
         return this.Players[idxRightPlayer];
+    }
+
+    /// <summary>
+    /// Get players not human and not direct neighbour of human player.
+    /// </summary>
+    /// <returns>List of distant players.</returns>
+    public Player[] GetDistantPlayers()
+    {
+        List<Player> distantPlayers = this.Players.ToList();
+        Player humanPlayer = this.GetHumanPlayer();
+
+        distantPlayers.Remove(humanPlayer);
+        distantPlayers.Remove(this.GetLeftPlayer(humanPlayer));
+        distantPlayers.Remove(this.GetRightPlayer(humanPlayer));
+
+        return distantPlayers.ToArray();
     }
 
     /// <summary>

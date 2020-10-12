@@ -31,7 +31,7 @@ public class ScoreBoard : MonoBehaviour
         {
             // Header
             Text header = scores.Single(s => s.name == "r0" + i);
-            header.text = (i == 0) ? "You" : "Player " + (i + 1);
+            header.text = players[i].Name;
 
             // War results
             Text warPoints = scores.Single(s => s.name == "r1" + i);

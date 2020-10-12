@@ -4,10 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using static AIController;
 
-public class ClosePlayer : MonoBehaviour
+public class VirtualPlayer : MonoBehaviour
 {
-    public string playerName;
-
     public Text NameLabel { get; set; }
     public Text WonderLabel { get; set; }
     public Text CoinLabel { get; set; }
@@ -19,7 +17,7 @@ public class ClosePlayer : MonoBehaviour
     public GameObject IconValue { get; set; }
     public GameObject LeftCardColumn { get; set; }
     public GameObject RightCardColumn { get; set; }
-    public int[] cardsCount { get; set; }
+    public int[] CardsCount { get; set; }
 
     // Define appropriate icon size within thumbnail.
     private enum IconSize { 
@@ -31,17 +29,29 @@ public class ClosePlayer : MonoBehaviour
 
     private void Awake()
     {
+        Initialize();
+    }
+
+    /// <summary>
+    /// Initialize get graphical components references and load needed resources.
+    /// </summary>
+    public void Initialize()
+    {
         foreach (Text child in this.GetComponentsInChildren<Text>())
         {
             switch (child.name)
             {
-                case "player_title": this.NameLabel = child;
+                case "player_title":
+                    this.NameLabel = child;
                     break;
-                case "wonder_title": this.WonderLabel = child;
+                case "wonder_title":
+                    this.WonderLabel = child;
                     break;
-                case "coin_text": this.CoinLabel = child;
+                case "coin_text":
+                    this.CoinLabel = child;
                     break;
-                case "defeat_text": this.DefeatLabel = child;
+                case "defeat_text":
+                    this.DefeatLabel = child;
                     break;
             }
         }
@@ -50,14 +60,15 @@ public class ClosePlayer : MonoBehaviour
         {
             switch (child.name)
             {
-                case "just_played": this.JustPlayed = child;
+                case "just_played":
+                    this.JustPlayed = child;
                     break;
                 case "cards":
                     Transform[] grandChildren = child.GetComponentsInChildren<Transform>();
                     this.LeftCardColumn = grandChildren.Where(c => c.name == "col1").First().gameObject;
                     this.RightCardColumn = grandChildren.Where(c => c.name == "col2").First().gameObject;
                     break;
-            }   
+            }
         }
 
         this.Thumbnail = Resources.Load("thumbnail") as GameObject;
@@ -65,7 +76,7 @@ public class ClosePlayer : MonoBehaviour
         this.ThumbnailIcon = Resources.Load("thumbnail_icon") as GameObject;
         this.IconValue = Resources.Load("icon_value") as GameObject;
 
-        this.cardsCount = new int[] { 0, 0, 0, 0, 0, 0, 0, 0 };
+        this.CardsCount = new int[] { 0, 0, 0, 0, 0, 0, 0, 0 };
     }
 
     /// <summary>
@@ -74,7 +85,7 @@ public class ClosePlayer : MonoBehaviour
     /// <param name="player">The player information to display.</param>
     public void DisplayPlayerStat(Player player)
     {
-        this.NameLabel.text = playerName;
+        this.NameLabel.text = player.Name;
         Wonder playerWonder = player.WonderManager.Wonder;
         this.WonderLabel.text = playerWonder.Name + " - " + playerWonder.Side;
     }
@@ -137,10 +148,10 @@ public class ClosePlayer : MonoBehaviour
         int startingIndex = (thumbnailType < 4) ? 0 : 4;
 
         for (int i = startingIndex; i <= thumbnailType; i++)
-            cardIndex += this.cardsCount[i];
+            cardIndex += this.CardsCount[i];
 
         thumbnail.SetSiblingIndex(cardIndex);
-        this.cardsCount[thumbnailType]++;
+        this.CardsCount[thumbnailType]++;
     }
 
     /// <summary>

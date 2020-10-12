@@ -39,10 +39,12 @@ public class PlayerBoardController
     public static WonderLayout WonderLayout { get; set; }
     // Used to explore given cards and pick one.
     public static ExplorerLayout ExplorerLayout { get; set; }
-    // Left virtual player 
-    public static ClosePlayer LeftPlayerGUI { get; set; }
-    // Right virtual player board
-    public static ClosePlayer RightPlayerGUI { get; set; }
+    // Used to display left virtual player's move.
+    public static VirtualPlayer LeftPlayerGUI { get; set; }
+    // Used to display right virtual player's move.
+    public static VirtualPlayer RightPlayerGUI { get; set; }
+    // Used to display distant players move.
+    public static Transform ExtraPlayers { get; set; }
 
     public PlayerBoardController()
     {
@@ -59,8 +61,9 @@ public class PlayerBoardController
         ScoreBoard = GameObject.Find("score_board").GetComponent<ScoreBoard>();
         WonderLayout = GameObject.Find("wonder_layout").GetComponent<WonderLayout>();
         ExplorerLayout = GameObject.Find("card_explorer").GetComponent<ExplorerLayout>();
-        LeftPlayerGUI = GameObject.Find("left_player").GetComponent<ClosePlayer>();
-        RightPlayerGUI = GameObject.Find("right_player").GetComponent<ClosePlayer>();
+        LeftPlayerGUI = GameObject.Find("left_player").GetComponent<VirtualPlayer>();
+        RightPlayerGUI = GameObject.Find("right_player").GetComponent<VirtualPlayer>();
+        ExtraPlayers = GameObject.Find("extra_players").GetComponent<Transform>();
     }
 
     #region Player's display
@@ -137,6 +140,24 @@ public class PlayerBoardController
     public static AIController GetRightAIBoard()
     {
         return new AIController(RightPlayerGUI);
+    }
+
+    /// <summary>
+    /// Linked the extra players to their GUI and link it to AI controller.
+    /// </summary>
+    /// <param name="extraPlayers">The list of players to set.</param>
+    /// <returns>The list of players AI controller.</returns>
+    public static AIController[] SetExtraPlayers(Player[] extraPlayers)
+    {
+        DistantPlayer dp = ExtraPlayers.GetComponent<DistantPlayer>();
+        List<AIController> extraControllers = new List<AIController>();
+
+        foreach (Player p in extraPlayers.Reverse())
+        {
+            AIController extraController = new AIController(dp.AddPlayer(p));
+            extraControllers.Add(extraController);
+        }
+        return extraControllers.ToArray();
     }
 
     #endregion

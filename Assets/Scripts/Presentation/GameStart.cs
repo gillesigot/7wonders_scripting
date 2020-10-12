@@ -6,6 +6,7 @@ public class GameStart : MonoBehaviour
     public int NumberOfPlayers;
     public int StartingAge;
     public int AILevel;
+    public GameObject ExtraPlayers;
     public GameController GameController { get; set; }
     private PlayerBoardController PlayerBoardController { get; set; }
 
@@ -16,6 +17,11 @@ public class GameStart : MonoBehaviour
     {
         this.GameController = new GameController(this.NumberOfPlayers);
         this.PlayerBoardController = new PlayerBoardController();
+
+        if (this.NumberOfPlayers > 3)
+            this.ExtraPlayers.SetActive(true);
+        else
+            this.ExtraPlayers.SetActive(false);
     }
 
     /// <summary>

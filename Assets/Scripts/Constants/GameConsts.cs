@@ -18,4 +18,6 @@
     public const int DEFAULT_TRADE_PRICE = 2;
     // Define the default value resources can be bought with reduction by trading.
     public const int DEFAULT_TRADE_REDUCTION_PRICE = 1;
+    // Define the default AI player names.
+    public static readonly string[] PLAYERS_NAME = new string[] { "Alexander", "Caesar", "Cleopatra", "Darius", "Achilles", "Hannibal" };
 }
