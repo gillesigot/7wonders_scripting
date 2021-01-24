@@ -7,12 +7,6 @@ using static Card;
 
 public class PlayerBoardController
 {
-    // Represent the trade location.
-    public enum TradeLocation
-    {
-        EAST,
-        WEST
-    }
     // Used to represent the human player interacting with the board.
     public static Player Player { get; set; }
     // Used to store the UI component that display the coins amount.
@@ -27,6 +21,10 @@ public class PlayerBoardController
     public static Image LeftDiscardPile { get; set; }
     // Used to store right discard pile representation.
     public static Image RightDiscardPile { get; set; }
+    // Used to store the current trade location.
+    public static CityManager.TradeLocation CurrentTrade { get; set; }
+    // Used to create west traded resources representation.
+    public static TradeBoard LeftTradeBoard { get; set; }
     // Used to create east traded resources representation.
     public static TradeBoard RightTradeBoard { get; set; }
     // Used to create west defeat tokens representation.
@@ -55,6 +53,7 @@ public class PlayerBoardController
         CardFactory = GameObject.Find("hand").GetComponent<CardFactory>();
         LeftDiscardPile = GameObject.Find("discard_left").GetComponent<Image>();
         RightDiscardPile = GameObject.Find("discard_right").GetComponent<Image>();
+        LeftTradeBoard = GameObject.Find("trade_board_left").GetComponent<TradeBoard>();
         RightTradeBoard = GameObject.Find("trade_board_right").GetComponent<TradeBoard>();
         LeftDefeatTokenBoard = GameObject.Find("defeat_left").GetComponent<DefeatTokenBoard>();
         RightDefeatTokenBoard = GameObject.Find("defeat_right").GetComponent<DefeatTokenBoard>();
@@ -201,9 +200,9 @@ public class PlayerBoardController
     /// <param name="tradePanel">The related trade panel.</param>
     /// <param name="location">The player you want to trade with.</param>
     /// <param name="resLabels">All panel resource labels.</param>
-    public static void InitTradePanel(GameObject tradePanel, TradeLocation location, List<Text> resLabels, Text totalLabel)
+    public static void InitTradePanel(GameObject tradePanel, CityManager.TradeLocation location, List<Text> resLabels)
     {
-        // Hack: TEMP use location to know which information to display
+        CurrentTrade = location;
         const char SPLIT_CHAR = ':';
         if (Player.City.TradeResources.Count > 0)
         {
@@ -212,10 +211,10 @@ public class PlayerBoardController
             {
                 string[] splittedLabel = label.text.Split(SPLIT_CHAR);
                 ResourceType resourceType = (ResourceType)Enum.Parse(typeof(ResourceType), splittedLabel[0]);
-                if (Player.City.TradeResources.ContainsKey(resourceType))
+                if (Player.City.TradeResources[location].ContainsKey(resourceType))
                 {
-                    label.text = splittedLabel[0] + SPLIT_CHAR + " " + Player.City.TradeResources[resourceType];
-                    nbRes += Player.City.TradeResources[resourceType];
+                    label.text = splittedLabel[0] + SPLIT_CHAR + " " + Player.City.TradeResources[location][resourceType];
+                    nbRes += Player.City.TradeResources[location][resourceType];
                 }
             }
         }
@@ -223,7 +222,7 @@ public class PlayerBoardController
     }
 
     /// <summary>
-    /// Deactivate the trade panel and apply linked actions whether there was a deal or not.
+    /// Deactivate the trade panel and apply linked actions whether there was a deal or not (actions are applied only to the current location).
     /// </summary>
     /// <param name="tradePanel">The related trade panel.</param>
     /// <param name="deal">If a deal was concluded or not.</param>
@@ -232,16 +231,25 @@ public class PlayerBoardController
     {
         if (deal)
         {
-            Dictionary<ResourceType, int> resWanted = GetAllResourcesToTrade(resLabels);
-            Player.City.BuyResources(resWanted);
+            Dictionary<ResourceType, int> resWanted = PlayerBoardController.GetAllResourcesToTrade(resLabels);
+            Player.City.BuyResources(resWanted, CurrentTrade);
             PlayerBoardController.RefreshCoinAmount();
             tradePanel.SetActive(false);
 
-            // Hack: TEMP update right bar only
-            RightTradeBoard.CleanBoard();
+            TradeBoard boardToUpdate;
+            if (CurrentTrade == CityManager.TradeLocation.WEST)
+            {
+                boardToUpdate = LeftTradeBoard;
+                LeftTradeBoard.CleanBoard();
+            }
+            else
+            {
+                boardToUpdate = RightTradeBoard;
+                RightTradeBoard.CleanBoard();
+            }
             foreach (KeyValuePair<ResourceType, int> resource in resWanted)
                 for(int i = 0; i < resource.Value; i++)
-                    RightTradeBoard.AddResource(resource.Key);
+                    boardToUpdate.AddResource(resource.Key);
         }
         else
             tradePanel.SetActive(false);
@@ -252,7 +260,7 @@ public class PlayerBoardController
     /// </summary>
     public static void CleanTradeBoards()
     {
-        // LeftTradBoard.CleanBoard();
+        LeftTradeBoard.CleanBoard();
         RightTradeBoard.CleanBoard();
     }
 
@@ -275,12 +283,12 @@ public class PlayerBoardController
 
         if (IsAvailableForTrade(resourceType, resourceQuantity, resLabels) && resourceQuantity >= 0)  
         {
-            // Hack: TEMP only for east trading
             const int RAW = 0, MANUFACTURED = 1;
+            int[] tradePrices = (CurrentTrade == CityManager.TradeLocation.WEST) ? Player.City.WestTradePrice : Player.City.EastTradePrice;
             if (CityManager.RAW_RESOURCES.Contains(resourceType))
-                totalCost += (value * Player.City.EastTradePrice[RAW]);
+                totalCost += (value * tradePrices[RAW]);
             else
-                totalCost += (value * Player.City.EastTradePrice[MANUFACTURED]);
+                totalCost += (value * tradePrices[MANUFACTURED]);
 
             if (Player.Coins >= totalCost)
             {
@@ -299,19 +307,12 @@ public class PlayerBoardController
     /// <returns>The resource availability.</returns>
     private static bool IsAvailableForTrade(ResourceType type, int quantity, List<Text> resLabels)
     {
-        // Hack: TEMP GetBuyableResources (EAST or WEST)
-        List<Dictionary<ResourceType, int>> resAvailable = new List<Dictionary<ResourceType, int>>(
-            new Dictionary<ResourceType, int>[] {
-                new Dictionary<ResourceType, int>{
-                    { ResourceType.CLAY, 1},
-                    { ResourceType.ORE, 1},
-                    { ResourceType.STONE, 1},
-                    { ResourceType.WOOD, 1},
-                    { ResourceType.GLASS, 1},
-                    { ResourceType.LOOM, 1},
-                    { ResourceType.PAPYRUS, 1}
-                },
-            });
+        List<Dictionary<ResourceType, int>> resAvailable;
+        GameManager gm = GameManager.Instance();
+        if (CurrentTrade == CityManager.TradeLocation.WEST)
+            resAvailable = gm.GetLeftCity(Player).GetBuyableResources();
+        else
+            resAvailable = gm.GetRightCity(Player).GetBuyableResources();
 
         Dictionary<ResourceType, int> resWanted = GetAllResourcesToTrade(resLabels);
         if (resWanted.ContainsKey(type))
@@ -320,7 +321,7 @@ public class PlayerBoardController
             resWanted.Add(type, quantity);
 
         foreach (Dictionary<ResourceType, int> resDict in resAvailable)
-            if (resWanted.All(x => resDict.ContainsKey(x.Key) && resDict[x.Key] >= x.Value))
+            if (resWanted.Where(v => v.Value > 0).All(x => resDict.ContainsKey(x.Key) && resDict[x.Key] >= x.Value))
                 return true;
         return false;
     }

@@ -72,7 +72,10 @@ public class AIController
         switch (card.Type)
         {
             case Card.CardType.RESOURCE:
-                symbolNames.AddRange(((ResourceCard)card).Resources.Select(rc => rc.Type.ToString()));
+                ResourceCard rc = ((ResourceCard)card);
+                foreach (Card.ResourceQuantity rq in rc.Resources) 
+                    for (int i = 0; i < rq.Quantity; i++)
+                        symbolNames.Add(rq.Type.ToString());
                 break;
             case Card.CardType.WAR:
                 for (int i = 0; i < ((WarCard)card).WarPoints; i++)

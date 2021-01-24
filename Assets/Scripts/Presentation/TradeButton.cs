@@ -7,7 +7,7 @@ using static PlayerBoardController;
 
 public class TradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
-    public TradeLocation location;
+    public CityManager.TradeLocation location;
     public GameObject tradePanel;
     public List<Text> resLabels = new List<Text>();
     public Text costLabel;
@@ -59,6 +59,6 @@ public class TradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             label.text = label.text.Split(' ')[0] + " 0";
         this.costLabel.text = this.costLabel.text.Split(' ')[0] + " 0";
 
-        InitTradePanel(this.tradePanel, location, this.resLabels, this.costLabel);
+        InitTradePanel(this.tradePanel, location, this.resLabels);
     }
 }

@@ -275,7 +275,11 @@ public class GameManager
                 }
             else if (p.Hand.Count < 1)
                 p.Hand = new List<Card>();
-            p.City.TradeResources = new Dictionary<ResourceType, int>();
+            p.City.TradeResources = new Dictionary<CityManager.TradeLocation, Dictionary<ResourceType, int>>
+            {
+                { CityManager.TradeLocation.EAST, new Dictionary<ResourceType, int>() },
+                { CityManager.TradeLocation.WEST, new Dictionary<ResourceType, int>() }
+            };
         }
         if (!skipRotating)
             this.RotateHands();

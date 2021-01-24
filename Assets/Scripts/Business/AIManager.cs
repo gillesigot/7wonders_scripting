@@ -48,6 +48,7 @@ public class AIManager
             Action = Action.DISCARD,
             CardToPlay = this.Player.Hand[0]
         };
+        // Hack: TEMP AI cannot buy resources to build cards.
         List<Card> buildableCards = this.GetBuildableCards();
 
         if (buildableCards.Count > 0)

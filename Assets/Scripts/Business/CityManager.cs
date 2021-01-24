@@ -17,10 +17,13 @@ public class CityManager
         // The node children (only several children if optional resources).
         List<ResourceTreeNode> Children { get; set; }
 
-        public ResourceTreeNode(ResourceQuantity rq)
+        public ResourceTreeNode(ResourceQuantity rq, bool buyable)
         {
             this.Resources = new Dictionary<ResourceType, int>() { [rq.Type] = rq.Quantity };
-            this.BuyableResources = new Dictionary<ResourceType, int>() { [rq.Type] = rq.Quantity };
+            if (buyable)
+                this.BuyableResources = new Dictionary<ResourceType, int>() { [rq.Type] = rq.Quantity };
+            else
+                this.BuyableResources = new Dictionary<ResourceType, int>();
             this.Children = new List<ResourceTreeNode>();
         }
 
@@ -32,8 +35,7 @@ public class CityManager
                 .Concat(node.Resources)
                 .GroupBy(o => o.Key)
                 .ToDictionary(o => o.Key, o => o.Sum(v => v.Value));
-            if (buyable)
-                node.BuyableResources = this.BuyableResources
+            node.BuyableResources = this.BuyableResources
                 .Concat(node.BuyableResources)
                 .GroupBy(o => o.Key)
                 .ToDictionary(o => o.Key, o => o.Sum(v => v.Value));
@@ -41,6 +43,12 @@ public class CityManager
 
             return node;
         }
+    }
+    // Represent the trade location.
+    public enum TradeLocation
+    {
+        EAST,
+        WEST
     }
     // The price to pay for resources on east trading.
     public int[] EastTradePrice { get; set; }
@@ -51,7 +59,7 @@ public class CityManager
     // Represents the city resources.
     public List<ResourceCard> Resources { get; set; }
     // Represents temporary resources get by trading.
-    public Dictionary<ResourceType, int> TradeResources { get; set; }
+    public Dictionary<TradeLocation, Dictionary<ResourceType, int>> TradeResources { get; set; }
     // Define the raw type resources.
     public static readonly ResourceType[] RAW_RESOURCES = new ResourceType[] {
             ResourceType.CLAY,
@@ -78,7 +86,11 @@ public class CityManager
     {
         this.Owner = player;
         this.Resources = new List<ResourceCard>();
-        this.TradeResources = new Dictionary<ResourceType, int>();
+        this.TradeResources = new Dictionary<TradeLocation, Dictionary<ResourceType, int>>
+        {
+            { TradeLocation.EAST, new Dictionary<ResourceType, int>() },
+            { TradeLocation.WEST, new Dictionary<ResourceType, int>() }
+        };
         this.WarBuildings = new List<WarCard>();
         this.CivilBuildings = new List<CivilCard>();
         this.CommercialBuildings = new List<Card>();
@@ -143,21 +155,12 @@ public class CityManager
                     break;
                 case CardType.COMMERCIAL:
                     this.CommercialBuildings.Add(building);
-                    if (building is ResourceCard)
-                    {
-                        ResourceCard comResCard = (ResourceCard)building;
+                    if (building is ResourceCard comResCard)
                         this.AddToResourceTree(comResCard.Resources, comResCard.IsOptional, comResCard.IsBuyable);
-                    }
-                    else if (building is BonusCard)
-                    {
-                        BonusCard bc = (BonusCard)building;
+                    else if (building is BonusCard bc)
                         this.ApplyDirectCommercialBonus(bc);
-                    }
-                    else if (building is CommercialCard)
-                    {
-                        CommercialCard cc = (CommercialCard)building;
+                    else if (building is CommercialCard cc)
                         this.ApplyTradeReduction(cc);
-                    }
                     break;
                 case CardType.SCIENCE:
                     this.ScienceBuildings.Add((ScienceCard)building);
@@ -237,7 +240,7 @@ public class CityManager
     /// Get a list of resources that can be bought.
     /// </summary>
     /// <returns>The list of all type of resources.</returns>
-    private List<Dictionary<ResourceType, int>> GetBuyableResources()
+    public List<Dictionary<ResourceType, int>> GetBuyableResources()
     {
         return this.ResourceTreeLeaves.Select(o => o.BuyableResources).ToList();
     }
@@ -261,10 +264,10 @@ public class CityManager
                 newResources = new List<ResourceTreeNode>();
 
             if (this.ResourceTreeLeaves.Count == 0)
-                newResources.Add(new ResourceTreeNode(rq));
+                newResources.Add(new ResourceTreeNode(rq, buyable));
             else
                 foreach (ResourceTreeNode node in this.ResourceTreeLeaves)
-                    newResources.Add(node.Add(new ResourceTreeNode(rq), buyable));
+                    newResources.Add(node.Add(new ResourceTreeNode(rq, buyable), buyable));
 
             if (!optional)
                 this.ResourceTreeLeaves = newResources;
@@ -344,14 +347,12 @@ public class CityManager
             }
             else
             {
-                if (leafPath.ContainsKey(rq.Type) || this.TradeResources.ContainsKey(rq.Type))
-                {
-                    int cityQuantity = leafPath.ContainsKey(rq.Type) ? leafPath[rq.Type] : 0;
-                    int tradeQuantity = this.TradeResources.ContainsKey(rq.Type) ? this.TradeResources[rq.Type] : 0;
-                    if ((cityQuantity + tradeQuantity) < rq.Quantity)
-                        matching = false;
-                }
-                else
+                int totalResQuantity = 0;
+                totalResQuantity += (leafPath.ContainsKey(rq.Type)) ? leafPath[rq.Type] : 0;
+                totalResQuantity += (this.TradeResources[TradeLocation.EAST].ContainsKey(rq.Type)) ? this.TradeResources[TradeLocation.EAST][rq.Type] : 0;
+                totalResQuantity += (this.TradeResources[TradeLocation.WEST].ContainsKey(rq.Type)) ? this.TradeResources[TradeLocation.WEST][rq.Type] : 0;
+
+                if (totalResQuantity < rq.Quantity)
                     matching = false;
             }
         }
@@ -362,7 +363,7 @@ public class CityManager
     /// Buy (sell) resources from neighbour.
     /// </summary>
     /// <param name="resources">The resources being traded.</param>
-    public void BuyResources(Dictionary<ResourceType, int> resources)
+    public void BuyResources(Dictionary<ResourceType, int> resources, TradeLocation location)
     {
         const int RAW = 0, MANUFACTURED = 1;
         int[] totalResources = new int[] { 0, 0 };
@@ -370,21 +371,37 @@ public class CityManager
         foreach (KeyValuePair<ResourceType, int> resource in resources)
         {
             typeRes = RAW_RESOURCES.Contains(resource.Key) ? RAW : MANUFACTURED;
-            if (this.TradeResources.ContainsKey(resource.Key))
+            if (this.TradeResources[location].ContainsKey(resource.Key))
             {
-                totalResources[typeRes] += (resource.Value - this.TradeResources[resource.Key]);
-                this.TradeResources[resource.Key] = resource.Value;
+                totalResources[typeRes] += (resource.Value - this.TradeResources[location][resource.Key]);
+                this.TradeResources[location][resource.Key] = resource.Value;
             }
             else
             {
-                this.TradeResources.Add(resource.Key, resource.Value);
+                this.TradeResources[location].Add(resource.Key, resource.Value);
                 totalResources[typeRes] += resource.Value;
             }
         }
-        // Hack: TEMP price reduction only applied to east trade AND give that money to related player
-        this.Owner.Coins -= 
-            (totalResources[RAW] * this.EastTradePrice[RAW]) + 
-            (totalResources[MANUFACTURED] * this.EastTradePrice[MANUFACTURED]);
+
+        int rawPrice;
+        int manufacturedPrice;
+        Player beneficiary;
+        if (location == TradeLocation.WEST)
+        {
+            rawPrice = this.WestTradePrice[RAW];
+            manufacturedPrice = this.WestTradePrice[MANUFACTURED];
+            beneficiary = GameManager.Instance().GetLeftPlayer(this.Owner);
+        }
+        else
+        {
+            rawPrice = this.EastTradePrice[RAW];
+            manufacturedPrice = this.EastTradePrice[MANUFACTURED];
+            beneficiary = GameManager.Instance().GetRightPlayer(this.Owner);
+        }
+
+        int totalCost = (totalResources[RAW] * rawPrice)+ (totalResources[MANUFACTURED] * manufacturedPrice);
+        this.Owner.Coins -= totalCost;
+        beneficiary.Coins += totalCost;
     }
 
     #endregion
@@ -546,7 +563,7 @@ public class CityManager
     }
 
     /// <summary>
-    /// Apply bilateral trade reduction on give resources at given price.
+    /// Apply bilateral trade reduction on given resources at given price.
     /// </summary>
     /// <param name="metaType">The meta type of the resources involved.</param>
     /// <param name="price">The price set for the transactions.</param>
