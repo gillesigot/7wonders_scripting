@@ -11,6 +11,8 @@ public class AIManager
     public bool RandomWonder { get; set; }
     // When discarding, randomly pick the card to discard.
     public bool RandomDiscard { get; set; }
+    // Balance choice in favour of wonder construction.
+    public bool WonderFocused { get; set; }
     #endregion
 
     // Used to define the different actions AI could perform.
@@ -35,6 +37,7 @@ public class AIManager
         this.RandomBuilding = false;
         this.RandomWonder = false;
         this.RandomDiscard = false;
+        this.WonderFocused = false;
     }
 
     /// <summary>
@@ -52,7 +55,18 @@ public class AIManager
         // Hack: TEMP AI cannot buy resources to build cards.
         List<Card> buildableCards = this.GetBuildableCards();
 
-        if (buildableCards.Count > 0)
+        bool regularBuildAvailable = buildableCards.Count > 0;
+        bool wonderBuildAvailable = !this.Player.WonderManager.IsWonderBuilt() && this.Player.WonderManager.IsNextStepBuildable();
+
+        if (regularBuildAvailable && wonderBuildAvailable && this.WonderFocused)
+        {
+            if (this.RandomWonder)
+            {
+                choice.Action = Action.BUILD_WONDER;
+                choice.CardToPlay = GetRandomCard();
+            }
+        } 
+        else if (regularBuildAvailable)
         {
             if (this.RandomBuilding)
             {
@@ -60,7 +74,7 @@ public class AIManager
                 choice.CardToPlay = GetRandomCard(buildableCards);
             }
         }
-        else if (!this.Player.WonderManager.IsWonderBuilt() && this.Player.WonderManager.IsNextStepBuildable())
+        else if (wonderBuildAvailable)
         {
             if (this.RandomWonder)
             {

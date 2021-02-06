@@ -222,6 +222,12 @@ public class GameManager
                         p.AI.RandomWonder = true;
                         p.AI.RandomDiscard = true;
                         break;
+                    case 2: // Easy alternative - wonder first
+                        p.AI.RandomBuilding = true;
+                        p.AI.RandomWonder = true;
+                        p.AI.RandomDiscard = true;
+                        p.AI.WonderFocused = true;
+                        break;
                 }
             }
         }
