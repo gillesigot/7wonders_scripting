@@ -111,15 +111,9 @@ public class VirtualPlayer : MonoBehaviour
             string trimmedName = thumbnail.name.Split('(')[0];
             string thumbnailTitle = thumbnail.GetChild(0).GetComponent<Text>().text;
 
-            if (noRegularBuild.Contains(trimmedName))
+            if (noRegularBuild.Contains(trimmedName) && thumbnailTitle.Contains("Discard"))
             {
-                if (thumbnailTitle.Contains("Discard"))
-                    Destroy(thumbnail.gameObject);
-                else
-                {
-                    thumbnail.SetParent(this.RightCardColumn.transform);
-                    this.ResizePanel(thumbnail.gameObject, IconSize.BIG, IconSize.REGULAR);
-                }
+                Destroy(thumbnail.gameObject);
             }
             else
             {

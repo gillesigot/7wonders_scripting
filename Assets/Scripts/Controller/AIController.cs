@@ -170,6 +170,58 @@ public class AIController
         return symbolNames.ToArray();
     }
 
+    /// <summary>
+    /// Get the list of symbols names present on given wonder step.
+    /// </summary>
+    /// <param name="step">The step to analyze.</param>
+    /// <returns>The list of symbols present on the step.</returns>
+    private string[] GetSymbolNames(Step step)
+    {
+        List<string> symbolNames = new List<string>();
+
+        foreach (Step.StepType type in step.Types)
+        {
+            switch (type)
+            {
+                case Step.StepType.BONUS:
+                    foreach (BonusCard.RewardQuantity rq in step.Reward)
+                        symbolNames.Add((rq.Reward == BonusCard.RewardType.GOLD) ? "coin" : "CIVIL");
+                    break;
+                case Step.StepType.WAR:
+                    for (int i = 0; i < step.WarPoints; i++)
+                        symbolNames.Add(Step.StepType.WAR.ToString());
+                    break;
+                case Step.StepType.SCIENCE:
+                    foreach (Card.ScienceType science_symbol in System.Enum.GetValues(typeof(Card.ScienceType)))
+                        symbolNames.Add(science_symbol.ToString());
+                    break;
+                case Step.StepType.COMMERCIAL:
+                    if (step.CommercialType == Step.AcquisitionType.PRODUCTION)
+                    {
+                        if (step.ResourceMetaType == BonusCard.ResourceMetaType.MANUFACTURED)
+                            symbolNames.AddRange(new string[] { "GLASS", "LOOM", "PAPYRUS" });
+                        else
+                            symbolNames.AddRange(new string[] { "WOOD", "STONE", "ORE", "CLAY" });
+                    }
+                    else
+                        symbolNames.Add("BIG_RAW_BOTH");
+                    break;
+                case Step.StepType.GUILD:
+                    symbolNames.Add("BIG_GUI_CHOICE");
+                    break;
+                case Step.StepType.BUILDER:
+                    symbolNames.Add("MEDIUM_" + step.Builder.ToString());
+                    break;
+            }
+        }
+        return symbolNames.ToArray();
+    }
+
+    /// <summary>
+    /// Get the list of values present on a given card.
+    /// </summary>
+    /// <param name="card">The card to analyze.</param>
+    /// <returns>The list of values present on the card.</returns>
     private int[] GetSymbolsValue(Card card)
     {
         List<int> symbolsValue = new List<int>();
@@ -184,6 +236,22 @@ public class AIController
             if (bc.Bonus == BonusCard.BonusType.FREE_BONUS)
                 symbolsValue.Add(bc.Reward[0].Quantity);
         }
+
+        return symbolsValue.ToArray();
+    }
+
+    /// <summary>
+    /// Get the list of values present on a given wonder step.
+    /// </summary>
+    /// <param name="step">The step to analyze.</param>
+    /// <returns>The list of values present on the step.</returns>
+    private int[] GetSymbolsValue(Step step)
+    {
+        List<int> symbolsValue = new List<int>();
+
+        foreach (Step.StepType type in step.Types)
+            if (type == Step.StepType.BONUS)
+                symbolsValue.AddRange(step.Reward.Select(r => r.Quantity));
 
         return symbolsValue.ToArray();
     }
@@ -207,7 +275,13 @@ public class AIController
         }
         else if (move.Action == AIManager.Action.BUILD_WONDER)
         {
-            cardName = "Wonder";  // Hack: TEMP Describe step being built.
+            cardName = "Wonder";
+            Step builtStep = this.Player.WonderManager.GetPreviousStep();
+            if (builtStep != null)
+            {
+                symbols = this.GetSymbolNames(builtStep);
+                symbolsValue = this.GetSymbolsValue(builtStep);
+            }
         }
         this.PlayerBoard.SetLastMove(cardName, cardColor.ToString(), symbols, symbolsValue);
     }

@@ -239,6 +239,7 @@ public class GameManager
                 player.City.Build(choice.CardToPlay, false);
                 break;
             case AIManager.Action.BUILD_WONDER:
+                // Hack: TEMP AI action to perform is not taken into account.
                 player.WonderManager.BuildWonder(choice.CardToPlay.ID);
                 break;
             case AIManager.Action.DISCARD:

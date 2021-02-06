@@ -29,6 +29,15 @@ public class WonderManager
     }
 
     /// <summary>
+    /// Get the previous wonder step to build.
+    /// </summary>
+    /// <returns>The previous wonder step.</returns>
+    public Step GetPreviousStep()
+    {
+        return (this.AchievedSteps.Count > 0) ? this.Wonder.Steps[this.AchievedSteps.Count - 1] : null;
+    }
+
+    /// <summary>
     /// Tell if the wonder is fully built or not.
     /// </summary>
     /// <returns>True if wonder is done.</returns>
