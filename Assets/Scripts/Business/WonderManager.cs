@@ -51,16 +51,24 @@ public class WonderManager
     /// </summary>
     /// <param name="building_id">The building discarded in order to build a wonder step.</param>
     /// <returns>The type of action to be performed (-1 if nothing).</returns>
-    public int BuildWonder(string building_id)
+    public int TryBuildWonder(string building_id)
     {
         if (IsNextStepBuildable())
-        {
-            Card building = this.Owner.Hand.Select(o => o).Where(o => o.ID == building_id).First();
-            this.Owner.Hand.Remove(building);
-            return this.AddWonderStep(this.GetNextStep());
-        }
+            return this.BuildWonder(building_id);
         else
             return -1;
+    }
+
+    /// <summary>
+    /// Build a wonder step and apply effect.
+    /// </summary>
+    /// <param name="building_id">The building discarded in order to build a wonder step.</param>
+    /// <returns>The type of action to be performed (-1 if nothing).</returns>
+    public int BuildWonder(string building_id)
+    {
+        Card building = this.Owner.Hand.Select(o => o).Where(o => o.ID == building_id).First();
+        this.Owner.Hand.Remove(building);
+        return this.AddWonderStep(this.GetNextStep());
     }
 
     /// <summary>
@@ -69,9 +77,12 @@ public class WonderManager
     /// <returns>True if the built.</returns>
     public bool IsNextStepBuildable()
     {
-        foreach (ResourceTreeNode rtn in this.Owner.City.ResourceTreeLeaves)
-            if (this.Owner.City.HasMatchingResources(rtn.Resources, this.GetNextStep().BuildCondition))
-                return true;
+        if (!IsWonderBuilt())
+        {
+            foreach (ResourceTreeNode rtn in this.Owner.City.ResourceTreeLeaves)
+                if (this.Owner.City.HasMatchingResources(rtn.Resources, this.GetNextStep().BuildCondition))
+                    return true;
+        }
         return false;
     }
 

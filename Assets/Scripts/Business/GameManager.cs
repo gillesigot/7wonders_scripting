@@ -221,12 +221,14 @@ public class GameManager
                         p.AI.RandomBuilding = true;
                         p.AI.RandomWonder = true;
                         p.AI.RandomDiscard = true;
+                        p.AI.TradeAbility = true;
                         break;
                     case 2: // Easy alternative - wonder first
                         p.AI.RandomBuilding = true;
                         p.AI.RandomWonder = true;
                         p.AI.RandomDiscard = true;
                         p.AI.WonderFocused = true;
+                        p.AI.TradeAbility = true;
                         break;
                 }
             }
@@ -288,6 +290,7 @@ public class GameManager
                 { CityManager.TradeLocation.WEST, new Dictionary<ResourceType, int>() }
             };
         }
+        Players.ForEach(p => p.City.IsLastCardResource = false);
         if (!skipRotating)
             this.RotateHands();
     }

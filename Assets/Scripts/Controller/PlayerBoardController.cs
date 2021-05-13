@@ -301,7 +301,7 @@ public class PlayerBoardController
     /// <summary>
     /// Tell whether a resource is available to buy or not.
     /// </summary>
-    /// <param name="resource">The resource type wanted.</param>
+    /// <param name="type">The resource type wanted.</param>
     /// <param name="quantity">The resource quantity wanted.</param>
     /// <param name="resLabels">List of all labels displaying the amount.</param>
     /// <returns>The resource availability.</returns>

@@ -99,7 +99,7 @@ public class DropController
             return null;
 
         Playable playable = card.GetComponent<Playable>();
-        int actionToPerform = Player.WonderManager.BuildWonder(playable.id);
+        int actionToPerform = Player.WonderManager.TryBuildWonder(playable.id);
 
         if (actionToPerform >= 0)
         {

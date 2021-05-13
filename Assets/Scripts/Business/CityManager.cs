@@ -13,7 +13,7 @@ public class CityManager
         // Same as Resources, but keep only buyable resources.
         public Dictionary<ResourceType, int> BuyableResources { get; set; }
         // The node parent.
-        ResourceTreeNode Parent { get; set; }
+        public ResourceTreeNode Parent { get; set; }
         // The node children (only several children if optional resources).
         List<ResourceTreeNode> Children { get; set; }
 
@@ -81,6 +81,8 @@ public class CityManager
     public List<ResourceTreeNode> ResourceTreeLeaves { get; set; }
     // Represent the number of free build performed during the current age.
     public int FreeBuildCount { get; set; }
+    // Used to tell AI if last built card was a resource.
+    public bool IsLastCardResource { get; set; }
 
     public CityManager(Player player)
     {
@@ -145,6 +147,7 @@ public class CityManager
                 case CardType.RESOURCE:
                     ResourceCard rc = (ResourceCard)building;
                     this.Resources.Add(rc);
+                    this.IsLastCardResource = true;
                     this.AddToResourceTree(rc.Resources, rc.IsOptional, rc.IsBuyable);
                     break;
                 case CardType.WAR:
@@ -239,10 +242,14 @@ public class CityManager
     /// <summary>
     /// Get a list of resources that can be bought.
     /// </summary>
+    /// <param name="ignoreLastResource">Ignore more recently played resource.</param>
     /// <returns>The list of all type of resources.</returns>
-    public List<Dictionary<ResourceType, int>> GetBuyableResources()
+    public List<Dictionary<ResourceType, int>> GetBuyableResources(bool ignoreLastResource = false)
     {
-        return this.ResourceTreeLeaves.Select(o => o.BuyableResources).ToList();
+        if (ignoreLastResource)
+            return this.ResourceTreeLeaves.Select(o => o.Parent.BuyableResources).ToList();
+        else
+            return this.ResourceTreeLeaves.Select(o => o.BuyableResources).ToList();
     }
 
     /// <summary>
@@ -335,14 +342,27 @@ public class CityManager
     /// <returns>True if enough resources (bought or not).</returns>
     public bool HasMatchingResources(Dictionary<ResourceType, int> leafPath, ResourceQuantity[] neededResources)
     {
-        bool matching = true;
+        return GetMissingResources(leafPath, neededResources).Length == 0;
+    }
+
+    /// <summary>
+    /// Compare bought & produced resources with needed resources and return the difference.
+    /// </summary>
+    /// <param name="leafPath">The resources tree path to evaluate.</param>
+    /// <param name="neededResources">The resources needed to build the building.</param>
+    /// <param name="moneyUpdate">True if amount of coins should be counted as spent.</param>
+    /// <returns>The difference of resources.</returns>
+    public ResourceQuantity[] GetMissingResources(Dictionary<ResourceType, int> leafPath, ResourceQuantity[] neededResources, bool moneyUpdate=true)
+    {
+        List<ResourceQuantity> missingRes = new List<ResourceQuantity>();
+
         foreach (ResourceQuantity rq in neededResources)
         {
             if (rq.Type == ResourceType.GOLD)
             {
                 if (this.Owner.Coins < rq.Quantity)
-                    matching = false;
-                else
+                    missingRes.Add(new ResourceQuantity { Type = ResourceType.GOLD, Quantity = rq.Quantity - this.Owner.Coins });
+                else if (moneyUpdate)
                     this.Owner.Coins -= rq.Quantity;
             }
             else
@@ -353,10 +373,11 @@ public class CityManager
                 totalResQuantity += (this.TradeResources[TradeLocation.WEST].ContainsKey(rq.Type)) ? this.TradeResources[TradeLocation.WEST][rq.Type] : 0;
 
                 if (totalResQuantity < rq.Quantity)
-                    matching = false;
+                    missingRes.Add(new ResourceQuantity { Type = rq.Type, Quantity = rq.Quantity - totalResQuantity });
             }
         }
-        return matching;
+
+        return missingRes.ToArray();
     }
 
     /// <summary>
