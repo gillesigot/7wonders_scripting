@@ -76,6 +76,8 @@
     <Compile Include="Assets\Scripts\Controller\PlayerBoardController.cs" />
     <Compile Include="Assets\Scripts\DAO\CardsDAO.cs" />
     <Compile Include="Assets\Scripts\DAO\WondersDAO.cs" />
+    <Compile Include="Assets\Scripts\ML - Training\AgentManager.cs" />
+    <Compile Include="Assets\Scripts\ML - Training\Trainer.cs" />
     <Compile Include="Assets\Scripts\Model\BonusCard.cs" />
     <Compile Include="Assets\Scripts\Model\Card.cs" />
     <Compile Include="Assets\Scripts\Model\CivilCard.cs" />
@@ -286,6 +288,24 @@
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>C:/Users/Gilles/Documents/unity_games/7Wonders/Assets/Plugins/Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Protobuf">
+      <HintPath>C:/Users/Gilles/Documents/unity_games/7Wonders/Library/PackageCache/com.unity.barracuda@1.0.4/Barracuda/Runtime/Plugins/ProtoBuffer/Google.Protobuf.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Burst.Unsafe">
+      <HintPath>C:/Users/Gilles/Documents/unity_games/7Wonders/Library/PackageCache/com.unity.burst@1.3.4/Unity.Burst.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Abstractions">
+      <HintPath>C:/Users/Gilles/Documents/unity_games/7Wonders/Library/PackageCache/com.unity.ml-agents@1.0.7/Plugins/System.IO.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Abstractions.TestingHelpers">
+      <HintPath>C:/Users/Gilles/Documents/unity_games/7Wonders/Library/PackageCache/com.unity.ml-agents@1.0.7/Plugins/System.IO.Abstractions.TestingHelpers.dll</HintPath>
+    </Reference>
+    <Reference Include="Grpc.Core">
+      <HintPath>C:/Users/Gilles/Documents/unity_games/7Wonders/Library/PackageCache/com.unity.ml-agents@1.0.7/Plugins/ProtoBuffer/Grpc.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Interactive.Async">
+      <HintPath>C:/Users/Gilles/Documents/unity_games/7Wonders/Library/PackageCache/com.unity.ml-agents@1.0.7/Plugins/ProtoBuffer/System.Interactive.Async.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.14f1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>
@@ -635,8 +655,20 @@
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/Users/Gilles/Documents/unity_games/7Wonders/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Barracuda.MacBLAS">
+      <HintPath>C:/Users/Gilles/Documents/unity_games/7Wonders/Library/ScriptAssemblies/Unity.Barracuda.MacBLAS.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Burst">
+      <HintPath>C:/Users/Gilles/Documents/unity_games/7Wonders/Library/ScriptAssemblies/Unity.Burst.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.VSCode.Editor">
       <HintPath>C:/Users/Gilles/Documents/unity_games/7Wonders/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Barracuda.Editor">
+      <HintPath>C:/Users/Gilles/Documents/unity_games/7Wonders/Library/ScriptAssemblies/Unity.Barracuda.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Burst.Editor">
+      <HintPath>C:/Users/Gilles/Documents/unity_games/7Wonders/Library/ScriptAssemblies/Unity.Burst.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>C:/Users/Gilles/Documents/unity_games/7Wonders/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
@@ -647,14 +679,38 @@
     <Reference Include="Unity.Timeline">
       <HintPath>C:/Users/Gilles/Documents/unity_games/7Wonders/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Barracuda">
+      <HintPath>C:/Users/Gilles/Documents/unity_games/7Wonders/Library/ScriptAssemblies/Unity.Barracuda.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.CollabProxy.Editor">
       <HintPath>C:/Users/Gilles/Documents/unity_games/7Wonders/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Barracuda.iOSBLAS">
+      <HintPath>C:/Users/Gilles/Documents/unity_games/7Wonders/Library/ScriptAssemblies/Unity.Barracuda.iOSBLAS.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.ML-Agents.CommunicatorObjects">
+      <HintPath>C:/Users/Gilles/Documents/unity_games/7Wonders/Library/ScriptAssemblies/Unity.ML-Agents.CommunicatorObjects.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Rider.Editor">
       <HintPath>C:/Users/Gilles/Documents/unity_games/7Wonders/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Barracuda.BurstBLAS">
+      <HintPath>C:/Users/Gilles/Documents/unity_games/7Wonders/Library/ScriptAssemblies/Unity.Barracuda.BurstBLAS.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Mathematics">
+      <HintPath>C:/Users/Gilles/Documents/unity_games/7Wonders/Library/ScriptAssemblies/Unity.Mathematics.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Mathematics.Editor">
+      <HintPath>C:/Users/Gilles/Documents/unity_games/7Wonders/Library/ScriptAssemblies/Unity.Mathematics.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.TextMeshPro">
       <HintPath>C:/Users/Gilles/Documents/unity_games/7Wonders/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.ML-Agents.Editor">
+      <HintPath>C:/Users/Gilles/Documents/unity_games/7Wonders/Library/ScriptAssemblies/Unity.ML-Agents.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.ML-Agents">
+      <HintPath>C:/Users/Gilles/Documents/unity_games/7Wonders/Library/ScriptAssemblies/Unity.ML-Agents.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>C:/Users/Gilles/Documents/unity_games/7Wonders/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
